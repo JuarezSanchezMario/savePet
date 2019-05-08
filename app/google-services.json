@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "828322374135",
+    "firebase_url": "https://savepet-6976c.firebaseio.com",
+    "project_id": "savepet-6976c",
+    "storage_bucket": "savepet-6976c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828322374135:android:4cbf3e53bc6029d1",
+        "android_client_info": {
+          "package_name": "com.example.savepet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828322374135-gd2ke5q5aaofmv3hjheoqsbo0aisnukd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAvHaw8Lr-0B-LdtBZSj5qUFjRNAqKeZg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
