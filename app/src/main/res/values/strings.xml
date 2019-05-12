@@ -32,4 +32,5 @@
         Milán. Cuando Picaud fue liberado en 1814, tomó posesión del tesoro, volvió bajo otro nombre
         a París y dedicó diez años a trazar su exitosa venganza contra sus antiguos amigos.</string>
     <string name="title_activity_second">SecondActivity</string>
+    <string name="url">localhost:8000/api/</string>
 </resources>
