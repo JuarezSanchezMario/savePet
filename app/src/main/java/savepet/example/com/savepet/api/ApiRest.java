@@ -3,14 +3,20 @@ package savepet.example.com.savepet.api;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import savepet.example.com.savepet.modelos.Animal;
@@ -97,12 +103,12 @@ public class ApiRest {
         retrofit.crearAnimal(animalNuevo).enqueue(callback);
     }
 
-    public void borrarAnimal() {
-
+    public void borrarAnimal(Integer id,Callback<ResponseBody> callback) {
+        retrofit.borrarAnimal(id).enqueue(callback);
     }
 
-    public void borrarUsuario() {
-
+    public void borrarUsuario(Integer id,Callback<ResponseBody> callback) {
+        retrofit.borrarUsuario(id).enqueue(callback);
     }
 
     public void modificarUsuario() {
@@ -120,16 +126,18 @@ public class ApiRest {
         }
     }*/
 
-    /*  public void uploadFile(final File file, int id) throws Exception {*/
-    // RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-    //  MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-    //  RequestBody.create(MediaType.parse("text/plain"), file.getName());
+     public void uploadFile(final File imagen, int id) throws Exception {
 
-     /*   Response response = retrofit.uploadFile(id, fileToUpload).execute();
-        if (!response.isSuccessful()) {
+         RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*/*"), imagen);
+        // RequestBody requestBodyId = RequestBody.create(MediaType.parse("*/*"), id);
+         MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen", imagen.getName(), requestBodyImagen);
+         MultipartBody.Part id_imagen = MultipartBody.Part.createFormData("id_imagen",null,requestBodyImagen);
+
+      //   Response response = retrofit.uploadFile(id, subiendo_imagen).execute();
+        /*if (!response.isSuccessful()) {
             if (response.code() == 422) {
                 throw new Exception(parent.getString(R.string.errorUploadFile));
             } else throw new Exception(parent.getString(R.string.serverError));
-        }
-    }*/
+        }*/
+    }
 }
