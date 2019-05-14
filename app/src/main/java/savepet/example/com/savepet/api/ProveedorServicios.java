@@ -64,7 +64,9 @@ public interface ProveedorServicios {
     @Multipart
     @POST("imagen")
     @Headers({"Accept: application/json"})
-    Call<ResponseBody> subirImagen(@Path("id") int id, @Part MultipartBody.Part imagen);
+    Call<ResponseBody> subirImagen(@Part MultipartBody.Part id, @Part MultipartBody.Part imagen);
+
+    
 
     /*@POST("contract")
     @Headers({"Accept: application/json"})
