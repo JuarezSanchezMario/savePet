@@ -36,8 +36,6 @@ public class ApiRest {
         this.parent = parent;
         retrofit = createRetrofit();
     }
-
-
     /**
      * Interceptor para introducir en la cabecera automaticamente en las peticiones el api_token si existe
      */

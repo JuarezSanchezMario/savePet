@@ -3,6 +3,8 @@ package savepet.example.com.savepet;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,23 +16,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import savepet.example.com.savepet.api.ApiRest;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public ApiRest apiRest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        apiRest = new ApiRest(getString(R.string.url),this);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -78,17 +76,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.animales) {
+            //FragmentRecycler_animales animales = new FragmentRecycler_animales();
+            Fragment_animales animales = new Fragment_animales();
+            FragmentManager FM = getSupportFragmentManager();
+            FragmentTransaction FT = FM.beginTransaction();
+            FT.replace(R.id.fragment_container,animales, "fragment_recycler");
+            FT.addToBackStack(null);
+            FT.commit();
+        } else if (id == R.id.usuarios) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.eventos) {
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.mensajes) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.preferencias_cuenta) {
 
         }
 
