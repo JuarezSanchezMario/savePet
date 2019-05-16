@@ -3,6 +3,7 @@ package savepet.example.com.savepet;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public ApiRest apiRest;
+    public boolean registrado = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +65,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.login) {
+            ponerFragment( new Fragment_inicio_sesion(),"login");
         }
 
         return super.onOptionsItemSelected(item);
@@ -78,12 +80,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.animales) {
             //FragmentRecycler_animales animales = new FragmentRecycler_animales();
-            Fragment_animales animales = new Fragment_animales();
-            FragmentManager FM = getSupportFragmentManager();
-            FragmentTransaction FT = FM.beginTransaction();
-            FT.replace(R.id.fragment_container,animales, "fragment_recycler");
-            FT.addToBackStack(null);
-            FT.commit();
+           ponerFragment(new Fragment_animales(),"recycler_animales");
         } else if (id == R.id.usuarios) {
 
         } else if (id == R.id.eventos) {
@@ -97,5 +94,13 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void ponerFragment(Fragment fragment,String tag)
+    {
+        FragmentManager FM = getSupportFragmentManager();
+        FragmentTransaction FT = FM.beginTransaction();
+        FT.replace(R.id.fragment_container,fragment, tag);
+        FT.addToBackStack(null);
+        FT.commit();
     }
 }

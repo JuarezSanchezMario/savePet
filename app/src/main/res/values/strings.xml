@@ -25,5 +25,6 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Preferencias de cuenta</string>
     <string name="menu_send">Mensajes</string>
-
+    <string name="inicio_sesion">Iniciar sesión</string>
+    <string name="registro">¿Todavía no estás registrado?</string>
 </resources>

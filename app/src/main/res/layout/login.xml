@@ -5,14 +5,16 @@
         <RelativeLayout
             android:id="@+id/parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:textAlignment="center">
             <LinearLayout
                 android:gravity="center"
+                android:layout_alignParentStart="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <ImageView
-                    android:layout_marginTop="30dip"
+                    android:layout_marginTop="20dip"
                     android:src="@drawable/logo"
                     android:layout_gravity="center"
                     android:layout_width="150dip"
@@ -23,7 +25,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:layout_margin="10dip"
                         android:layout_marginTop="0dip"
                         android:id="@+id/nombre_usuario"
                         android:hint="@string/nombre_usuario"
@@ -39,15 +40,32 @@
                         android:layout_height="wrap_content" />
                     />
                     <Button
+                        android:id="@+id/iniciar_sesion"
                         android:textColor="@android:color/white"
                         android:layout_gravity="right"
                         android:layout_margin="10dip"
                         android:paddingHorizontal="15dip"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="@string/registrarme"
+                        android:text="@string/inicio_sesion"
                         android:background="@color/secondaryColor"
                         android:layout_alignParentBottom="true"/>
+                    <LinearLayout
+                        android:padding="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <EditText
+                            android:layout_marginBottom="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/registro"/>
+                        <Button
+                            android:id="@+id/registrarme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/registrarme"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
