@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class FragmentRecycler_animales extends Fragment {
+public class FragmentRecyclerAnimales extends Fragment {
     FloatingActionButton fab;
     @Nullable
     @Override
@@ -20,7 +20,7 @@ public class FragmentRecycler_animales extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((MainActivity)getActivity()).ponerFragment(new Fragment_alta_animal(),"alta_animal",false);
             }
         });
         return view;

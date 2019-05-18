@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Fragment_animales extends Fragment {
+public class FragmentAnimales extends Fragment {
     TabLayout tabs;
     @Nullable
     @Override

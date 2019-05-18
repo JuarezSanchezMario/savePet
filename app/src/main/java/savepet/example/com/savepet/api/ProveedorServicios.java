@@ -17,6 +17,7 @@ import savepet.example.com.savepet.modelos.AnimalNuevo;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Usuario;
+import savepet.example.com.savepet.modelos.UsuarioRegistro;
 
 @SuppressWarnings("ALL")
 public interface ProveedorServicios {
@@ -35,7 +36,7 @@ public interface ProveedorServicios {
 
     @POST("user")
     @Headers({"Accept: application/json"})
-    Call<Usuario> crearUsuario();
+    Call<Usuario> crearUsuario(@Body UsuarioRegistro user);
 
     @POST("user/{id}")
     @Headers({"Accept: application/json"})

@@ -1,57 +1,29 @@
 package savepet.example.com.savepet.modelos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.File;
 
 @SuppressWarnings("ALL")
-public class Usuario {
-    private int id;
-    private String lat;
-    private String lon;
+public class UsuarioRegistro {
     private String nombre_usuario;
     private String nombre;
+    private String password;
     private String email;
     private String telefono;
-    private String imagen_perfil;
-    private String api_token;
+    private File imagen_perfil;
 
-    public Usuario() {
+    public UsuarioRegistro() {
     }
 
-    public Usuario(int id, String lat, String lon, String nombre_usuario, String nombre, String email, String telefono, String imagen_perfil, String api_token) {
-        this.id = id;
-        this.lat = lat;
-        this.lon = lon;
+    public UsuarioRegistro(String nombre_usuario, String nombre, String password, String email, String telefono, File imagen_perfil) {
         this.nombre_usuario = nombre_usuario;
         this.nombre = nombre;
+        this.password = password;
         this.email = email;
         this.telefono = telefono;
         this.imagen_perfil = imagen_perfil;
-        this.api_token = api_token;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLon() {
-        return lon;
-    }
-
-    public void setLon(String lon) {
-        this.lon = lon;
     }
 
     public String getNombre_usuario() {
@@ -70,6 +42,14 @@ public class Usuario {
         this.nombre = nombre;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -86,19 +66,11 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public String getImagen_perfil() {
+    public File getImagen_perfil() {
         return imagen_perfil;
     }
 
-    public void setImagen_perfil(String imagen_perfil) {
+    public void setImagen_perfil(File imagen_perfil) {
         this.imagen_perfil = imagen_perfil;
-    }
-
-    public String getApi_token() {
-        return api_token;
-    }
-
-    public void setApi_token(String api_token) {
-        this.api_token = api_token;
     }
 }

@@ -4,7 +4,7 @@ package savepet.example.com.savepet.modelos;
 public class Login {
 
     private String nombre_usuario;
-    private String contraseña;
+    private String password;
     private String api_token;
 
     /**
@@ -14,7 +14,7 @@ public class Login {
      */
     public Login(String nombre_usuario, String contraseña) {
         this.nombre_usuario = nombre_usuario;
-        this.contraseña = contraseña;
+        this.password = contraseña;
     }
 
     /**
@@ -33,12 +33,12 @@ public class Login {
         this.nombre_usuario = nombre_usuario;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String contraseña) {
+        this.password = contraseña;
     }
 
     public String getApi_token() {

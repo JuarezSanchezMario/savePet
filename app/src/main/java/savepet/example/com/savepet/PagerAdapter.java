@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import savepet.example.com.savepet.FragmentRecycler_animales;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
@@ -19,10 +18,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                FragmentRecycler_animales tab1 = new FragmentRecycler_animales();
+                FragmentRecyclerAnimales tab1 = new FragmentRecyclerAnimales();
                 return tab1;
             default:
-                return new FragmentRecycler_animales();
+                return new FragmentRecyclerAnimales();
         }
     }
 

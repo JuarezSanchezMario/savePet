@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SavePet</string>
-    <string name="url">http:/localhost:8000/api/</string>
+    <string name="url">http://ec2-3-14-66-171.us-east-2.compute.amazonaws.com/api/</string>
     <string name="nombre_usuario">Nombre de usuario</string>
     <string name="nombre">Nombre</string>
     <string name="telefono">Teléfono</string>
@@ -27,4 +27,19 @@
     <string name="menu_send">Mensajes</string>
     <string name="inicio_sesion">Iniciar sesión</string>
     <string name="registro">¿Todavía no estás registrado?</string>
+    <string name="necesitas_login">Necesitas estar logueado para esto</string>
+    <string name="MisPreferencias">ArchivoPreferencias</string>
+    <string name="apiToken">Apitoken</string>
+    <string name="bienvenido">Bienvenido</string>
+    <string name="desde_camara">Cámara</string>
+    <string name="desde_galeria">Galería</string>
+
+    <string name="email_invalido">Introduce un email válido</string>
+    <string name="nombre_usuario_necesario">El nombre de usuario es necesario</string>
+    <string name="nombre_necesario">El nombre es necesario</string>
+    <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
+
+    <string name="recycler_animales">recycler_animales</string>
+    <string name="fragment_animales">fragment_animales</string>
+    <string name="fragment_alta_animales">fragment_alta_animales</string>
 </resources>

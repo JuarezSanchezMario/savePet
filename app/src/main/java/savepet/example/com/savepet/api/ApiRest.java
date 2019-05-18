@@ -2,6 +2,7 @@ package savepet.example.com.savepet.api;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +20,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import savepet.example.com.savepet.MainActivity;
+import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.AnimalNuevo;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Usuario;
+import savepet.example.com.savepet.modelos.UsuarioRegistro;
 
 @SuppressWarnings("ALL")
 public class ApiRest {
@@ -62,7 +66,7 @@ public class ApiRest {
             okhttp3.Response response = chain.proceed(request);
             Log.d("Upload", "" + response.code());
             if (response.code() == 403 || response.code() == 401) {
-                //   ((MainActivity) parent).openLoginFragment(true);
+                ((MainActivity)parent).generarSnackBar(parent.getString(R.string.necesitas_login));
             }
             return response;
         }
@@ -93,8 +97,8 @@ public class ApiRest {
         retrofit.getAnimales().enqueue(callback);
     }
 
-    public void registrarUsuario(Usuario usuario, Callback<Usuario> callback) {
-        retrofit.crearUsuario().enqueue(callback);
+    public void registrarUsuario(UsuarioRegistro usuario, Callback<Usuario> callback) {
+        retrofit.crearUsuario(usuario).enqueue(callback);
     }
 
     public void registrarAnimal(AnimalNuevo animalNuevo, Callback<Animal> callback) {
