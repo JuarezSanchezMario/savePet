@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,12 +25,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import savepet.example.com.savepet.modelos.Usuario;
-import savepet.example.com.savepet.modelos.UsuarioRegistro;
 
 import static android.app.Activity.RESULT_OK;
 import static android.media.MediaRecorder.VideoSource.CAMERA;
@@ -41,20 +41,20 @@ import static savepet.example.com.savepet.MainActivity.GALERIA;
 public class Fragment_registro extends Fragment {
     Button registrarme, imagenCamara, imagenGaleria;
     ImageView imagenPerfil;
-    EditText nombre_usuario, nombre, telefono, contraseña, contraseñaRepetida, email;
+    EditText nombreUsuario, nombre, telefono, contraseña, contraseñaRepetida, email;
     boolean fotoCambiada;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.registro, container, false);
+        View view = inflater.inflate(R.layout.registro_usuario, container, false);
         registrarme = view.findViewById(R.id.registro);
         imagenCamara = view.findViewById(R.id.imagen_camara);
         imagenGaleria = view.findViewById(R.id.imagen_galeria);
         imagenPerfil = view.findViewById(R.id.imagen_perfil);
         nombre = view.findViewById(R.id.nombre);
         email = view.findViewById(R.id.email);
-        nombre_usuario = view.findViewById(R.id.nombre_usuario);
+        nombreUsuario = view.findViewById(R.id.nombre_usuario);
         telefono = view.findViewById(R.id.telefono);
         contraseña = view.findViewById(R.id.contraseña);
         contraseñaRepetida = view.findViewById(R.id.contraseña_repetida);
@@ -65,7 +65,7 @@ public class Fragment_registro extends Fragment {
             public void onClick(View v) {
                 if (nombre.getText().toString().isEmpty()) {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.nombre_necesario));
-                } else if (nombre_usuario.getText().toString().isEmpty()) {
+                } else if (nombreUsuario.getText().toString().isEmpty()) {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.nombre_usuario_necesario));
                 } else if (!contraseña.getText().toString().equals(contraseñaRepetida.getText().toString())) {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.contraseñas_no_coinciden));
@@ -76,7 +76,7 @@ public class Fragment_registro extends Fragment {
                     if (fotoCambiada) {
 
                         if (uri_imagen == null) {
-                            f = new File(getContext().getCacheDir(), nombre_usuario.getText().toString().trim() + ".png");
+                            f = new File(getContext().getCacheDir(), nombreUsuario.getText().toString().trim() + ".png");
 
                             try {
                                 f.createNewFile();
@@ -97,8 +97,14 @@ public class Fragment_registro extends Fragment {
                             f = new File(uri_imagen.getPath());
                         }
                     }
-                    UsuarioRegistro usuario = new UsuarioRegistro(nombre_usuario.getText().toString().trim(),nombre.getText().toString().trim(),contraseña.getText().toString().trim(),email.getText().toString().trim(),telefono.getText().toString().trim(),f);
-                    ((MainActivity)getActivity()).apiRest.registrarUsuario(usuario, new Callback<Usuario>() {
+                    Map<String,String> mapUsuario = new HashMap<>();
+                    mapUsuario.put("nombreUsuario", nombreUsuario.getText().toString().trim());
+                    mapUsuario.put("nombre",nombre.getText().toString().trim());
+                    mapUsuario.put("password",contraseña.getText().toString().trim());
+                    mapUsuario.put("email",email.getText().toString().trim());
+                    mapUsuario.put("telefono", nombreUsuario.getText().toString().trim());
+
+                    ((MainActivity)getActivity()).apiRest.registrarUsuario(f,mapUsuario, new Callback<Usuario>() {
                         @Override
                         public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                             if (response.isSuccessful())
@@ -143,6 +149,7 @@ public class Fragment_registro extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Uri selectedImage;
         if (resultCode == RESULT_OK) {
+            fotoCambiada = true;
             if (requestCode == CAMARA) {
                 if (data != null) {
                     Bitmap img = (Bitmap) data.getExtras().get("data");

@@ -14,9 +14,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import savepet.example.com.savepet.api.ApiRest;
+import savepet.example.com.savepet.modelos.Usuario;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     public ApiRest apiRest;
     public boolean sesionIniciada = false;
     public Toolbar toolbar;
+    public NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         apiRest = new ApiRest(getString(R.string.url),this);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.animales);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -122,13 +130,32 @@ public class MainActivity extends AppCompatActivity
             FT.commit();
         }
     }
-    public void sesion_iniciada(String nombre)
+    public void sesion_iniciada(Usuario usuario)
     {
+        ImageView fotoNavigation;
+        TextView nombreNavigation,emailNavigation;
+        View navigation =  navigationView.getHeaderView(0);
         sesionIniciada = true;
         toolbar.getMenu().getItem(0).setVisible(false);
-        toolbar.getMenu().getItem(1).setTitle(nombre);
+        toolbar.getMenu().getItem(1).setTitle(usuario.getNombre_usuario());
         toolbar.getMenu().getItem(1).setVisible(true);
-        Toast.makeText(this,getString(R.string.bienvenido)+nombre,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,getString(R.string.bienvenido)+" "+ usuario.getNombre_usuario(),Toast.LENGTH_LONG).show();
+
+        fotoNavigation = navigation.findViewById(R.id.foto_navigation);
+        nombreNavigation = navigation.findViewById(R.id.nombre_navigation);
+        emailNavigation = navigation.findViewById(R.id.email_navigation);
+
+        Picasso.get()
+                .load(usuario.getImagen_perfil())
+                .fit()
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.not_found)
+                .centerCrop()
+                .into(fotoNavigation);
+
+        nombreNavigation.setText(usuario.getNombre());
+        emailNavigation.setText(usuario.getEmail());
+
 
     }
     public void generarSnackBar(String mensaje)

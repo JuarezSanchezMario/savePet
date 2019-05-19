@@ -2,11 +2,11 @@ package savepet.example.com.savepet.api;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -17,16 +17,13 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Animal;
-import savepet.example.com.savepet.modelos.AnimalNuevo;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Usuario;
-import savepet.example.com.savepet.modelos.UsuarioRegistro;
 
 @SuppressWarnings("ALL")
 public class ApiRest {
@@ -93,16 +90,23 @@ public class ApiRest {
         responseCall.enqueue(callback);
     }
 
-    public void getAnimales(Callback<List<Animal>> callback) throws Exception {
+    public void getAnimales(Callback<List<Animal>> callback) {
         retrofit.getAnimales().enqueue(callback);
     }
 
-    public void registrarUsuario(UsuarioRegistro usuario, Callback<Usuario> callback) {
-        retrofit.crearUsuario(usuario).enqueue(callback);
+    public void registrarUsuario(File imagen, Map usuario, Callback<Usuario> callback) {
+
+        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);
+        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil",(imagen!=null?imagen.getName():""), requestBodyImagen);
+
+        retrofit.crearUsuario(subiendo_imagen,usuario).enqueue(callback);
     }
 
-    public void registrarAnimal(AnimalNuevo animalNuevo, Callback<Animal> callback) {
-        retrofit.crearAnimal(animalNuevo).enqueue(callback);
+    public void registrarAnimal(File imagen,Map animal, Callback<Animal> callback) {
+        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);
+        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil",(imagen!=null?imagen.getName():""), requestBodyImagen);
+
+        retrofit.crearAnimal(subiendo_imagen,animal).enqueue(callback);
     }
 
     public void borrarAnimal(Integer id,Callback<ResponseBody> callback) {

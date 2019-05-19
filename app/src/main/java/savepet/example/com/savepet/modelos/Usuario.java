@@ -3,6 +3,9 @@ package savepet.example.com.savepet.modelos;
 
 import java.io.File;
 
+import savepet.example.com.savepet.MainActivity;
+import savepet.example.com.savepet.R;
+
 @SuppressWarnings("ALL")
 public class Usuario {
     private int id;

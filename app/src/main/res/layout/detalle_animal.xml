@@ -23,7 +23,6 @@
                 android:id="@+id/imagen_animal_card"/>
             <TextView
                 android:layout_gravity="center"
-                android:text="Godofredo"
                 android:id="@+id/nombre_animal_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -37,9 +36,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/descripcion_corta"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Me llamo paco y escribo libros \n de terror psicologico"/>
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

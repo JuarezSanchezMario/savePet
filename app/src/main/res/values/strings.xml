@@ -8,6 +8,7 @@
     <string name="contraseña">Contraseña</string>
     <string name="repetir_contraseña">Repetir contraseña</string>
     <string name="registrarme">Registrame</string>
+    <string name="registrar">Registrar</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -33,7 +34,9 @@
     <string name="bienvenido">Bienvenido</string>
     <string name="desde_camara">Cámara</string>
     <string name="desde_galeria">Galería</string>
-
+    <string name="raza">Raza</string>
+    <string name="tipo_animal">Tipo animal</string>
+    <string name="fecha_nacimiento">Fecha nacimiento</string>
     <string name="email_invalido">Introduce un email válido</string>
     <string name="nombre_usuario_necesario">El nombre de usuario es necesario</string>
     <string name="nombre_necesario">El nombre es necesario</string>

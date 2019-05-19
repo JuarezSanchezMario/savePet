@@ -1,6 +1,7 @@
 package savepet.example.com.savepet.api;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -13,11 +14,10 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import savepet.example.com.savepet.modelos.AnimalNuevo;
+import retrofit2.http.QueryMap;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Usuario;
-import savepet.example.com.savepet.modelos.UsuarioRegistro;
 
 @SuppressWarnings("ALL")
 public interface ProveedorServicios {
@@ -34,9 +34,10 @@ public interface ProveedorServicios {
     @Headers({"Accept: application/json"})
     Call<Usuario> login(@Body Login user);
 
+    @Multipart
     @POST("user")
     @Headers({"Accept: application/json"})
-    Call<Usuario> crearUsuario(@Body UsuarioRegistro user);
+    Call<Usuario> crearUsuario(@Part MultipartBody.Part imagen,@QueryMap Map<String,String> user);
 
     @POST("user/{id}")
     @Headers({"Accept: application/json"})
@@ -54,9 +55,10 @@ public interface ProveedorServicios {
     @Headers({"Accept: application/json"})
     Call<List<Animal>> getAnimales(@Path("id") Integer id);
 
+    @Multipart
     @POST("animal")
     @Headers({"Accept: application/json"})
-    Call<Animal> crearAnimal(@Body AnimalNuevo animalNuevo);
+    Call<Animal> crearAnimal(@Part MultipartBody.Part imagen,@QueryMap Map<String,String> animal);
 
     @DELETE("animal/{id}")
     @Headers({"Accept: application/json"})

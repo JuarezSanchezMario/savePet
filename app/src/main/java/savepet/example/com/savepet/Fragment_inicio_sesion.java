@@ -40,7 +40,7 @@ public class Fragment_inicio_sesion extends Fragment implements Callback<Usuario
         registrarme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).ponerFragment(new Fragment_registro(),"registro",false);
+                ((MainActivity)getActivity()).ponerFragment(new Fragment_registro(),"registro_usuario",false);
             }
         });
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +75,7 @@ public class Fragment_inicio_sesion extends Fragment implements Callback<Usuario
             FT.addToBackStack(null);
             FT.commit();*/
             ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_animales",true);
-            ((MainActivity)getActivity()).sesion_iniciada(usuario.getNombre_usuario());
+            ((MainActivity)getActivity()).sesion_iniciada(usuario);
 
         } else {
             LoginError error = ErrorUtils.parseError(response);
