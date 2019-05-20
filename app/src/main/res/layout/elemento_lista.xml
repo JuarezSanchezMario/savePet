@@ -60,7 +60,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:orientation="vertical">
-                   <ImageButton
+                   <ImageView
                        android:id="@+id/imagen_duenyo_card"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"/>

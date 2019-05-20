@@ -28,7 +28,7 @@
     <string name="menu_send">Mensajes</string>
     <string name="inicio_sesion">Iniciar sesión</string>
     <string name="registro">¿Todavía no estás registrado?</string>
-    <string name="necesitas_login">Necesitas estar logueado para esto</string>
+    <string name="necesitas_login">Necesitas estar logueado para esta funcionalidad</string>
     <string name="MisPreferencias">ArchivoPreferencias</string>
     <string name="apiToken">Apitoken</string>
     <string name="bienvenido">Bienvenido</string>
@@ -41,6 +41,7 @@
     <string name="nombre_usuario_necesario">El nombre de usuario es necesario</string>
     <string name="nombre_necesario">El nombre es necesario</string>
     <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
+    <string name="aún_no_animales">Todavía no has registrado ningún animal</string>
 
     <string name="recycler_animales">recycler_animales</string>
     <string name="fragment_animales">fragment_animales</string>

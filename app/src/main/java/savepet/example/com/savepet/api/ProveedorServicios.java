@@ -51,6 +51,10 @@ public interface ProveedorServicios {
     @Headers({"Accept: application/json"})
     Call<List<Animal>> getAnimales();
 
+    @GET("animal")
+    @Headers({"Accept: application/json"})
+    Call<List<Animal>> getAnimalesFiltro(@QueryMap Map<String ,String> filtros);
+
     @GET("animal/{id}")
     @Headers({"Accept: application/json"})
     Call<List<Animal>> getAnimales(@Path("id") Integer id);

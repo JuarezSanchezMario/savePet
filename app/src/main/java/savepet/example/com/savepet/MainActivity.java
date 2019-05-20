@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,16 +22,19 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import savepet.example.com.savepet.api.ApiRest;
+import savepet.example.com.savepet.fragments.FragmentAnimales;
+import savepet.example.com.savepet.fragments.Fragment_inicio_sesion;
 import savepet.example.com.savepet.modelos.Usuario;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    static int CAMARA = 1;
-    static int GALERIA = 2;
+    public static int CAMERA = 1;
+    public static int GALERIA = 2;
     public ApiRest apiRest;
     public boolean sesionIniciada = false;
     public Toolbar toolbar;
+    public Usuario usuario = null;
     public NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +132,10 @@ public class MainActivity extends AppCompatActivity
             FT.commit();
         }
     }
+    public Usuario getUsuario()
+    {
+        return usuario;
+    }
     public void sesion_iniciada(Usuario usuario)
     {
         ImageView fotoNavigation;
@@ -155,6 +161,7 @@ public class MainActivity extends AppCompatActivity
 
         nombreNavigation.setText(usuario.getNombre());
         emailNavigation.setText(usuario.getEmail());
+        this.usuario = usuario;
 
 
     }

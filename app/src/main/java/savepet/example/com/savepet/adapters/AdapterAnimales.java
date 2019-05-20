@@ -24,7 +24,7 @@ public class AdapterAnimales extends RecyclerView.Adapter implements View.OnClic
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.elemento_lista, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detalle_animal, parent, false);
         holder = new HolderAnimales(view);
 
         return holder;

@@ -1,4 +1,4 @@
-package savepet.example.com.savepet;
+package savepet.example.com.savepet.fragments;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,31 +31,34 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import savepet.example.com.savepet.modelos.Animal;
+import savepet.example.com.savepet.MainActivity;
+import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Usuario;
 
 import static android.app.Activity.RESULT_OK;
-import static android.media.MediaRecorder.VideoSource.CAMERA;
-import static savepet.example.com.savepet.MainActivity.CAMARA;
+import static savepet.example.com.savepet.MainActivity.CAMERA;
 import static savepet.example.com.savepet.MainActivity.GALERIA;
 
-public class Fragment_alta_animal extends Fragment {
+public class Fragment_registro extends Fragment {
     Button registrarme, imagenCamara, imagenGaleria;
     ImageView imagenPerfil;
-    EditText nombre, fechaNacimiento, email,raza,tipoAnimal;
+    EditText nombreUsuario, nombre, telefono, contraseña, contraseñaRepetida, email;
     boolean fotoCambiada;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.registro_animal, container, false);
+        View view = inflater.inflate(R.layout.registro_usuario, container, false);
         registrarme = view.findViewById(R.id.registro);
         imagenCamara = view.findViewById(R.id.imagen_camara);
         imagenGaleria = view.findViewById(R.id.imagen_galeria);
         imagenPerfil = view.findViewById(R.id.imagen_perfil);
         nombre = view.findViewById(R.id.nombre);
-        fechaNacimiento = view.findViewById(R.id.fecha_nacimiento);
-        raza =  view.findViewById(R.id.raza);
-        tipoAnimal =  view.findViewById(R.id.tipo_animal);
+        email = view.findViewById(R.id.email);
+        nombreUsuario = view.findViewById(R.id.nombre_usuario);
+        telefono = view.findViewById(R.id.telefono);
+        contraseña = view.findViewById(R.id.contraseña);
+        contraseñaRepetida = view.findViewById(R.id.contraseña_repetida);
         final Uri uri_imagen = null;
 
         registrarme.setOnClickListener(new View.OnClickListener() {
@@ -63,13 +66,18 @@ public class Fragment_alta_animal extends Fragment {
             public void onClick(View v) {
                 if (nombre.getText().toString().isEmpty()) {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.nombre_necesario));
-                }
-                else {
+                } else if (nombreUsuario.getText().toString().isEmpty()) {
+                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.nombre_usuario_necesario));
+                } else if (!contraseña.getText().toString().equals(contraseñaRepetida.getText().toString())) {
+                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.contraseñas_no_coinciden));
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.email_invalido));
+                } else {
                     File f = null;
                     if (fotoCambiada) {
 
                         if (uri_imagen == null) {
-                            f = new File(getContext().getCacheDir(), nombre.getText().toString().trim() + ".png");
+                            f = new File(getContext().getCacheDir(), nombreUsuario.getText().toString().trim() + ".png");
 
                             try {
                                 f.createNewFile();
@@ -90,19 +98,19 @@ public class Fragment_alta_animal extends Fragment {
                             f = new File(uri_imagen.getPath());
                         }
                     }
-                    Map<String,String> mapAnimal = new HashMap<>();
-                    mapAnimal.put("raza", raza.getText().toString().trim());
-                    mapAnimal.put("nombre",nombre.getText().toString().trim());
-                    mapAnimal.put("fecha_nacimiento",fechaNacimiento.getText().toString().trim());
-                    mapAnimal.put("tipo",tipoAnimal.getText().toString().trim());
-                    mapAnimal.put("estado","adopcion");
+                    Map<String,String> mapUsuario = new HashMap<>();
+                    mapUsuario.put("nombreUsuario", nombreUsuario.getText().toString().trim());
+                    mapUsuario.put("nombre",nombre.getText().toString().trim());
+                    mapUsuario.put("password",contraseña.getText().toString().trim());
+                    mapUsuario.put("email",email.getText().toString().trim());
+                    mapUsuario.put("telefono", nombreUsuario.getText().toString().trim());
 
-                    ((MainActivity)getActivity()).apiRest.registrarAnimal(f,mapAnimal, new Callback<Animal>() {
+                    ((MainActivity)getActivity()).apiRest.registrarUsuario(f,mapUsuario, new Callback<Usuario>() {
                         @Override
-                        public void onResponse(Call<Animal> call, Response<Animal> response) {
+                        public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                             if (response.isSuccessful())
                             {
-                                Toast.makeText(getContext(),"Animal creado con éxito",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(),"Usuario creado con éxito",Toast.LENGTH_LONG).show();
                             }
                             else{
                                 try {
@@ -114,7 +122,7 @@ public class Fragment_alta_animal extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<Animal> call, Throwable t) {
+                        public void onFailure(Call<Usuario> call, Throwable t) {
 
                         }
                     });
@@ -143,7 +151,7 @@ public class Fragment_alta_animal extends Fragment {
         Uri selectedImage;
         if (resultCode == RESULT_OK) {
             fotoCambiada = true;
-            if (requestCode == CAMARA) {
+            if (requestCode == CAMERA) {
                 if (data != null) {
                     Bitmap img = (Bitmap) data.getExtras().get("data");
                     imagenPerfil.setImageBitmap(img);

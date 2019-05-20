@@ -1,4 +1,4 @@
-package savepet.example.com.savepet;
+package savepet.example.com.savepet.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import savepet.example.com.savepet.Errores_servidor.ErrorUtils;
 import savepet.example.com.savepet.Errores_servidor.LoginError;
+import savepet.example.com.savepet.MainActivity;
+import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.api.ApiRest;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Usuario;

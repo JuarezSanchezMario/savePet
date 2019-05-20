@@ -93,6 +93,13 @@ public class ApiRest {
     public void getAnimales(Callback<List<Animal>> callback) {
         retrofit.getAnimales().enqueue(callback);
     }
+    public void getAnimalesFiltro(Map<String,String> map,Callback<List<Animal>> callback) {
+        retrofit.getAnimalesFiltro(map).enqueue(callback);
+    }
+
+    public void getAnimales(int id,Callback<List<Animal>> callback) {
+        retrofit.getAnimales(id).enqueue(callback);
+    }
 
     public void registrarUsuario(File imagen, Map usuario, Callback<Usuario> callback) {
 

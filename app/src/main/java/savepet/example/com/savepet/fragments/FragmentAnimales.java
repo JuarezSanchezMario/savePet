@@ -1,4 +1,4 @@
-package savepet.example.com.savepet;
+package savepet.example.com.savepet.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import savepet.example.com.savepet.PagerAdapter;
+import savepet.example.com.savepet.R;
 
 public class FragmentAnimales extends Fragment {
     TabLayout tabs;
@@ -22,7 +25,7 @@ public class FragmentAnimales extends Fragment {
         tabs.addTab(tabs.newTab().setText("Mis Animales"));
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
         final PagerAdapter adapter = new PagerAdapter
-                (getFragmentManager(), tabs.getTabCount());
+                (getFragmentManager(), tabs.getTabCount(),getActivity());
         mviewPager.setAdapter(adapter);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 
