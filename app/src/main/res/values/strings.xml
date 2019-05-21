@@ -42,7 +42,8 @@
     <string name="nombre_necesario">El nombre es necesario</string>
     <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
     <string name="aún_no_animales">Todavía no has registrado ningún animal</string>
-
+    <string name="decripcion">Descripción</string>
+    <string name="descripcion_corta">Descripción corta</string>
     <string name="recycler_animales">recycler_animales</string>
     <string name="fragment_animales">fragment_animales</string>
     <string name="fragment_alta_animales">fragment_alta_animales</string>

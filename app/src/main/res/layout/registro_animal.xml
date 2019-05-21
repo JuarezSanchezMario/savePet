@@ -49,6 +49,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:layout_margin="10dip"
                         android:id="@+id/nombre"
                         android:hint="@string/nombre"
@@ -56,6 +58,8 @@
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
                     <EditText
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:id="@+id/raza"
                         android:layout_margin="10dip"
                         android:hint="@string/raza"
@@ -63,6 +67,8 @@
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
                     <EditText
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:id="@+id/tipo_animal"
                         android:layout_margin="10dip"
                         android:hint="@string/tipo_animal"
@@ -70,10 +76,28 @@
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
                     <EditText
+                        android:maxLines="1"
                         android:id="@+id/fecha_nacimiento"
                         android:layout_margin="10dip"
                         android:hint="@string/fecha_nacimiento"
-                        android:inputType="none"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:layout_width="match_parent"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/descripcion"
+                        android:layout_margin="10dip"
+                        android:hint="@string/descripcion_corta"
+                        android:inputType="text|textMultiLine"
+                        android:layout_width="match_parent"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/descripcion_corta"
+                        android:layout_margin="10dip"
+                        android:hint="@string/decripcion"
+                        android:inputType="text|textMultiLine"
                         android:layout_width="match_parent"
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />

@@ -48,8 +48,10 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
         view = inflater.inflate(R.layout.fragment_recycler_animales, container, false);
         containerMensaje = view.findViewById(R.id.container_mensaje);
         containerRecycler = view.findViewById(R.id.container_recycler);
+        mensaje = ((TextView) view.findViewById(R.id.mensaje));
         if (arg != null && usuario == null) {
-            ((TextView) view.findViewById(R.id.mensaje)).setText(getString(R.string.necesitas_login));
+            editVisibilidad(true);
+            mensaje.setText(getString(R.string.necesitas_login));
         } else {
             fab = view.findViewById(R.id.fab_crear_animal);
             fab.setOnClickListener(new View.OnClickListener() {
@@ -69,23 +71,37 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
         }
         return view;
     }
-
+    public void editVisibilidad(boolean visible)
+    {
+        if(visible)
+        {
+            containerMensaje.setVisibility(View.VISIBLE);
+            containerRecycler.setVisibility(View.GONE);
+        }
+        else{
+            containerMensaje.setVisibility(View.GONE);
+            containerRecycler.setVisibility(View.VISIBLE);
+        }
+    }
     @Override
     public void onResponse(Call<List<Animal>> call, Response<List<Animal>> response) {
         if (response.isSuccessful()) {
             listaAnimales = response.body();
+            editVisibilidad(true);
             if (listaAnimales.size() == 0)
             {
                 containerRecycler.setVisibility(View.GONE);
                 mensaje.setText(getString(R.string.aún_no_animales));
                 containerMensaje.setVisibility(View.VISIBLE);
             }
-            containerMensaje.setVisibility(View.GONE);
-            containerRecycler.setVisibility(View.VISIBLE);
-            adapter = new AdapterAnimales(listaAnimales);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-            recyclerView.getAdapter().notifyDataSetChanged();
+            else{
+                editVisibilidad(false);
+                adapter = new AdapterAnimales(listaAnimales);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+
 
 
         } else {
