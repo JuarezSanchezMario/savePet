@@ -1,4 +1,4 @@
-package savepet.example.com.savepet;
+package savepet.example.com.savepet.pager_adapters;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import savepet.example.com.savepet.fragments.FragmentRecyclerAnimales;
 
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapterAnimales extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Context context;
 
-    public PagerAdapter(FragmentManager fm, int NumOfTabs,Context context) {
+    public PagerAdapterAnimales(FragmentManager fm, int NumOfTabs, Context context) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.context = context;

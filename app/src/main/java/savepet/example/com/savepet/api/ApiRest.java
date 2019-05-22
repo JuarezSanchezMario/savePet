@@ -90,14 +90,14 @@ public class ApiRest {
         responseCall.enqueue(callback);
     }
 
-    public void getAnimales(Callback<List<Animal>> callback) {
+    public void getAnimal(Callback<List<Animal>> callback) {
         retrofit.getAnimales().enqueue(callback);
     }
     public void getAnimalesFiltro(Map<String,String> map,Callback<List<Animal>> callback) {
         retrofit.getAnimalesFiltro(map).enqueue(callback);
     }
 
-    public void getAnimales(int id,Callback<List<Animal>> callback) {
+    public void getAnimal(int id, Callback<List<Animal>> callback) {
         retrofit.getAnimales(id).enqueue(callback);
     }
 

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     public ApiRest apiRest;
     public boolean sesionIniciada = false;
     public Toolbar toolbar;
-    public Usuario usuario = null;
+    public static Usuario usuario = null;
     public NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
             FT.commit();
         }
     }
-    public Usuario getUsuario()
+    public static Usuario getUsuario()
     {
         return usuario;
     }

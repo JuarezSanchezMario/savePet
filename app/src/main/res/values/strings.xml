@@ -40,9 +40,15 @@
     <string name="email_invalido">Introduce un email válido</string>
     <string name="nombre_usuario_necesario">El nombre de usuario es necesario</string>
     <string name="nombre_necesario">El nombre es necesario</string>
+    <string name="imagen_necesaria">La imágen es necesaria</string>
+    <string name="fecha_evento">Fecha evento</string>
+    <string name="localizacion">Localización</string>
+    <string name="afoto">Aforo</string>
     <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
     <string name="aún_no_animales">Todavía no has registrado ningún animal</string>
     <string name="decripcion">Descripción</string>
+    <string name="mensaje_alta_animal">Registrando animal</string>
+    <string name="mensaje_registro_usuario">Registrando usuario</string>
     <string name="descripcion_corta">Descripción corta</string>
     <string name="recycler_animales">recycler_animales</string>
     <string name="fragment_animales">fragment_animales</string>

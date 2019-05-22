@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,11 +25,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import savepet.example.com.savepet.MainActivity;
+import savepet.example.com.savepet.OnButtonClickListener;
 import savepet.example.com.savepet.R;
-import savepet.example.com.savepet.adapters.AdapterAnimales;
+import savepet.example.com.savepet.recycler_adapters.AdapterAnimales;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Usuario;
-
+@SuppressWarnings("ALL")
 public class FragmentRecyclerAnimales extends Fragment implements Callback<List<Animal>> {
     FloatingActionButton fab;
     List<Animal> listaAnimales = new ArrayList<>();
@@ -37,7 +40,7 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
     RelativeLayout containerRecycler;
     RelativeLayout containerMensaje;
     Usuario usuario;
-    boolean sinAnimales = false;
+    boolean propios = false;
 
     @Nullable
     @Override
@@ -62,8 +65,9 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
             });
             recyclerView = view.findViewById(R.id.recycler_animales);
             if (arg == null) {
-                ((MainActivity) getActivity()).apiRest.getAnimales(FragmentRecyclerAnimales.this);
+                ((MainActivity) getActivity()).apiRest.getAnimal(FragmentRecyclerAnimales.this);
             } else {
+                propios = true;
                 Map<String, String> map = new HashMap<>();
                 map.put("dueno_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
                 ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerAnimales.this);
@@ -96,7 +100,27 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
             }
             else{
                 editVisibilidad(false);
-                adapter = new AdapterAnimales(listaAnimales);
+                adapter = new AdapterAnimales(listaAnimales,propios);
+                adapter.setClickBtImagen(new OnButtonClickListener() {
+                    @Override
+                    public void onButtonClick(int position, View view) {
+                        PopupMenu pop = new PopupMenu(getContext(),view);
+                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista_animales,pop.getMenu());
+                        pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId())
+                                {
+                                    case R.id.editar: //TODO
+                                        break;
+                                    case R.id.eliminar: //TODO
+                                        break;
+                                }
+                                return true;
+                            }
+                        });
+                    }
+                });
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                 recyclerView.getAdapter().notifyDataSetChanged();

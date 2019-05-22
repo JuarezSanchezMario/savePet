@@ -20,8 +20,8 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <ImageView
-                        android:id="@+id/imagen_perfil"
-                        android:src="@drawable/animal_default"
+                        android:id="@+id/imagen"
+                        android:src="@drawable/event_crear"
                         android:layout_gravity="center"
                         android:layout_width="150dip"
                         android:layout_height="150dip"/>
@@ -58,43 +58,38 @@
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
                     <EditText
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:id="@+id/raza"
-                        android:layout_margin="10dip"
-                        android:hint="@string/raza"
-                        android:layout_width="match_parent"
-                        android:backgroundTint="@color/secondaryColor"
-                        android:layout_height="wrap_content" />
-                    <EditText
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:id="@+id/tipo_animal"
-                        android:layout_margin="10dip"
-                        android:hint="@string/tipo_animal"
-                        android:layout_width="match_parent"
-                        android:backgroundTint="@color/secondaryColor"
-                        android:layout_height="wrap_content" />
-                    <EditText
-                        android:maxLines="1"
-                        android:id="@+id/fecha_nacimiento"
-                        android:layout_margin="10dip"
-                        android:hint="@string/fecha_nacimiento"
-                        android:clickable="true"
                         android:focusable="false"
-                        android:layout_width="match_parent"
-                        android:backgroundTint="@color/secondaryColor"
-                        android:layout_height="wrap_content" />
-                    <EditText
-                        android:id="@+id/descripcion_larga"
+                        android:clickable="true"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:id="@+id/fecha"
                         android:layout_margin="10dip"
-                        android:hint="@string/descripcion_corta"
-                        android:inputType="text|textMultiLine"
+                        android:hint="@string/fecha_evento"
                         android:layout_width="match_parent"
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
                     <EditText
-                        android:id="@+id/descripcion_corta"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:id="@+id/aforo"
+                        android:layout_margin="10dip"
+                        android:hint="@string/afoto"
+                        android:layout_width="match_parent"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:id="@+id/localizacion"
+                        android:layout_margin="10dip"
+                        android:hint="@string/localizacion"
+                        android:layout_width="match_parent"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/descripcion"
                         android:layout_margin="10dip"
                         android:hint="@string/decripcion"
                         android:inputType="text|textMultiLine"

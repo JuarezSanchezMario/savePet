@@ -33,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
+import savepet.example.com.savepet.Utilidades;
 import savepet.example.com.savepet.modelos.Usuario;
 
 import static android.app.Activity.RESULT_OK;
@@ -77,55 +78,40 @@ public class Fragment_registro extends Fragment {
                     if (fotoCambiada) {
 
                         if (uri_imagen == null) {
-                            f = new File(getContext().getCacheDir(), nombreUsuario.getText().toString().trim() + ".png");
+                            f = Utilidades.BitmapDrawableAFile((BitmapDrawable) imagenPerfil.getDrawable(), getContext(), nombreUsuario.getText().toString().trim());
 
-                            try {
-                                f.createNewFile();
-                                Bitmap bitmap = ((BitmapDrawable) imagenPerfil.getDrawable()).getBitmap();
-                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-                                byte[] bitmapdata = bos.toByteArray();
-
-                                FileOutputStream fos = new FileOutputStream(f);
-                                fos.write(bitmapdata);
-                                fos.flush();
-                                fos.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else{
+                        } else {
                             f = new File(uri_imagen.getPath());
                         }
-                    }
-                    Map<String,String> mapUsuario = new HashMap<>();
-                    mapUsuario.put("nombreUsuario", nombreUsuario.getText().toString().trim());
-                    mapUsuario.put("nombre",nombre.getText().toString().trim());
-                    mapUsuario.put("password",contraseña.getText().toString().trim());
-                    mapUsuario.put("email",email.getText().toString().trim());
-                    mapUsuario.put("telefono", nombreUsuario.getText().toString().trim());
+                        Map<String, String> mapUsuario = new HashMap<>();
+                        mapUsuario.put("nombreUsuario", nombreUsuario.getText().toString().trim());
+                        mapUsuario.put("nombre", nombre.getText().toString().trim());
+                        mapUsuario.put("password", contraseña.getText().toString().trim());
+                        mapUsuario.put("email", email.getText().toString().trim());
+                        mapUsuario.put("telefono", nombreUsuario.getText().toString().trim());
 
-                    ((MainActivity)getActivity()).apiRest.registrarUsuario(f,mapUsuario, new Callback<Usuario>() {
-                        @Override
-                        public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                            if (response.isSuccessful())
-                            {
-                                Toast.makeText(getContext(),"Usuario creado con éxito",Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                try {
-                                    Toast.makeText(getContext(),response.errorBody().string(),Toast.LENGTH_LONG).show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                        ((MainActivity) getActivity()).apiRest.registrarUsuario(f, mapUsuario, new Callback<Usuario>() {
+                            @Override
+                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Usuario creado con éxito", Toast.LENGTH_LONG).show();
+                                } else {
+                                    try {
+                                        Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<Usuario> call, Throwable t) {
-
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        ((MainActivity) getActivity()).generarSnackBar(getString(R.string.imagen_necesaria));
+                    }
                 }
             }
         });

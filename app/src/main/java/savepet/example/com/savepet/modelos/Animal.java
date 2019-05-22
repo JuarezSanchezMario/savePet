@@ -1,5 +1,6 @@
 package savepet.example.com.savepet.modelos;
 
+import java.util.Date;
 import java.util.List;
 
 public class Animal {
@@ -8,28 +9,38 @@ public class Animal {
     private String nombre;
     private String tipo;
     private String fecha_nacimiento;
+    private Date objetoFecha;
     private String lat;
     private String lng;
     private List<Usuario> dueno;
     private int dueno_id;
-    private String descripcion;
-    private String descripcionCorta;
+    private String descripcion_larga;
+    private String descripcion_corta;
 
-    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, List<Usuario> dueno, int dueno_id, String descripcion, String descripcionCorta) {
+    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, List<Usuario> dueno, int dueno_id, String descripcion_larga, String descripcion_corta) {
         this.id = id;
         this.imagen_perfil = imagen_perfil;
         this.nombre = nombre;
         this.tipo = tipo;
         this.fecha_nacimiento = fecha_nacimiento;
         this.lat = lat;
+        this.objetoFecha = new Date(fecha_nacimiento);
         this.lng = lng;
         this.dueno = dueno;
         this.dueno_id = dueno_id;
-        this.descripcion = descripcion;
-        this.descripcionCorta = descripcionCorta;
+        this.descripcion_larga = descripcion_larga;
+        this.descripcion_corta = descripcion_corta;
     }
 
-    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, String descripcion, String descripcionCorta) {
+    public Date getObjetoFecha() {
+        return objetoFecha;
+    }
+
+    public void setObjetoFecha(Date objetoFecha) {
+        this.objetoFecha = objetoFecha;
+    }
+
+    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, String descripcion_larga, String descripcion_corta) {
         this.id = id;
         this.imagen_perfil = imagen_perfil;
         this.nombre = nombre;
@@ -37,11 +48,11 @@ public class Animal {
         this.fecha_nacimiento = fecha_nacimiento;
         this.lat = lat;
         this.lng = lng;
-        this.descripcion = descripcion;
-        this.descripcionCorta = descripcionCorta;
+        this.descripcion_larga = descripcion_larga;
+        this.descripcion_corta = descripcion_corta;
     }
 
-    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, int dueno_id, String descripcion, String descripcionCorta) {
+    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, int dueno_id, String descripcion_larga, String descripcion_corta) {
         this.id = id;
         this.imagen_perfil = imagen_perfil;
         this.nombre = nombre;
@@ -50,8 +61,8 @@ public class Animal {
         this.lat = lat;
         this.lng = lng;
         this.dueno_id = dueno_id;
-        this.descripcion = descripcion;
-        this.descripcionCorta = descripcionCorta;
+        this.descripcion_larga = descripcion_larga;
+        this.descripcion_corta = descripcion_corta;
     }
 
     public String getId() {
@@ -126,20 +137,20 @@ public class Animal {
         this.dueno_id = dueno_id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescripcion_larga() {
+        return descripcion_larga;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescripcion_larga(String descripcion_larga) {
+        this.descripcion_larga = descripcion_larga;
     }
 
-    public String getDescripcionCorta() {
-        return descripcionCorta;
+    public String getDescripcion_corta() {
+        return descripcion_corta;
     }
 
-    public void setDescripcionCorta(String descripcionCorta) {
-        this.descripcionCorta = descripcionCorta;
+    public void setDescripcion_corta(String descripcion_corta) {
+        this.descripcion_corta = descripcion_corta;
     }
 
     public Animal() {

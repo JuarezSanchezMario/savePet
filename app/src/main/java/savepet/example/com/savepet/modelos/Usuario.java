@@ -1,16 +1,11 @@
 package savepet.example.com.savepet.modelos;
 
 
-import java.io.File;
-
-import savepet.example.com.savepet.MainActivity;
-import savepet.example.com.savepet.R;
-
 @SuppressWarnings("ALL")
 public class Usuario {
     private int id;
     private String lat;
-    private String lon;
+    private String lng;
     private String nombre_usuario;
     private String nombre;
     private String email;
@@ -21,10 +16,10 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int id, String lat, String lon, String nombre_usuario, String nombre, String email, String telefono, String imagen_perfil, String api_token) {
+    public Usuario(int id, String lat, String lng, String nombre_usuario, String nombre, String email, String telefono, String imagen_perfil, String api_token) {
         this.id = id;
         this.lat = lat;
-        this.lon = lon;
+        this.lng = lng;
         this.nombre_usuario = nombre_usuario;
         this.nombre = nombre;
         this.email = email;
@@ -49,12 +44,12 @@ public class Usuario {
         this.lat = lat;
     }
 
-    public String getLon() {
-        return lon;
+    public String getLng() {
+        return lng;
     }
 
-    public void setLon(String lon) {
-        this.lon = lon;
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     public String getNombre_usuario() {
