@@ -15,9 +15,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
+import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Evento;
 import savepet.example.com.savepet.modelos.Login;
-import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Mensaje;
 import savepet.example.com.savepet.modelos.Usuario;
 

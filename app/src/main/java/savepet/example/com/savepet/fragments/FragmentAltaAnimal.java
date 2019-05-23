@@ -1,5 +1,6 @@
 package savepet.example.com.savepet.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -34,67 +32,67 @@ import retrofit2.Response;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.Utilidades;
-import savepet.example.com.savepet.modelos.Usuario;
+import savepet.example.com.savepet.modelos.Animal;
 
 import static android.app.Activity.RESULT_OK;
-import static savepet.example.com.savepet.MainActivity.CAMERA;
+import static android.media.MediaRecorder.VideoSource.CAMERA;
 import static savepet.example.com.savepet.MainActivity.GALERIA;
 
-public class Fragment_registro extends Fragment {
-    Button registrarme, imagenCamara, imagenGaleria;
-    ImageView imagenPerfil;
-    EditText nombreUsuario, nombre, telefono, contraseña, contraseñaRepetida, email;
-    boolean fotoCambiada;
+public class FragmentAltaAnimal extends Fragment {
+    private Button registrarme, imagenCamara, imagenGaleria;
+    private ImageView imagenPerfil;
+    private ProgressDialog progressDialog;
+    private EditText nombre, fechaNacimiento, descripcionLarga, descripcionCorta, raza, tipoAnimal;
+    private boolean fotoCambiada;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.registro_usuario, container, false);
+        View view = inflater.inflate(R.layout.registro_animal, container, false);
         registrarme = view.findViewById(R.id.registro);
         imagenCamara = view.findViewById(R.id.imagen_camara);
+        descripcionLarga = view.findViewById(R.id.descripcion_larga);
+        descripcionCorta = view.findViewById(R.id.descripcion_corta);
         imagenGaleria = view.findViewById(R.id.imagen_galeria);
         imagenPerfil = view.findViewById(R.id.imagen_perfil);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getString(R.string.mensaje_alta_animal));
         nombre = view.findViewById(R.id.nombre);
-        email = view.findViewById(R.id.email);
-        nombreUsuario = view.findViewById(R.id.nombre_usuario);
-        telefono = view.findViewById(R.id.telefono);
-        contraseña = view.findViewById(R.id.contraseña);
-        contraseñaRepetida = view.findViewById(R.id.contraseña_repetida);
-        final Uri uri_imagen = null;
+        fechaNacimiento = view.findViewById(R.id.fecha_nacimiento);
+        raza = view.findViewById(R.id.raza);
+        tipoAnimal = view.findViewById(R.id.tipo_animal);
+        final Uri uriImagen = null;
 
         registrarme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (nombre.getText().toString().isEmpty()) {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.nombre_necesario));
-                } else if (nombreUsuario.getText().toString().isEmpty()) {
-                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.nombre_usuario_necesario));
-                } else if (!contraseña.getText().toString().equals(contraseñaRepetida.getText().toString())) {
-                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.contraseñas_no_coinciden));
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
-                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.email_invalido));
                 } else {
                     File f = null;
                     if (fotoCambiada) {
 
-                        if (uri_imagen == null) {
-                            f = Utilidades.BitmapDrawableAFile((BitmapDrawable) imagenPerfil.getDrawable(), getContext(), nombreUsuario.getText().toString().trim());
+                        if (uriImagen == null) {
 
+                            f = Utilidades.BitmapDrawableAFile((BitmapDrawable) imagenPerfil.getDrawable(), getContext(), nombre.getText().toString().trim());
                         } else {
-                            f = new File(uri_imagen.getPath());
+                            f = new File(uriImagen.getPath());
                         }
-                        Map<String, String> mapUsuario = new HashMap<>();
-                        mapUsuario.put("nombreUsuario", nombreUsuario.getText().toString().trim());
-                        mapUsuario.put("nombre", nombre.getText().toString().trim());
-                        mapUsuario.put("password", contraseña.getText().toString().trim());
-                        mapUsuario.put("email", email.getText().toString().trim());
-                        mapUsuario.put("telefono", nombreUsuario.getText().toString().trim());
+                        Map<String, String> mapAnimal = new HashMap<>();
+                        mapAnimal.put("raza", raza.getText().toString().trim());
+                        mapAnimal.put("nombre", nombre.getText().toString().trim());
+                        mapAnimal.put("fecha_nacimiento", fechaNacimiento.getText().toString().trim());
+                        mapAnimal.put("tipo", tipoAnimal.getText().toString().trim());
+                        mapAnimal.put("estado", "adopcion");
+                        mapAnimal.put("descripcion_corta", descripcionCorta.getText().toString().trim());
+                        mapAnimal.put("descripcion_larga", descripcionLarga.getText().toString().trim());
 
-                        ((MainActivity) getActivity()).apiRest.registrarUsuario(f, mapUsuario, new Callback<Usuario>() {
+                        progressDialog.show();
+                        ((MainActivity) getActivity()).apiRest.registrarAnimal(f, mapAnimal, new Callback<Animal>() {
                             @Override
-                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                            public void onResponse(Call<Animal> call, Response<Animal> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Usuario creado con éxito", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Animal creado con éxito", Toast.LENGTH_LONG).show();
                                 } else {
                                     try {
                                         Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
@@ -102,16 +100,19 @@ public class Fragment_registro extends Fragment {
                                         e.printStackTrace();
                                     }
                                 }
+                                progressDialog.dismiss();
                             }
 
                             @Override
-                            public void onFailure(Call<Usuario> call, Throwable t) {
+                            public void onFailure(Call<Animal> call, Throwable t) {
                                 Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
                             }
                         });
                     } else {
                         ((MainActivity) getActivity()).generarSnackBar(getString(R.string.imagen_necesaria));
                     }
+
                 }
             }
         });
@@ -141,11 +142,6 @@ public class Fragment_registro extends Fragment {
                 if (data != null) {
                     Bitmap img = (Bitmap) data.getExtras().get("data");
                     imagenPerfil.setImageBitmap(img);
-                    /*File file = FileUtils.fileFromBitmap(img, nImage, getContext());
-                    nImage++;
-                    filesList.add(file);
-                    recyclerView.getAdapter().notifyDataSetChanged();*/
-
                 }
             } else if (requestCode == GALERIA) {
                 if (data != null) {

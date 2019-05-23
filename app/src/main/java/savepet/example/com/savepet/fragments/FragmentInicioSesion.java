@@ -24,7 +24,7 @@ import savepet.example.com.savepet.api.ApiRest;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Usuario;
 
-public class Fragment_inicio_sesion extends Fragment implements Callback<Usuario> {
+public class FragmentInicioSesion extends Fragment implements Callback<Usuario> {
 
     Button registrarme;
     Button iniciarSesion;
@@ -42,7 +42,7 @@ public class Fragment_inicio_sesion extends Fragment implements Callback<Usuario
         registrarme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).ponerFragment(new Fragment_registro(),"registro_usuario",false);
+                ((MainActivity)getActivity()).ponerFragment(new FragmentRegistro(),"registro_usuario",false);
             }
         });
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,7 @@ public class Fragment_inicio_sesion extends Fragment implements Callback<Usuario
             public void onClick(View v) {
                 Usuario usuario;
                 Login user = new Login(nombre_usuario.getText().toString(), contraseña.getText().toString());
-                ((MainActivity)getActivity()).apiRest.login(user,Fragment_inicio_sesion.this);
+                ((MainActivity)getActivity()).apiRest.login(user, FragmentInicioSesion.this);
             }
         });
         return view;
@@ -66,17 +66,8 @@ public class Fragment_inicio_sesion extends Fragment implements Callback<Usuario
             editor.clear();
             editor.putString(getString(R.string.apiToken), ApiRest.apiToken);
             editor.commit();
-            //Bundle arg = new Bundle();
-            /*arg.putParcelable("user", user);
-            getFragmentManager().getFragments().clear();
 
-            WelcomeFragment welcomeFragment = new WelcomeFragment();
-            welcomeFragment.setArguments(arg);
-            FragmentTransaction FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragmentContainer, welcomeFragment, "welcomeFragment");
-            FT.addToBackStack(null);
-            FT.commit();*/
-            ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_animales",true);
+            ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_tab_layout",true);
             ((MainActivity)getActivity()).sesion_iniciada(usuario);
 
         } else {

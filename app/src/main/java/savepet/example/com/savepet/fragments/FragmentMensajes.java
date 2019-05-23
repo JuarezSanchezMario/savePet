@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import savepet.example.com.savepet.R;
-import savepet.example.com.savepet.pager_adapters.PagerAdapterAnimales;
+import savepet.example.com.savepet.pager_adapters.PagerAdapterMensajes;
 
-public class FragmentAnimales extends Fragment {
+public class FragmentMensajes extends Fragment {
     TabLayout tabs;
     @Nullable
     @Override
@@ -21,10 +21,10 @@ public class FragmentAnimales extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab_layout,container,false);
         tabs = (TabLayout) view.findViewById(R.id.tablayout);
         //añadimos elementos a el tab
-        tabs.addTab(tabs.newTab().setText("Animales"));
-        tabs.addTab(tabs.newTab().setText("Mis Animales"));
+        tabs.addTab(tabs.newTab().setText("Mensajes"));
+        tabs.addTab(tabs.newTab().setText("Mis mensajes"));
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        final PagerAdapterAnimales adapter = new PagerAdapterAnimales
+        final PagerAdapterMensajes adapter = new PagerAdapterMensajes
                 (getFragmentManager(), tabs.getTabCount(),getActivity());
         mviewPager.setAdapter(adapter);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));

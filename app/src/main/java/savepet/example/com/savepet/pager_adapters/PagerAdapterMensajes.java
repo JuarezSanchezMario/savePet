@@ -6,13 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import savepet.example.com.savepet.fragments.FragmentRecyclerEventos;
+import savepet.example.com.savepet.fragments.FragmentRecyclerMensajes;
 
-public class PagerAdapterEventos extends FragmentStatePagerAdapter {
+
+public class PagerAdapterMensajes extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Context context;
 
-    public PagerAdapterEventos(FragmentManager fm, int NumOfTabs, Context context) {
+    public PagerAdapterMensajes(FragmentManager fm, int NumOfTabs, Context context) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.context = context;
@@ -24,16 +25,16 @@ public class PagerAdapterEventos extends FragmentStatePagerAdapter {
         Bundle args = new Bundle();
         switch (position) {
             case 0:
-                FragmentRecyclerEventos tab1 = new FragmentRecyclerEventos();
+                FragmentRecyclerMensajes tab1 = new FragmentRecyclerMensajes();
                 return tab1;
             case 1:
-                FragmentRecyclerEventos tab2 = new FragmentRecyclerEventos();
-                args.clear();
-                args.putBoolean("propios", true);
-                tab2.setArguments(args);
-                return tab2;
+                FragmentRecyclerMensajes tab2 = new FragmentRecyclerMensajes();
+                    args.clear();
+                    args.putBoolean("propios", true);
+                    tab2.setArguments(args);
+                    return tab2;
             default:
-                FragmentRecyclerEventos def = new FragmentRecyclerEventos();
+                FragmentRecyclerMensajes def = new FragmentRecyclerMensajes();
                 return def;
         }
     }

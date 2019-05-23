@@ -11,25 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import savepet.example.com.savepet.R;
-import savepet.example.com.savepet.pager_adapters.PagerAdapterAnimales;
+import savepet.example.com.savepet.pager_adapters.PagerAdapterEventos;
 
-public class FragmentAnimales extends Fragment {
+public class FragmentEventos extends Fragment {
     TabLayout tabs;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab_layout,container,false);
+
+        View view = inflater.inflate(R.layout.fragment_tab_layout, container, false);
         tabs = (TabLayout) view.findViewById(R.id.tablayout);
-        //añadimos elementos a el tab
-        tabs.addTab(tabs.newTab().setText("Animales"));
-        tabs.addTab(tabs.newTab().setText("Mis Animales"));
+
+        tabs.addTab(tabs.newTab().setText("Eventos"));
+        tabs.addTab(tabs.newTab().setText("Mis eventos"));
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        final PagerAdapterAnimales adapter = new PagerAdapterAnimales
-                (getFragmentManager(), tabs.getTabCount(),getActivity());
+        final PagerAdapterEventos adapter = new PagerAdapterEventos
+                (getFragmentManager(), tabs.getTabCount(), getActivity());
         mviewPager.setAdapter(adapter);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 
-        //texto=(TextView)findViewById(R.id.textView);
 
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

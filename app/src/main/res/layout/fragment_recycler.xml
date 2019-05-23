@@ -12,7 +12,7 @@
             android:layout_height="match_parent"/>
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
-            android:id="@+id/fab_crear_animal"
+            android:id="@+id/fab_crear"
             android:layout_height="wrap_content"
             android:src="@drawable/plus"
             android:backgroundTint="@color/secondaryColor"

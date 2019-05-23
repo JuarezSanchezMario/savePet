@@ -30,8 +30,9 @@ import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Usuario;
 import savepet.example.com.savepet.recycler_adapters.AdapterAnimales;
+
 @SuppressWarnings("ALL")
-public class FragmentRecyclerAnimales extends Fragment implements Callback<List<Animal>> {
+public class FragmentRecyclerEventos extends Fragment implements Callback<List<Animal>> {
     FloatingActionButton fab;
     List<Animal> listaAnimales = new ArrayList<>();
     AdapterAnimales adapter;
@@ -65,12 +66,12 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
             });
             recyclerView = view.findViewById(R.id.recycler_animales);
             if (arg == null) {
-                ((MainActivity) getActivity()).apiRest.getAnimal(FragmentRecyclerAnimales.this);
+                ((MainActivity) getActivity()).apiRest.getAnimal(FragmentRecyclerEventos.this);
             } else {
                 propios = true;
                 Map<String, String> map = new HashMap<>();
                 map.put("dueno_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
-                ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerAnimales.this);
+                ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerEventos.this);
             }
         }
         return view;
