@@ -16,11 +16,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +32,7 @@ import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Usuario;
 import savepet.example.com.savepet.recycler_adapters.AdapterAnimales;
+
 @SuppressWarnings("ALL")
 public class FragmentRecyclerAnimales extends Fragment implements Callback<List<Animal>> {
     FloatingActionButton fab;
@@ -63,9 +66,9 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
                     ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false);
                 }
             });
-            recyclerView = view.findViewById(R.id.recycler_animales);
+            recyclerView = view.findViewById(R.id.recycler);
             if (arg == null) {
-                ((MainActivity) getActivity()).apiRest.getAnimal(FragmentRecyclerAnimales.this);
+                ((MainActivity) getActivity()).apiRest.getAnimales(FragmentRecyclerAnimales.this);
             } else {
                 propios = true;
                 Map<String, String> map = new HashMap<>();
@@ -75,50 +78,69 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
         }
         return view;
     }
-    public void editVisibilidad(boolean visible)
-    {
-        if(visible)
-        {
+
+    public void editVisibilidad(boolean visible) {
+        if (visible) {
             containerMensaje.setVisibility(View.VISIBLE);
             containerRecycler.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             containerMensaje.setVisibility(View.GONE);
             containerRecycler.setVisibility(View.VISIBLE);
         }
     }
+
     @Override
     public void onResponse(Call<List<Animal>> call, Response<List<Animal>> response) {
         if (response.isSuccessful()) {
             listaAnimales = response.body();
             editVisibilidad(true);
-            if (listaAnimales.size() == 0)
-            {
+            if (listaAnimales.size() == 0) {
                 containerRecycler.setVisibility(View.GONE);
                 mensaje.setText(getString(R.string.aún_no_animales));
                 containerMensaje.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 editVisibilidad(false);
-                adapter = new AdapterAnimales(listaAnimales,propios);
+                adapter = new AdapterAnimales(listaAnimales, propios);
                 adapter.setClickBtImagen(new OnButtonClickListener() {
                     @Override
-                    public void onButtonClick(int position, View view) {
-                        PopupMenu pop = new PopupMenu(getContext(),view);
-                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista_animales,pop.getMenu());
+                    public void onButtonClick(final int position, final View view) {
+                        PopupMenu pop = new PopupMenu(getContext(), view);
+                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista_animales, pop.getMenu());
                         pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId())
-                                {
+                                switch (item.getItemId()) {
                                     case R.id.editar: //TODO
                                         break;
-                                    case R.id.eliminar: //TODO
+                                    case R.id.eliminar:
+                                        final Animal animal = listaAnimales.get(position);
+                                        ((MainActivity) getActivity()).apiRest.borrarAnimal(Integer.parseInt(animal.getId()), new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                if (response.isSuccessful()) {
+                                                    listaAnimales.remove(animal);
+                                                    recyclerView.getAdapter().notifyDataSetChanged();
+                                                    Toast.makeText(getContext(), getString(R.string.eliminado_exito), Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    try {
+                                                        Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
                                         break;
                                 }
                                 return true;
                             }
                         });
+                        pop.show();
                     }
                 });
                 recyclerView.setAdapter(adapter);
@@ -127,14 +149,17 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
             }
 
 
-
         } else {
-            Toast.makeText(getContext(), "ERROR", Toast.LENGTH_LONG).show();
+            try {
+                Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void onFailure(Call<List<Animal>> call, Throwable t) {
-
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

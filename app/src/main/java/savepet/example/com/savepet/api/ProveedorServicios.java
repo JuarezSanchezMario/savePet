@@ -28,7 +28,7 @@ public interface ProveedorServicios {
 
     @GET("user")
     @Headers({"Accept: application/json"})
-    Call<List<Usuario>> getUsuarios();
+    Call<List<Usuario>> getUsuarios(@QueryMap Map<String,String> filtro);
 
     @GET("user/{id}")
     @Headers({"Accept: application/json"})

@@ -28,13 +28,14 @@ import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.OnButtonClickListener;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Animal;
+import savepet.example.com.savepet.modelos.Mensaje;
 import savepet.example.com.savepet.modelos.Usuario;
 import savepet.example.com.savepet.recycler_adapters.AdapterAnimales;
 
 @SuppressWarnings("ALL")
-public class FragmentRecyclerMensajes extends Fragment implements Callback<List<Animal>> {
+public class FragmentRecyclerMensajes extends Fragment implements Callback<List<Mensaje>> {
     FloatingActionButton fab;
-    List<Animal> listaAnimales = new ArrayList<>();
+    List<Mensaje> listaMensajes = new ArrayList<>();
     AdapterAnimales adapter;
     RecyclerView recyclerView;
     TextView mensaje;
@@ -64,14 +65,14 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
                     ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false);
                 }
             });
-            recyclerView = view.findViewById(R.id.recycler_animales);
+            recyclerView = view.findViewById(R.id.recycler);
             if (arg == null) {
-                ((MainActivity) getActivity()).apiRest.getAnimal(FragmentRecyclerMensajes.this);
+           //     ((MainActivity) getActivity()).apiRest.getMensajes(FragmentRecyclerMensajes.this);
             } else {
                 propios = true;
                 Map<String, String> map = new HashMap<>();
                 map.put("dueno_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
-                ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerMensajes.this);
+        //        ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerMensajes.this);
             }
         }
         return view;
@@ -89,11 +90,11 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
         }
     }
     @Override
-    public void onResponse(Call<List<Animal>> call, Response<List<Animal>> response) {
+    public void onResponse(Call<List<Mensaje>> call, Response<List<Mensaje>> response) {
         if (response.isSuccessful()) {
-            listaAnimales = response.body();
+            listaMensajes = response.body();
             editVisibilidad(true);
-            if (listaAnimales.size() == 0)
+            if (listaMensajes.size() == 0)
             {
                 containerRecycler.setVisibility(View.GONE);
                 mensaje.setText(getString(R.string.aún_no_animales));
@@ -101,7 +102,7 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
             }
             else{
                 editVisibilidad(false);
-                adapter = new AdapterAnimales(listaAnimales,propios);
+              //  adapter = new AdapterAnimales(listaMensajes,propios);
                 adapter.setClickBtImagen(new OnButtonClickListener() {
                     @Override
                     public void onButtonClick(int position, View view) {
@@ -135,7 +136,7 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
     }
 
     @Override
-    public void onFailure(Call<List<Animal>> call, Throwable t) {
+    public void onFailure(Call<List<Mensaje>> call, Throwable t) {
 
     }
 }

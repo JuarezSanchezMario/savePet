@@ -47,6 +47,15 @@
     <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
     <string name="aún_no_animales">Todavía no has registrado ningún animal</string>
     <string name="decripcion">Descripción</string>
+    <string name="numero_animales">Nº animales : </string>
+    <string name="informacion_usuario">Información</string>
+    <string name="sin_decripcion">Sin descripción</string>
+    <string name="sin_informacion">Sin información</string>
+    <string name="asistentes">Asistentes : </string>
+    <string name="qr">QR</string>
+    <string name="organizador">Organizador : </string>
+    <string name="localizacion_card">Localización : </string>
+    <string name="eliminado_exito">Eliminado con éxito</string>
     <string name="mensaje_alta_animal">Registrando animal</string>
     <string name="mensaje_registro_usuario">Registrando usuario</string>
     <string name="descripcion_corta">Descripción corta</string>

@@ -24,26 +24,81 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/imagen_evento_card"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
                 <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentTop="true"
                     android:layout_gravity="center"
-                    android:id="@+id/nombre_animal_card"
+                    android:id="@+id/nombre_evento_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+              <LinearLayout
+                  android:id="@+id/linear_organizador"
+                  android:layout_marginTop="20dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/nombre_evento_card"
+                  android:orientation="horizontal">
+                  <TextView
+                      android:text="@string/organizador"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content" />
+                  <TextView
+                      android:id="@+id/nombre_animal_card"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content" />
+              </LinearLayout>
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dip"
+                    android:id="@+id/linear_localizacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:showDividers="middle"
+                    android:divider="@drawable/divider"
+                    android:layout_below="@+id/linear_organizador"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/descripcion"
+                        android:text="@string/localizacion"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/localizacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
-            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/asistentes" />
+
+                    <TextView
+                        android:id="@+id/participantes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:text="/"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/aforo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
         <ImageButton
             android:id="@+id/opciones"

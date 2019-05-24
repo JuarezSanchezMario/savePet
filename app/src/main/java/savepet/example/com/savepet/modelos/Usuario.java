@@ -12,8 +12,38 @@ public class Usuario {
     private String telefono;
     private String imagen_perfil;
     private String api_token;
+    private String info;
+    private String animales_count;
+
 
     public Usuario() {
+    }
+
+    public Usuario(int id, String lat, String lng, String nombre_usuario, String nombre, String email, String telefono, String imagen_perfil, String api_token, String animales_count) {
+        this.id = id;
+        this.lat = lat;
+        this.lng = lng;
+        this.nombre_usuario = nombre_usuario;
+        this.nombre = nombre;
+        this.email = email;
+        this.telefono = telefono;
+        this.imagen_perfil = imagen_perfil;
+        this.api_token = api_token;
+        this.animales_count = animales_count;
+    }
+
+    public Usuario(int id, String lat, String lng, String nombre_usuario, String nombre, String email, String telefono, String imagen_perfil, String api_token, String info, String animales_count) {
+        this.id = id;
+        this.lat = lat;
+        this.lng = lng;
+        this.nombre_usuario = nombre_usuario;
+        this.nombre = nombre;
+        this.email = email;
+        this.telefono = telefono;
+        this.imagen_perfil = imagen_perfil;
+        this.api_token = api_token;
+        this.info = info;
+        this.animales_count = animales_count;
     }
 
     public Usuario(int id, String lat, String lng, String nombre_usuario, String nombre, String email, String telefono, String imagen_perfil, String api_token) {
@@ -26,6 +56,23 @@ public class Usuario {
         this.telefono = telefono;
         this.imagen_perfil = imagen_perfil;
         this.api_token = api_token;
+    }
+
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getAnimales_count() {
+        return animales_count;
+    }
+
+    public void setAnimales_count(String animales_count) {
+        this.animales_count = animales_count;
     }
 
     public int getId() {

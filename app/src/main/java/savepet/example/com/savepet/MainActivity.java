@@ -25,6 +25,7 @@ import savepet.example.com.savepet.fragments.FragmentAnimales;
 import savepet.example.com.savepet.fragments.FragmentEventos;
 import savepet.example.com.savepet.fragments.FragmentInicioSesion;
 import savepet.example.com.savepet.fragments.FragmentMensajes;
+import savepet.example.com.savepet.fragments.FragmentRecyclerUsuarios;
 import savepet.example.com.savepet.modelos.Usuario;
 
 public class MainActivity extends AppCompatActivity
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.animales) {
             ponerFragment(new FragmentAnimales(), "recycler_animales", true);
         } else if (id == R.id.usuarios) {
-            //  ponerFragment(new FragmentAnimales(),"recycler_animales",true);
+            ponerFragment(new FragmentRecyclerUsuarios(),"recycler_usuarios",false);
         } else if (usuario != null) {
             if (id == R.id.eventos) {
                 ponerFragment(new FragmentEventos(), "recycler_eventos", true);
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity
         Picasso.get()
                 .load(usuario.getImagen_perfil())
                 .fit()
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.animal_default)
                 .error(R.drawable.not_found)
                 .centerCrop()
                 .into(fotoNavigation);

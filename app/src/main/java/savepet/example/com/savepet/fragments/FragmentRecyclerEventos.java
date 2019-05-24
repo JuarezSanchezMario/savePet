@@ -64,9 +64,9 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<A
                     ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false);
                 }
             });
-            recyclerView = view.findViewById(R.id.recycler_animales);
+            recyclerView = view.findViewById(R.id.recycler);
             if (arg == null) {
-                ((MainActivity) getActivity()).apiRest.getAnimal(FragmentRecyclerEventos.this);
+                ((MainActivity) getActivity()).apiRest.getAnimales(FragmentRecyclerEventos.this);
             } else {
                 propios = true;
                 Map<String, String> map = new HashMap<>();

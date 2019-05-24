@@ -5,8 +5,10 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -21,6 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
+import savepet.example.com.savepet.fragments.FragmentRecyclerUsuarios;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Usuario;
@@ -37,6 +40,8 @@ public class ApiRest {
         this.parent = parent;
         retrofit = createRetrofit();
     }
+
+
     /**
      * Interceptor para introducir en la cabecera automaticamente en las peticiones el api_token si existe
      */
@@ -90,17 +95,22 @@ public class ApiRest {
         responseCall.enqueue(callback);
     }
 
-    public void getAnimal(Callback<List<Animal>> callback) {
+    public void getAnimales(Callback<List<Animal>> callback) {
         retrofit.getAnimales().enqueue(callback);
     }
     public void getAnimalesFiltro(Map<String,String> map,Callback<List<Animal>> callback) {
         retrofit.getAnimalesFiltro(map).enqueue(callback);
     }
 
-    public void getAnimal(int id, Callback<List<Animal>> callback) {
+    public void getAnimales(int id, Callback<List<Animal>> callback) {
         retrofit.getAnimales(id).enqueue(callback);
     }
 
+    public void getUsuarios(Callback<List<Usuario>> callback,String filtro) {
+        Map<String,String> map = new HashMap<>();
+        map.put("filtro",filtro);
+        retrofit.getUsuarios(map).enqueue(callback);
+    }
     public void registrarUsuario(File imagen, Map usuario, Callback<Usuario> callback) {
 
         RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);

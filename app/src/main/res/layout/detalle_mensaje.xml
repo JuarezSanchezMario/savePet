@@ -22,10 +22,10 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:id="@+id/imagen_animal_card"/>
+                    android:id="@+id/imagen_autor"/>
                 <TextView
                     android:layout_gravity="center"
-                    android:id="@+id/nombre_animal_card"
+                    android:id="@+id/nombre_autor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -38,12 +38,20 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/descripcion_corta"
+                        android:id="@+id/mensaje"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:layout_marginRight="30dp"
+            android:textSize="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/opciones"
             android:background="@android:color/transparent"

@@ -6,6 +6,7 @@ import java.util.Date;
 public class Mensaje {
     private String id;
     private String autor_id;
+    private Usuario autor;
     private String destinatario_id;
     private String contenido,fecha;
     private Date objetoFecha;
@@ -13,13 +14,22 @@ public class Mensaje {
     public Mensaje() {
     }
 
-    public Mensaje(String id, String autor_id, String destinatario_id, String contenido, String fecha, Date objetoFecha) {
+    public Mensaje(String id, String autor_id, Usuario autor, String destinatario_id, String contenido, String fecha, Date objetoFecha) {
         this.id = id;
         this.autor_id = autor_id;
+        this.autor = autor;
         this.destinatario_id = destinatario_id;
         this.contenido = contenido;
         this.fecha = fecha;
         this.objetoFecha = new Date(fecha);
+    }
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
     }
 
     public String getId() {

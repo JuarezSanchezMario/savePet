@@ -1,6 +1,5 @@
 package savepet.example.com.savepet.recycler_adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,18 +11,18 @@ import java.util.List;
 import savepet.example.com.savepet.OnButtonClickListener;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.holders.HolderAnimales;
+import savepet.example.com.savepet.holders.HolderMensajes;
 import savepet.example.com.savepet.modelos.Animal;
 
 @SuppressWarnings("ALL")
-public class AdapterAnimales extends RecyclerView.Adapter implements View.OnClickListener {
+public class AdapterMensajes extends RecyclerView.Adapter implements View.OnClickListener {
     List<Animal> animales;
     HolderAnimales holder;
-    Context context;
     boolean propios;
     OnButtonClickListener listenerImageButton;
 
 
-    public AdapterAnimales(List<Animal> animales,boolean propios) {
+    public AdapterMensajes(List<Animal> animales, boolean propios) {
         super();
         this.animales = animales;
         this.propios = propios;
@@ -31,8 +30,7 @@ public class AdapterAnimales extends RecyclerView.Adapter implements View.OnClic
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.detalle_animal, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detalle_animal, parent, false);
         holder = new HolderAnimales(view);
         holder.setClickButton(new OnButtonClickListener() {
             @Override
@@ -47,7 +45,7 @@ public class AdapterAnimales extends RecyclerView.Adapter implements View.OnClic
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        ((HolderAnimales) viewHolder).bind(animales.get(position),propios,position,context);
+        ((HolderMensajes) viewHolder).bind(animales.get(position),propios,position);
     }
 
     @Override
