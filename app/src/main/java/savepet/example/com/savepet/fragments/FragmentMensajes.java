@@ -21,8 +21,8 @@ public class FragmentMensajes extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab_layout,container,false);
         tabs = (TabLayout) view.findViewById(R.id.tablayout);
         //añadimos elementos a el tab
-        tabs.addTab(tabs.newTab().setText("Mensajes"));
-        tabs.addTab(tabs.newTab().setText("Mis mensajes"));
+        tabs.addTab(tabs.newTab().setText("Recibidos"));
+        tabs.addTab(tabs.newTab().setText("Enviados"));
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
         final PagerAdapterMensajes adapter = new PagerAdapterMensajes
                 (getFragmentManager(), tabs.getTabCount(),getActivity());

@@ -2,12 +2,12 @@ package savepet.example.com.savepet.holders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,31 +21,35 @@ public class HolderMensajes extends RecyclerView.ViewHolder implements View.OnCl
     ImageView imagenAutor;
     OnButtonClickListener listener;
     int pos;
-    ImageButton opciones;
+    ImageView opciones;
     public HolderMensajes(View itemView)
     {
         super(itemView);
         fecha = (TextView)itemView.findViewById(R.id.fecha);
-        opciones = (ImageButton) itemView.findViewById(R.id.opciones);
+        opciones = (ImageView) itemView.findViewById(R.id.opciones);
         nombreAutor = (TextView)itemView.findViewById(R.id.nombre_autor);
         imagenAutor = (ImageView) itemView.findViewById(R.id.imagen_autor);
+        mensaje_corto = (TextView)itemView.findViewById(R.id.mensaje);
         opciones.setOnClickListener(this);
     }
     public void bind(Mensaje mensaje,int pos)
     {
+        SimpleDateFormat stringFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date fecha_mensaje = new Date();
+        stringFecha.format(fecha_mensaje);
         Date fecha_hoy = Calendar.getInstance().getTime();
         opciones.setVisibility(View.VISIBLE);
-        mensaje_corto.setText(mensaje.getContenido().substring(0,mensaje.getContenido().length()-20));
-        if(mensaje.getObjetoFecha().getDay() == fecha_hoy.getDay())
+        mensaje_corto.setText(mensaje.getContenido().substring(0,mensaje.getContenido().length()-(mensaje.getContenido().length()/2))+"...");
+        if(fecha_mensaje.getDay() == fecha_hoy.getDay())
         {
-            fecha.setText(mensaje.getObjetoFecha().getHours());
+            fecha.setText(fecha_mensaje.getHours()+":"+fecha_mensaje.getMinutes());
         }
-        else if(mensaje.getObjetoFecha().getMonth() == fecha_hoy.getMonth())
+        else if(fecha_mensaje.getMonth() == fecha_hoy.getMonth())
         {
-            fecha.setText(mensaje.getObjetoFecha().getDay()+" " + mensaje.getObjetoFecha().getMonth());
+            fecha.setText(fecha_mensaje.getDay()+" " + fecha_mensaje.getMonth());
         }
         else {
-            fecha.setText(mensaje.getObjetoFecha().getDay()+"/" + mensaje.getObjetoFecha().getMonth()+"/"+mensaje.getObjetoFecha().getDay());
+            fecha.setText(fecha_mensaje.getDay()+"/" + fecha_mensaje.getMonth()+"/"+fecha_mensaje.getDay());
         }
         nombreAutor.setText(mensaje.getAutor().getNombre());
         Picasso.get()

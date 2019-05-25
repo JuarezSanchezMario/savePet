@@ -48,13 +48,12 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.animales);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        ponerFragment(new FragmentAnimales(), "animales", false);
+        ponerFragment(new FragmentAnimales(), "animales", false,null);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.login) {
-            ponerFragment(new FragmentInicioSesion(), "login", false);
+            ponerFragment(new FragmentInicioSesion(), "login", false,null);
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,16 +95,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.animales) {
-            ponerFragment(new FragmentAnimales(), "recycler_animales", true);
+            ponerFragment(new FragmentAnimales(), "recycler_animales", true,null);
         } else if (id == R.id.usuarios) {
-            ponerFragment(new FragmentRecyclerUsuarios(),"recycler_usuarios",false);
+            ponerFragment(new FragmentRecyclerUsuarios(),"recycler_usuarios",false,null);
         } else if (usuario != null) {
             if (id == R.id.eventos) {
-                ponerFragment(new FragmentEventos(), "recycler_eventos", true);
+                ponerFragment(new FragmentEventos(), "recycler_eventos", true,null);
             } else if (id == R.id.preferencias_cuenta) {
-                ponerFragment(new FragmentEventos(), "recycler_eventos", true); //TODO
+                ponerFragment(new FragmentEventos(), "recycler_eventos", true,null); //TODO
             } else {
-                ponerFragment(new FragmentMensajes(), "recycler_mensajes", true);
+                ponerFragment(new FragmentMensajes(), "recycler_mensajes", true,null);
             }
         } else {
             generarSnackBar(getString(R.string.necesitas_login));
@@ -126,12 +125,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void ponerFragment(Fragment fragment, String tag, boolean limpiarFragments) {
+    public void ponerFragment(Fragment fragment, String tag, boolean limpiarFragments,Bundle argumentos) {
         if (comprobarAcceso(tag)) {
 
             FragmentManager FM = getSupportFragmentManager();
             if (limpiarFragments) FM.getFragments().clear();
             FragmentTransaction FT = FM.beginTransaction();
+            if(argumentos != null) fragment.setArguments(argumentos);
             FT.replace(R.id.fragment_container, fragment, tag);
             FT.addToBackStack(null);
             FT.commit();

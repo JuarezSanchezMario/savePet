@@ -46,7 +46,6 @@
         </LinearLayout>
         <TextView
             android:layout_marginRight="30dp"
-            android:textSize="10dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:id="@+id/fecha"

@@ -26,6 +26,7 @@ import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.fragments.FragmentRecyclerUsuarios;
 import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Login;
+import savepet.example.com.savepet.modelos.Mensaje;
 import savepet.example.com.savepet.modelos.Usuario;
 
 @SuppressWarnings("ALL")
@@ -88,6 +89,8 @@ public class ApiRest {
         return retrofit.create(ProveedorServicios.class);
     }
 
+    /****USUARIOS******/
+
     public void login(Login usuario, Callback<Usuario> callback) {
         Call<Usuario> responseCall;
         responseCall = retrofit.login(usuario);
@@ -118,6 +121,8 @@ public class ApiRest {
 
         retrofit.crearUsuario(subiendo_imagen,usuario).enqueue(callback);
     }
+
+    /****ANIMALES******/
 
     public void registrarAnimal(File imagen,Map animal, Callback<Animal> callback) {
         RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);
@@ -163,4 +168,20 @@ public class ApiRest {
             } else throw new Exception(parent.getString(R.string.serverError));
         }*/
     }
+
+    /****MENSAJES******/
+    public void getMensajes(Callback<List<Mensaje>> callback, String filtro) {
+        Map<String,String> map = new HashMap<>();
+        map.put("tipo",filtro);
+        retrofit.getMensajes(map).enqueue(callback);
+    }
+    public void enviarMensaje(Callback<Mensaje> callback,Mensaje mensaje) {
+        retrofit.enviarMensaje(mensaje).enqueue(callback);
+    }
+    public void borrarMensaje(Callback<ResponseBody> callback,Integer id) {
+        retrofit.borrarMensaje(id).enqueue(callback);
+    }
+    /****EVENTOS******/
+
+
 }

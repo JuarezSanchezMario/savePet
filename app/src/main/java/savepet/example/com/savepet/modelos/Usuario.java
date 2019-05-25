@@ -1,8 +1,11 @@
 package savepet.example.com.savepet.modelos;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 @SuppressWarnings("ALL")
-public class Usuario {
+public class Usuario implements Parcelable {
     private int id;
     private String lat;
     private String lng;
@@ -146,4 +149,50 @@ public class Usuario {
     public void setApi_token(String api_token) {
         this.api_token = api_token;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.lat);
+        dest.writeString(this.lng);
+        dest.writeString(this.nombre_usuario);
+        dest.writeString(this.nombre);
+        dest.writeString(this.email);
+        dest.writeString(this.telefono);
+        dest.writeString(this.imagen_perfil);
+        dest.writeString(this.api_token);
+        dest.writeString(this.info);
+        dest.writeString(this.animales_count);
+    }
+
+    protected Usuario(Parcel in) {
+        this.id = in.readInt();
+        this.lat = in.readString();
+        this.lng = in.readString();
+        this.nombre_usuario = in.readString();
+        this.nombre = in.readString();
+        this.email = in.readString();
+        this.telefono = in.readString();
+        this.imagen_perfil = in.readString();
+        this.api_token = in.readString();
+        this.info = in.readString();
+        this.animales_count = in.readString();
+    }
+
+    public static final Parcelable.Creator<Usuario> CREATOR = new Parcelable.Creator<Usuario>() {
+        @Override
+        public Usuario createFromParcel(Parcel source) {
+            return new Usuario(source);
+        }
+
+        @Override
+        public Usuario[] newArray(int size) {
+            return new Usuario[size];
+        }
+    };
 }

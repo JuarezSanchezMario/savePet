@@ -42,7 +42,7 @@ public class FragmentInicioSesion extends Fragment implements Callback<Usuario> 
         registrarme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).ponerFragment(new FragmentRegistro(),"registro_usuario",false);
+                ((MainActivity)getActivity()).ponerFragment(new FragmentRegistro(),"registro_usuario",false,null);
             }
         });
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,7 @@ public class FragmentInicioSesion extends Fragment implements Callback<Usuario> 
             editor.putString(getString(R.string.apiToken), ApiRest.apiToken);
             editor.commit();
 
-            ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_tab_layout",true);
+            ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_tab_layout",true,null);
             ((MainActivity)getActivity()).sesion_iniciada(usuario);
 
         } else {

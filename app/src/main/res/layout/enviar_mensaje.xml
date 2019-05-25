@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_buscar_usuarios"
+                android:maxLines="1"
+                android:inputType="text"
+                android:clickable="true"
+                android:focusable="false"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageButton
+                android:clickable="false"
+                android:src="@drawable/buscar"
+                android:background="@android:color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@drawable/border"
+            android:layout_margin = "10dp"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:maxHeight="10dp"
+                android:id="@+id/contenido"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"/>
+        </RelativeLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_enviar"
+            android:layout_margin="10dp"
+            app:backgroundTint="@color/secondaryColor"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

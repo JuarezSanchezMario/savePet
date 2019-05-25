@@ -55,15 +55,15 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
         containerMensaje = view.findViewById(R.id.container_mensaje);
         containerRecycler = view.findViewById(R.id.container_recycler);
         mensaje = ((TextView) view.findViewById(R.id.mensaje));
+        fab = view.findViewById(R.id.fab_crear);
         if (arg != null && usuario == null) {
             editVisibilidad(true);
             mensaje.setText(getString(R.string.necesitas_login));
         } else {
-            fab = view.findViewById(R.id.fab_crear);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false);
+                    ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false,null);
                 }
             });
             recyclerView = view.findViewById(R.id.recycler);
@@ -83,9 +83,11 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
         if (visible) {
             containerMensaje.setVisibility(View.VISIBLE);
             containerRecycler.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
         } else {
             containerMensaje.setVisibility(View.GONE);
             containerRecycler.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.VISIBLE);
         }
     }
 

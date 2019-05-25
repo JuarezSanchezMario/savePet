@@ -56,6 +56,9 @@
     <string name="organizador">Organizador : </string>
     <string name="localizacion_card">Localización : </string>
     <string name="eliminado_exito">Eliminado con éxito</string>
+    <string name="aun_no_mensajes_enviados">Aún no has mandado mensajes</string>
+    <string name="aun_no_mensajes_recibidos">Sin mensajes</string>
+    <string name="mensaje_enviado_exito">Mensaje enviado con éxito</string>
     <string name="mensaje_alta_animal">Registrando animal</string>
     <string name="mensaje_registro_usuario">Registrando usuario</string>
     <string name="descripcion_corta">Descripción corta</string>

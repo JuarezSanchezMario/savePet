@@ -32,6 +32,7 @@ public class AdapterUsuarios extends RecyclerView.Adapter implements View.OnClic
         context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.detalle_usuario, parent, false);
         holder = new HolderUsuarios(view);
+        view.setOnClickListener(this);
         return holder;
     }
     @Override

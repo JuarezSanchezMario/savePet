@@ -40,13 +40,14 @@ public class FragmentRecyclerUsuarios extends Fragment {
     TextView mensaje;
     Usuario usuario;
     String filtro = "";
+    Bundle arg;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
         usuario = ((MainActivity) getActivity()).getUsuario();
-        Bundle arg = getArguments();
+        arg = getArguments();
         view = inflater.inflate(R.layout.fragment_recycler, container, false);
         mensaje = ((TextView) view.findViewById(R.id.mensaje));
         getActivity().runOnUiThread(new Runnable() {
@@ -67,6 +68,21 @@ public class FragmentRecyclerUsuarios extends Fragment {
                 if (response.isSuccessful()) {
                     listaUsuarios = response.body();
                     adapter = new AdapterUsuarios(listaUsuarios);
+                    adapter.setClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(arg.containsKey("buscar"))
+                            {
+                                Bundle argumentos = new Bundle();
+                                argumentos.putBoolean("enviar",true);
+                                argumentos.putParcelable("destinatario",listaUsuarios.get(recyclerView.getChildAdapterPosition(v)));
+                                ((MainActivity)getActivity()).ponerFragment(new FragmentEnviarMensaje(),"fragment_enviar_mensaje",true,argumentos);
+                            }
+                            else{
+
+                            }
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                     recyclerView.getAdapter().notifyDataSetChanged();

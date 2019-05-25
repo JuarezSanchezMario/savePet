@@ -134,13 +134,13 @@ public interface ProveedorServicios {
 
     /*MENSAJES*/
 
-    @POST("mensaje/")
+    @POST("mensaje")
     @Headers({"Accept: application/json"})
     Call<Mensaje> enviarMensaje(@Body Mensaje mensaje);
 
-    @GET("mensaje/")
+    @GET("mensaje")
     @Headers({"Accept: application/json"})
-    Call<List<Mensaje>> mensajesRecibidos(@QueryMap Map<String,Integer> propios);
+    Call<List<Mensaje>> getMensajes(@QueryMap Map<String,String> filtro);
 
     @DELETE("mensaje/{id}")
     @Headers({"Accept: application/json"})

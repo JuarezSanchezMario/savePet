@@ -61,7 +61,7 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<A
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false);
+                    ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false,null);
                 }
             });
             recyclerView = view.findViewById(R.id.recycler);

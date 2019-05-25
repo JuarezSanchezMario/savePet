@@ -9,19 +9,18 @@ public class Mensaje {
     private Usuario autor;
     private String destinatario_id;
     private String contenido,fecha;
-    private Date objetoFecha;
 
-    public Mensaje() {
-    }
 
-    public Mensaje(String id, String autor_id, Usuario autor, String destinatario_id, String contenido, String fecha, Date objetoFecha) {
+
+    public Mensaje(String id, String autor_id, Usuario autor, String destinatario_id, String contenido, String fecha) {
         this.id = id;
         this.autor_id = autor_id;
         this.autor = autor;
         this.destinatario_id = destinatario_id;
         this.contenido = contenido;
         this.fecha = fecha;
-        this.objetoFecha = new Date(fecha);
+    }
+    public Mensaje() {
     }
 
     public Usuario getAutor() {
@@ -72,11 +71,4 @@ public class Mensaje {
         this.fecha = fecha;
     }
 
-    public Date getObjetoFecha() {
-        return objetoFecha;
-    }
-
-    public void setObjetoFecha(Date objetoFecha) {
-        this.objetoFecha = objetoFecha;
-    }
 }
