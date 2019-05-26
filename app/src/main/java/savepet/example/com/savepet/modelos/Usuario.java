@@ -4,6 +4,9 @@ package savepet.example.com.savepet.modelos;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("ALL")
 public class Usuario implements Parcelable {
     private int id;
@@ -16,8 +19,16 @@ public class Usuario implements Parcelable {
     private String imagen_perfil;
     private String api_token;
     private String info;
+    private List<Animal> animales;
     private String animales_count;
 
+    public List<Animal> getAnimales() {
+        return animales;
+    }
+
+    public void setAnimales(List<Animal> animales) {
+        this.animales = animales;
+    }
 
     public Usuario() {
     }
@@ -150,6 +161,7 @@ public class Usuario implements Parcelable {
         this.api_token = api_token;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -167,6 +179,7 @@ public class Usuario implements Parcelable {
         dest.writeString(this.imagen_perfil);
         dest.writeString(this.api_token);
         dest.writeString(this.info);
+        dest.writeList(this.animales);
         dest.writeString(this.animales_count);
     }
 
@@ -181,10 +194,12 @@ public class Usuario implements Parcelable {
         this.imagen_perfil = in.readString();
         this.api_token = in.readString();
         this.info = in.readString();
+        this.animales = new ArrayList<Animal>();
+        in.readList(this.animales, Animal.class.getClassLoader());
         this.animales_count = in.readString();
     }
 
-    public static final Parcelable.Creator<Usuario> CREATOR = new Parcelable.Creator<Usuario>() {
+    public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
         @Override
         public Usuario createFromParcel(Parcel source) {
             return new Usuario(source);

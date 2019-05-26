@@ -19,14 +19,16 @@ public class AdapterAnimales extends RecyclerView.Adapter implements View.OnClic
     List<Animal> animales;
     HolderAnimales holder;
     Context context;
-    boolean propios;
+    boolean propios,vista;
+    View.OnClickListener listener;
     OnButtonClickListener listenerImageButton;
 
 
-    public AdapterAnimales(List<Animal> animales,boolean propios) {
+    public AdapterAnimales(List<Animal> animales,boolean propios,boolean vista) {
         super();
         this.animales = animales;
         this.propios = propios;
+        this.vista = vista;
     }
 
     @Override
@@ -47,16 +49,19 @@ public class AdapterAnimales extends RecyclerView.Adapter implements View.OnClic
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        ((HolderAnimales) viewHolder).bind(animales.get(position),propios,position,context);
+        ((HolderAnimales) viewHolder).bind(animales.get(position),propios,position,context,vista);
     }
 
     @Override
     public int getItemCount() {
         return this.animales.size();
     }
-
+    public void setClickListener(View.OnClickListener listener)
+    {
+        if(listener!=null) this.listener = listener;
+    }
     @Override
     public void onClick(View v) {
-
+        if(listener!=null) listener.onClick(v);
     }
 }

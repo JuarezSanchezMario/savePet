@@ -72,7 +72,10 @@
     <string name="editar">Editar</string>
     <string name="eliminar">Eliminar</string>
     <string name="escribir">Escribir</string>
+    <string name="sin_animales">Sin animales</string>
+    <string name="aceptar">Aceptar</string>
     <string name="usuario_modificado">Usuario modificado con éxito</string>
     <string name="fragment_alta_animales">fragment_alta_animales</string>
     <string name="contraseña_caracteres">La contraseña debe tener un mínimo de 6 caracteres</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

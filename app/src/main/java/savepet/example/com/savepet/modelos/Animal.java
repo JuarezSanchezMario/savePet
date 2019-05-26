@@ -1,30 +1,32 @@
 package savepet.example.com.savepet.modelos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.List;
 
-public class Animal {
+public class Animal implements Parcelable {
     private String id;
     private String imagen_perfil;
     private String nombre;
     private String tipo;
     private String fecha_nacimiento;
-    private Date objetoFecha;
     private String lat;
     private String lng;
-    private List<Usuario> dueno;
+    private Usuario dueno;
+    private List<Imagen> imagenes;
     private int dueno_id;
     private String descripcion_larga;
     private String descripcion_corta;
 
-    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, List<Usuario> dueno, int dueno_id, String descripcion_larga, String descripcion_corta) {
+    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, Usuario dueno, int dueno_id, String descripcion_larga, String descripcion_corta) {
         this.id = id;
         this.imagen_perfil = imagen_perfil;
         this.nombre = nombre;
         this.tipo = tipo;
         this.fecha_nacimiento = fecha_nacimiento;
         this.lat = lat;
-        this.objetoFecha = new Date(fecha_nacimiento);
         this.lng = lng;
         this.dueno = dueno;
         this.dueno_id = dueno_id;
@@ -32,12 +34,27 @@ public class Animal {
         this.descripcion_corta = descripcion_corta;
     }
 
-    public Date getObjetoFecha() {
-        return objetoFecha;
+    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, Usuario dueno, List<Imagen> imagenes, int dueno_id, String descripcion_larga, String descripcion_corta) {
+        this.id = id;
+        this.imagen_perfil = imagen_perfil;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.lat = lat;
+        this.lng = lng;
+        this.dueno = dueno;
+        this.imagenes = imagenes;
+        this.dueno_id = dueno_id;
+        this.descripcion_larga = descripcion_larga;
+        this.descripcion_corta = descripcion_corta;
     }
 
-    public void setObjetoFecha(Date objetoFecha) {
-        this.objetoFecha = objetoFecha;
+    public List<Imagen> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(List<Imagen> imagenes) {
+        this.imagenes = imagenes;
     }
 
     public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, String descripcion_larga, String descripcion_corta) {
@@ -121,11 +138,11 @@ public class Animal {
         this.lng = lng;
     }
 
-    public List<Usuario> getDueno() {
+    public Usuario getDueno() {
         return dueno;
     }
 
-    public void setDueno(List<Usuario> dueno) {
+    public void setDueno(Usuario dueno) {
         this.dueno = dueno;
     }
 
@@ -155,4 +172,52 @@ public class Animal {
 
     public Animal() {
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.imagen_perfil);
+        dest.writeString(this.nombre);
+        dest.writeString(this.tipo);
+        dest.writeString(this.fecha_nacimiento);
+        dest.writeString(this.lat);
+        dest.writeString(this.lng);
+        dest.writeParcelable(this.dueno, flags);
+        dest.writeTypedList(this.imagenes);
+        dest.writeInt(this.dueno_id);
+        dest.writeString(this.descripcion_larga);
+        dest.writeString(this.descripcion_corta);
+    }
+
+    protected Animal(Parcel in) {
+        this.id = in.readString();
+        this.imagen_perfil = in.readString();
+        this.nombre = in.readString();
+        this.tipo = in.readString();
+        this.fecha_nacimiento = in.readString();
+        this.lat = in.readString();
+        this.lng = in.readString();
+        this.dueno = in.readParcelable(Usuario.class.getClassLoader());
+        this.imagenes = in.createTypedArrayList(Imagen.CREATOR);
+        this.dueno_id = in.readInt();
+        this.descripcion_larga = in.readString();
+        this.descripcion_corta = in.readString();
+    }
+
+    public static final Parcelable.Creator<Animal> CREATOR = new Parcelable.Creator<Animal>() {
+        @Override
+        public Animal createFromParcel(Parcel source) {
+            return new Animal(source);
+        }
+
+        @Override
+        public Animal[] newArray(int size) {
+            return new Animal[size];
+        }
+    };
 }

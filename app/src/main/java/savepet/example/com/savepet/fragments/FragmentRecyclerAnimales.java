@@ -44,6 +44,7 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
     RelativeLayout containerMensaje;
     Usuario usuario;
     boolean propios = false;
+    boolean vista = false;
 
     @Nullable
     @Override
@@ -54,28 +55,34 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
         view = inflater.inflate(R.layout.fragment_recycler, container, false);
         containerMensaje = view.findViewById(R.id.container_mensaje);
         containerRecycler = view.findViewById(R.id.container_recycler);
+        recyclerView = view.findViewById(R.id.recycler);
         mensaje = ((TextView) view.findViewById(R.id.mensaje));
         fab = view.findViewById(R.id.fab_crear);
-        if (arg != null && usuario == null) {
-            editVisibilidad(true);
-            mensaje.setText(getString(R.string.necesitas_login));
+        if (arg == null) {
+            ((MainActivity) getActivity()).apiRest.getAnimales(FragmentRecyclerAnimales.this);
         } else {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false,null);
-                }
-            });
-            recyclerView = view.findViewById(R.id.recycler);
-            if (arg == null) {
-                ((MainActivity) getActivity()).apiRest.getAnimales(FragmentRecyclerAnimales.this);
-            } else {
+            if (arg.containsKey("vista_animales")) {
+                vista = true;
+                Map<String, String> map = new HashMap<>();
+                fab.setVisibility(View.GONE);
+                map.put("dueno_id", ((Usuario) getArguments().getParcelable("vista_animales")).getId() + "");
+                ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerAnimales.this);
+            } else if (usuario != null) {
                 propios = true;
                 Map<String, String> map = new HashMap<>();
                 map.put("dueno_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
                 ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerAnimales.this);
+            } else {
+                editVisibilidad(true);
+                mensaje.setText(getString(R.string.necesitas_login));
             }
         }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false, null);
+            }
+        });
         return view;
     }
 
@@ -87,7 +94,11 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
         } else {
             containerMensaje.setVisibility(View.GONE);
             containerRecycler.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
+            if (!vista) {
+                fab.setVisibility(View.VISIBLE);
+            } else {
+                fab.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -98,11 +109,19 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
             editVisibilidad(true);
             if (listaAnimales.size() == 0) {
                 containerRecycler.setVisibility(View.GONE);
-                mensaje.setText(getString(R.string.aún_no_animales));
+                mensaje.setText(vista ? getString(R.string.sin_animales) : getString(R.string.aún_no_animales));
                 containerMensaje.setVisibility(View.VISIBLE);
             } else {
                 editVisibilidad(false);
-                adapter = new AdapterAnimales(listaAnimales, propios);
+                adapter = new AdapterAnimales(listaAnimales, propios, vista);
+                adapter.setClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle args = new Bundle();
+                        args.putParcelable("animal", listaAnimales.get(recyclerView.getChildAdapterPosition(v)));
+                        ((MainActivity) getActivity()).ponerFragment(new FragmentVistaAnimal(), "fragment_vista_animal", false, args);
+                    }
+                });
                 adapter.setClickBtImagen(new OnButtonClickListener() {
                     @Override
                     public void onButtonClick(final int position, final View view) {

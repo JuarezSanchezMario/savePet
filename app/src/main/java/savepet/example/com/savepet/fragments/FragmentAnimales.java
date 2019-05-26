@@ -24,12 +24,11 @@ public class FragmentAnimales extends Fragment {
         tabs.addTab(tabs.newTab().setText("Animales"));
         tabs.addTab(tabs.newTab().setText("Mis Animales"));
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        final PagerAdapterAnimales adapter = new PagerAdapterAnimales
+        PagerAdapterAnimales adapter = new PagerAdapterAnimales
                 (getFragmentManager(), tabs.getTabCount(),getActivity());
         mviewPager.setAdapter(adapter);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 
-        //texto=(TextView)findViewById(R.id.textView);
 
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

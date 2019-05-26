@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Usuario;
@@ -15,14 +16,14 @@ import savepet.example.com.savepet.modelos.Usuario;
 @SuppressWarnings("ALL")
 public class HolderUsuarios extends RecyclerView.ViewHolder {
     TextView nombre, numeroAnimales, info;
-    ImageView imagenPerfil;
+    CircleImageView imagenPerfil;
 
     public HolderUsuarios(View itemView) {
         super(itemView);
         info = (TextView) itemView.findViewById(R.id.info);
         numeroAnimales = (TextView) itemView.findViewById(R.id.numero_animales);
         nombre = (TextView) itemView.findViewById(R.id.nombre_usuario_card);
-        imagenPerfil = (ImageView) itemView.findViewById(R.id.imagen_usuario_card);
+        imagenPerfil = (CircleImageView) itemView.findViewById(R.id.imagen_usuario_card);
     }
 
     public void bind(final Usuario usuario, final Context context) {

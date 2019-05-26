@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import savepet.example.com.savepet.OnButtonClickListener;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Mensaje;
@@ -18,7 +19,7 @@ import savepet.example.com.savepet.modelos.Mensaje;
 @SuppressWarnings("ALL")
 public class HolderMensajes extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView mensaje_corto, nombreAutor,fecha;
-    ImageView imagenAutor;
+    CircleImageView imagenAutor;
     OnButtonClickListener listener;
     int pos;
     ImageView opciones;
@@ -28,7 +29,7 @@ public class HolderMensajes extends RecyclerView.ViewHolder implements View.OnCl
         fecha = (TextView)itemView.findViewById(R.id.fecha);
         opciones = (ImageView) itemView.findViewById(R.id.opciones);
         nombreAutor = (TextView)itemView.findViewById(R.id.nombre_autor);
-        imagenAutor = (ImageView) itemView.findViewById(R.id.imagen_autor);
+        imagenAutor = (CircleImageView) itemView.findViewById(R.id.imagen_autor);
         mensaje_corto = (TextView)itemView.findViewById(R.id.mensaje);
         opciones.setOnClickListener(this);
     }

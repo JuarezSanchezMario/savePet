@@ -101,7 +101,7 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<A
             }
             else{
                 editVisibilidad(false);
-                adapter = new AdapterAnimales(listaAnimales,propios);
+                adapter = new AdapterAnimales(listaAnimales,propios,false);
                 adapter.setClickBtImagen(new OnButtonClickListener() {
                     @Override
                     public void onButtonClick(int position, View view) {

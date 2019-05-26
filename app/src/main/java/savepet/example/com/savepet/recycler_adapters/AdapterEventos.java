@@ -18,11 +18,11 @@ import savepet.example.com.savepet.modelos.Animal;
 public class AdapterEventos extends RecyclerView.Adapter implements View.OnClickListener {
     List<Animal> animales;
     HolderAnimales holder;
-    boolean propios;
+    boolean propios,vista;
     OnButtonClickListener listenerImageButton;
 
 
-    public AdapterEventos(List<Animal> animales, boolean propios) {
+    public AdapterEventos(List<Animal> animales, boolean propios,boolean vista) {
         super();
         this.animales = animales;
         this.propios = propios;

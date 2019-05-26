@@ -20,10 +20,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Usuario;
@@ -57,7 +53,7 @@ public class FragmentRecyclerUsuarios extends Fragment {
             }
         });
         recyclerView = view.findViewById(R.id.recycler);
-
+        view.findViewById(R.id.fab_crear).setVisibility(View.GONE);
         return view;
     }
 
@@ -76,10 +72,12 @@ public class FragmentRecyclerUsuarios extends Fragment {
                                     Bundle argumentos = new Bundle();
                                     argumentos.putBoolean("enviar", true);
                                     argumentos.putParcelable("destinatario", listaUsuarios.get(recyclerView.getChildAdapterPosition(v)));
-                                    ((MainActivity) getActivity()).ponerFragment(new FragmentEnviarMensaje(), "fragment_enviar_mensaje", true, argumentos);
+                                    ((MainActivity) getActivity()).ponerFragment(new FragmentEnviarMensaje(), "fragment_enviar_mensaje", false, argumentos);
                                 }
                             } else {
-                                //TODO
+                                Bundle args = new Bundle();
+                                args.putParcelable("usuario",listaUsuarios.get(recyclerView.getChildAdapterPosition(v)));
+                                ((MainActivity) getActivity()).ponerFragment(new FragmentVistaUsuario(), "fragment_vista_usuario", false, args);
                             }
                         }
                     });

@@ -1,5 +1,6 @@
 package savepet.example.com.savepet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity
     public Toolbar toolbar;
     public static Usuario usuario = null;
     public NavigationView navigationView;
+    static final int FINE_LOCATION_PERMISOS = 1;
+    static int LOCALIZACION = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         ponerFragment(new FragmentAnimales(), "animales", false, null);
+        startActivity(new Intent(this, maps.class));
     }
 
     @Override
