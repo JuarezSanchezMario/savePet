@@ -28,6 +28,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
+                        android:maxLines="1"
+                        android:inputType="text"
                         android:layout_margin="10dip"
                         android:id="@+id/nombre_usuario_login"
                         android:hint="@string/nombre_usuario"
@@ -35,6 +37,7 @@
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
                     <EditText
+                        android:maxLines="1"
                         android:layout_margin="10dip"
                         android:id="@+id/contraseña_login"
                         android:hint="@string/contraseña"

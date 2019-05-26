@@ -64,5 +64,15 @@
     <string name="descripcion_corta">Descripción corta</string>
     <string name="recycler_animales">recycler_animales</string>
     <string name="fragment_animales">fragment_animales</string>
+    <string name="borrar">Borra cuenta</string>
+    <string name="usuario_exito">Usuario creado con éxito</string>
+    <string name="usuario_borrado">Usuario borrado con éxito</string>
+    <string name="usuario_actualizar">Actualizar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="editar">Editar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="escribir">Escribir</string>
+    <string name="usuario_modificado">Usuario modificado con éxito</string>
     <string name="fragment_alta_animales">fragment_alta_animales</string>
+    <string name="contraseña_caracteres">La contraseña debe tener un mínimo de 6 caracteres</string>
 </resources>

@@ -103,17 +103,34 @@
                         android:layout_width="match_parent"
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
-                    <Button
-                        android:id="@+id/registro"
-                        android:textColor="@android:color/white"
-                        android:layout_gravity="right"
-                        android:layout_margin="10dip"
-                        android:paddingHorizontal="15dip"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:text="@string/registrarme"
-                        android:background="@color/secondaryColor"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
+                        <Button
+                            android:visibility="gone"
+                            android:id="@+id/eliminar"
+                            android:textColor="@android:color/white"
+                            android:layout_margin="10dip"
+                            android:paddingHorizontal="15dip"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="@string/borrar"
+                            android:background="@color/secondaryColor"
+                           />
+                        <Button
+                            android:id="@+id/registro"
+                            android:textColor="@android:color/white"
+                            android:layout_margin="10dip"
+                            android:paddingHorizontal="15dip"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="@string/registrar"
+                            android:background="@color/secondaryColor"
+                            android:layout_alignParentBottom="true"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

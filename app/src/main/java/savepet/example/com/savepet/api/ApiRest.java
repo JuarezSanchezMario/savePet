@@ -139,8 +139,11 @@ public class ApiRest {
         retrofit.borrarUsuario(id).enqueue(callback);
     }
 
-    public void modificarUsuario() {
+    public void modificarUsuario(File f,Integer id,Map<String,String> usuario,Callback<ResponseBody> callback) {
+        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), f);
+        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil",(f!=null?f.getName():""), requestBodyImagen);
 
+        retrofit.modificarUsuario(subiendo_imagen,id,usuario).enqueue(callback);
     }
 
     public void modificarAnimal() {

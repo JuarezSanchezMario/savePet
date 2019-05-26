@@ -19,6 +19,7 @@ public class AdapterMensajes extends RecyclerView.Adapter implements View.OnClic
     List<Mensaje> mensajes;
     HolderMensajes holder;
     boolean propios;
+    View.OnClickListener listener;
     OnButtonClickListener listenerImageButton;
 
 
@@ -38,6 +39,7 @@ public class AdapterMensajes extends RecyclerView.Adapter implements View.OnClic
                 listenerImageButton.onButtonClick(position,view);
             }
         });
+        view.setOnClickListener(this);
         return holder;
     }
     public void setClickBtImagen(OnButtonClickListener listener) {
@@ -48,13 +50,17 @@ public class AdapterMensajes extends RecyclerView.Adapter implements View.OnClic
         ((HolderMensajes) viewHolder).bind(mensajes.get(position),position);
     }
 
+    public void setClickListener(View.OnClickListener listener)
+    {
+        if(listener!=null) this.listener = listener;
+    }
     @Override
     public int getItemCount() {
         return this.mensajes.size();
     }
 
-    @Override
     public void onClick(View v) {
-
+        if(listener!=null) listener.onClick(v);
     }
+
 }

@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import savepet.example.com.savepet.fragments.FragmentEventos;
 import savepet.example.com.savepet.fragments.FragmentInicioSesion;
 import savepet.example.com.savepet.fragments.FragmentMensajes;
 import savepet.example.com.savepet.fragments.FragmentRecyclerUsuarios;
+import savepet.example.com.savepet.fragments.FragmentRegistro;
 import savepet.example.com.savepet.modelos.Usuario;
 
 public class MainActivity extends AppCompatActivity
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        ponerFragment(new FragmentAnimales(), "animales", false,null);
+        ponerFragment(new FragmentAnimales(), "animales", false, null);
     }
 
     @Override
@@ -82,7 +84,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.login) {
-            ponerFragment(new FragmentInicioSesion(), "login", false,null);
+            ponerFragment(new FragmentInicioSesion(), "login", false, null);
+        }
+        else if(id == R.id.cerrar_sesion){
+            sesion_cerrada();
         }
 
         return super.onOptionsItemSelected(item);
@@ -93,18 +98,20 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Bundle args = new Bundle();
 
         if (id == R.id.animales) {
-            ponerFragment(new FragmentAnimales(), "recycler_animales", true,null);
+            ponerFragment(new FragmentAnimales(), "recycler_animales", true, null);
         } else if (id == R.id.usuarios) {
-            ponerFragment(new FragmentRecyclerUsuarios(),"recycler_usuarios",false,null);
+            ponerFragment(new FragmentRecyclerUsuarios(), "recycler_usuarios", false, null);
         } else if (usuario != null) {
             if (id == R.id.eventos) {
-                ponerFragment(new FragmentEventos(), "recycler_eventos", true,null);
+                ponerFragment(new FragmentEventos(), "recycler_eventos", true, null);
             } else if (id == R.id.preferencias_cuenta) {
-                ponerFragment(new FragmentEventos(), "recycler_eventos", true,null); //TODO
+                if (getUsuario() != null) args.putParcelable("usuario", getUsuario());
+                ponerFragment(new FragmentRegistro(), "recycler_preferencias", true, args); //TODO
             } else {
-                ponerFragment(new FragmentMensajes(), "recycler_mensajes", true,null);
+                ponerFragment(new FragmentMensajes(), "recycler_mensajes", true, null);
             }
         } else {
             generarSnackBar(getString(R.string.necesitas_login));
@@ -125,13 +132,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void ponerFragment(Fragment fragment, String tag, boolean limpiarFragments,Bundle argumentos) {
+    public void ponerFragment(Fragment fragment, String tag, boolean limpiarFragments, Bundle argumentos) {
         if (comprobarAcceso(tag)) {
 
             FragmentManager FM = getSupportFragmentManager();
-            if (limpiarFragments) FM.getFragments().clear();
+            if (limpiarFragments) FM.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             FragmentTransaction FT = FM.beginTransaction();
-            if(argumentos != null) fragment.setArguments(argumentos);
+            if (argumentos != null) fragment.setArguments(argumentos);
             FT.replace(R.id.fragment_container, fragment, tag);
             FT.addToBackStack(null);
             FT.commit();
@@ -154,8 +161,9 @@ public class MainActivity extends AppCompatActivity
 
         fotoNavigation = navigation.findViewById(R.id.foto_navigation);
         nombreNavigation = navigation.findViewById(R.id.nombre_navigation);
-        emailNavigation = navigation.findViewById(R.id.email_navigation);
 
+        fotoNavigation.setVisibility(View.VISIBLE);
+        nombreNavigation.setVisibility(View.VISIBLE);
         Picasso.get()
                 .load(usuario.getImagen_perfil())
                 .fit()
@@ -165,10 +173,25 @@ public class MainActivity extends AppCompatActivity
                 .into(fotoNavigation);
 
         nombreNavigation.setText(usuario.getNombre());
-        emailNavigation.setText(usuario.getEmail());
         this.usuario = usuario;
+    }
 
+    public void sesion_cerrada() {
+        ImageView fotoNavigation;
+        TextView nombreNavigation;
+        View navigation = navigationView.getHeaderView(0);
+        sesionIniciada = false;
+        usuario = null;
+        toolbar.getMenu().getItem(0).setVisible(true);
+        toolbar.getMenu().getItem(1).setVisible(false);
 
+        fotoNavigation = navigation.findViewById(R.id.foto_navigation);
+        nombreNavigation = navigation.findViewById(R.id.nombre_navigation);
+
+        fotoNavigation.setImageResource(android.R.color.transparent);
+        nombreNavigation.setText("");
+        fotoNavigation.setVisibility(View.GONE);
+        nombreNavigation.setVisibility(View.GONE);
     }
 
     public void generarSnackBar(String mensaje) {

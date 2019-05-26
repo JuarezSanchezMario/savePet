@@ -71,15 +71,15 @@ public class FragmentRecyclerUsuarios extends Fragment {
                     adapter.setClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(arg.containsKey("buscar"))
-                            {
-                                Bundle argumentos = new Bundle();
-                                argumentos.putBoolean("enviar",true);
-                                argumentos.putParcelable("destinatario",listaUsuarios.get(recyclerView.getChildAdapterPosition(v)));
-                                ((MainActivity)getActivity()).ponerFragment(new FragmentEnviarMensaje(),"fragment_enviar_mensaje",true,argumentos);
-                            }
-                            else{
-
+                            if (arg != null) {
+                                if (arg.containsKey("buscar")) {
+                                    Bundle argumentos = new Bundle();
+                                    argumentos.putBoolean("enviar", true);
+                                    argumentos.putParcelable("destinatario", listaUsuarios.get(recyclerView.getChildAdapterPosition(v)));
+                                    ((MainActivity) getActivity()).ponerFragment(new FragmentEnviarMensaje(), "fragment_enviar_mensaje", true, argumentos);
+                                }
+                            } else {
+                                //TODO
                             }
                         }
                     });

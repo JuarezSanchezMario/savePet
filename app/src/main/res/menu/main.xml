@@ -8,10 +8,15 @@
     android:title="@string/inicio_sesion"
     app:showAsAction="ifRoom" />
     <item
-        android:enabled="true"
         android:id="@+id/bievenido"
         android:orderInCategory="100"
-        android:title="@string/inicio_sesion"
+        android:title="ff"
         app:showAsAction="ifRoom"
-        android:visible="false"/>
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/cerrar_sesion"
+                android:title="@string/cerrar_sesion" />
+        </menu>
+    </item>
 </menu>
