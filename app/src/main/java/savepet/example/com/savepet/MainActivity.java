@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     public static Usuario usuario = null;
     public NavigationView navigationView;
     static final int FINE_LOCATION_PERMISOS = 1;
+    public static final int MAPS = 3;
     static int LOCALIZACION = 2;
 
     @Override
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         ponerFragment(new FragmentAnimales(), "animales", false, null);
-        startActivity(new Intent(this, maps.class));
     }
 
     @Override

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -66,12 +67,14 @@
                         android:layout_width="match_parent"
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
-                    <EditText
-                        android:inputType="text"
-                        android:maxLines="1"
+                    <TextView
+                        android:layout_margin="10dip"
+                        android:text="@string/tipo_animal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Spinner
                         android:id="@+id/tipo_animal"
                         android:layout_margin="10dip"
-                        android:hint="@string/tipo_animal"
                         android:layout_width="match_parent"
                         android:backgroundTint="@color/secondaryColor"
                         android:layout_height="wrap_content" />
@@ -80,6 +83,16 @@
                         android:id="@+id/fecha_nacimiento"
                         android:layout_margin="10dip"
                         android:hint="@string/fecha_nacimiento"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:layout_width="match_parent"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:maxLines="1"
+                        android:id="@+id/localizacion"
+                        android:layout_margin="10dip"
+                        android:hint="@string/localizacion"
                         android:clickable="true"
                         android:focusable="false"
                         android:layout_width="match_parent"

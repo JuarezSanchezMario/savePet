@@ -78,4 +78,9 @@
     <string name="fragment_alta_animales">fragment_alta_animales</string>
     <string name="contraseña_caracteres">La contraseña debe tener un mínimo de 6 caracteres</string>
     <string name="title_activity_maps">Map</string>
+    <string-array name="tipo_animal">
+        <item>Perro</item>
+        <item>Gato</item>
+        <item>Otros</item>
+    </string-array>
 </resources>
