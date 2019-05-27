@@ -97,7 +97,7 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
             mMap.clear();
             MarkerOptions mark = new MarkerOptions().position(latLng);
             mMap.addMarker(mark);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f));
             latLngFinal = mark.getPosition();
         }
     }
@@ -107,11 +107,17 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng madrid = new LatLng(40.415363, -3.707398);
-        MarkerOptions mark = new MarkerOptions().position(madrid).title("Marke en Madrid");
+
+        LatLng latLng = new LatLng(40.415363, -3.707398);
+        if(getIntent().getExtras() != null)
+        {
+            latLng = new LatLng((Double)getIntent().getExtras().get("lat"),(Double)getIntent().getExtras().get("lng"));
+            aceptar.setVisibility(View.GONE);
+        }
+        MarkerOptions mark = new MarkerOptions().position(latLng);
         mMap.addMarker(mark);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(madrid));
-        latLngFinal = madrid;
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        latLngFinal = latLng;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);

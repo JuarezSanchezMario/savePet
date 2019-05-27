@@ -68,7 +68,7 @@ public interface ProveedorServicios {
 
     @GET("animal/{id}")
     @Headers({"Accept: application/json"})
-    Call<List<Animal>> getAnimales(@Path("id") Integer id);
+    Call<Animal> getAnimales(@Path("id") String id);
 
     @POST("animal/{id}")
     @Headers({"Accept: application/json"})

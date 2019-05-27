@@ -61,7 +61,7 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
             public void onClick(View v) {
                 Bundle filtro = new Bundle();
                 filtro.putBoolean("buscar",true);
-                ((MainActivity) getActivity()).ponerFragment(new FragmentRecyclerUsuarios(), "fragment_usuarios_buscar", true,filtro);
+                ((MainActivity) getActivity()).ponerFragment(new FragmentRecyclerUsuarios(), "fragment_usuarios_buscar", false,filtro);
             }
         });
         recyclerView = view.findViewById(R.id.recycler);

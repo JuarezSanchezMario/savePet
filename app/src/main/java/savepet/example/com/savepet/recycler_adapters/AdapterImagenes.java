@@ -17,10 +17,10 @@ import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Imagen;
 
 @SuppressWarnings("ALL")
-public class AdapterImagenes extends RecyclerView.Adapter implements View.OnClickListener {
+public class AdapterImagenes extends RecyclerView.Adapter implements View.OnClickListener,View.OnLongClickListener{
     List<Imagen> imagenes;
     HolderImagenes holder;
-
+    View.OnLongClickListener longClickListener;
     View.OnClickListener listener;
 
 
@@ -31,8 +31,12 @@ public class AdapterImagenes extends RecyclerView.Adapter implements View.OnClic
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detalle_animal, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ver_imagen, parent, false);
         holder = new HolderImagenes(view);
+
+        view.setOnClickListener(listener);
+        view.setOnLongClickListener(longClickListener);
+
         return holder;
     }
 
@@ -49,8 +53,22 @@ public class AdapterImagenes extends RecyclerView.Adapter implements View.OnClic
     {
         if(listener!=null) this.listener = listener;
     }
+    public void setLongClickListener(View.OnLongClickListener listener)
+    {
+        if(listener!=null)longClickListener = listener;
+    }
     @Override
     public void onClick(View v) {
         if(listener!=null) listener.onClick(v);
+    }
+
+
+    @Override
+    public boolean onLongClick(View view) {
+        if(longClickListener != null)
+        {
+            longClickListener.onLongClick(view);
+        }
+        return true;
     }
 }

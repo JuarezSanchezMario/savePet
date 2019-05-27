@@ -2,9 +2,11 @@ package savepet.example.com.savepet.pager_adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import savepet.example.com.savepet.fragments.FragmentRecyclerAnimales;
 
@@ -17,6 +19,11 @@ public class PagerAdapterAnimales extends FragmentStatePagerAdapter {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.context = context;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+
     }
 
     @Override

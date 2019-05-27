@@ -161,11 +161,7 @@ public class FragmentAltaAnimal extends Fragment {
                                 if (response.isSuccessful()) {
                                     Toast.makeText(getContext(), "Animal creado con éxito", Toast.LENGTH_LONG).show();
                                 } else {
-                                    try {
-                                        Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
                                 }
                                 progressDialog.dismiss();
                             }

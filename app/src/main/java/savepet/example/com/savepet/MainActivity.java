@@ -1,12 +1,17 @@
 package savepet.example.com.savepet;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -60,6 +65,9 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         ponerFragment(new FragmentAnimales(), "animales", false, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            compruebaPermisos();
+        }
     }
 
     @Override
@@ -89,8 +97,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.login) {
             ponerFragment(new FragmentInicioSesion(), "login", false, null);
-        }
-        else if(id == R.id.cerrar_sesion){
+        } else if (id == R.id.cerrar_sesion) {
             sesion_cerrada();
         }
 
@@ -196,10 +203,32 @@ public class MainActivity extends AppCompatActivity
         nombreNavigation.setText("");
         fotoNavigation.setVisibility(View.GONE);
         nombreNavigation.setVisibility(View.GONE);
+
+        ponerFragment(new FragmentAnimales(),"fragment_animales",true,null);
     }
 
     public void generarSnackBar(String mensaje) {
-        Snackbar.make(getWindow().getDecorView().getRootView(), mensaje, Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), mensaje, Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    private void compruebaPermisos() {
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    },
+                    1052);
+
+        }
+
     }
 }

@@ -27,8 +27,9 @@ public class FragmentEventos extends Fragment {
         tabs.addTab(tabs.newTab().setText("Mis eventos"));
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
         final PagerAdapterEventos adapter = new PagerAdapterEventos
-                (getFragmentManager(), tabs.getTabCount(), getActivity());
+                (getChildFragmentManager(), tabs.getTabCount(), getActivity());
         mviewPager.setAdapter(adapter);
+        mviewPager.setOffscreenPageLimit(2);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 
 

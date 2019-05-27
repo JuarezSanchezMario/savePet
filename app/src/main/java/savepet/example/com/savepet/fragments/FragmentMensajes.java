@@ -25,7 +25,8 @@ public class FragmentMensajes extends Fragment {
         tabs.addTab(tabs.newTab().setText("Enviados"));
         final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
         final PagerAdapterMensajes adapter = new PagerAdapterMensajes
-                (getFragmentManager(), tabs.getTabCount(),getActivity());
+                (getChildFragmentManager(), tabs.getTabCount(),getActivity());
+        mviewPager.setOffscreenPageLimit(2);
         mviewPager.setAdapter(adapter);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 

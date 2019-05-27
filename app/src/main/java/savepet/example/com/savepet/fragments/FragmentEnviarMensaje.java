@@ -63,7 +63,7 @@ public class FragmentEnviarMensaje extends Fragment implements Callback<Mensaje>
                     });
                 } else if (args.containsKey("responder")) {
                     filtro.putParcelable("destinatario", destinatario);
-                    ((MainActivity) getActivity()).ponerFragment(new FragmentEnviarMensaje(), "fragment_enviar_mensaje", true, filtro);
+                    ((MainActivity) getActivity()).ponerFragment(new FragmentEnviarMensaje(), "fragment_enviar_mensaje", false, filtro);
                 }
 
             }

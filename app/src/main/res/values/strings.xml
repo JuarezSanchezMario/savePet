@@ -52,7 +52,6 @@
     <string name="sin_decripcion">Sin descripción</string>
     <string name="sin_informacion">Sin información</string>
     <string name="asistentes">Asistentes : </string>
-    <string name="qr">QR</string>
     <string name="organizador">Organizador : </string>
     <string name="localizacion_card">Localización : </string>
     <string name="eliminado_exito">Eliminado con éxito</string>
@@ -81,6 +80,17 @@
     <string name="no_localizacion">No tiene localización</string>
     <string name="sin_imagenes">Sin imágenes</string>
     <string name="sin_fecha"></string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="estas_seguro_borrar_cuenta">¿Estás seguro de borrar la cuenta?</string>
+    <string name="estas_seguro_animal">¿Estás seguro de borrar el animal?</string>
+    <string name="estas_seguro_borrar_imagen">¿Estás seguro de borrar la foto?</string>
+    <string name="internal_storage">Internal storage</string>
+    <string name="imagen_exito">Imagen subida con éxito</string>
+    <string name="subiendo_imagen">Subiendo imagen</string>
+    <string name="borrando_imagen">Borando imagen</string>
+    <string name="borrar_imagen_exito">Imagen borrada con éxito</string>
+
     <string-array name="tipo_animal">
         <item>Perro</item>
         <item>Gato</item>

@@ -118,7 +118,8 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
                     @Override
                     public void onClick(View v) {
                         Bundle args = new Bundle();
-                        args.putParcelable("animal", listaAnimales.get(recyclerView.getChildAdapterPosition(v)));
+                        args.putString("animal",listaAnimales.get(recyclerView.getChildAdapterPosition(v)).getId());
+                        args.putString("dueño",listaAnimales.get(recyclerView.getChildAdapterPosition(v)).getDueno_id()+"");
                         ((MainActivity) getActivity()).ponerFragment(new FragmentVistaAnimal(), "fragment_vista_animal", false, args);
                     }
                 });

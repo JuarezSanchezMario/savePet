@@ -15,6 +15,7 @@ import savepet.example.com.savepet.pager_adapters.PagerAdapterAnimales;
 
 public class FragmentAnimales extends Fragment {
     TabLayout tabs;
+    ViewPager mviewPager;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,10 +24,11 @@ public class FragmentAnimales extends Fragment {
         //añadimos elementos a el tab
         tabs.addTab(tabs.newTab().setText("Animales"));
         tabs.addTab(tabs.newTab().setText("Mis Animales"));
-        final ViewPager mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        mviewPager = (ViewPager) view.findViewById(R.id.viewpager);
         PagerAdapterAnimales adapter = new PagerAdapterAnimales
-                (getFragmentManager(), tabs.getTabCount(),getActivity());
+                (getChildFragmentManager(), tabs.getTabCount(),getActivity());
         mviewPager.setAdapter(adapter);
+        mviewPager.setOffscreenPageLimit(2);
         mviewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 
 

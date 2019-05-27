@@ -27,11 +27,6 @@
                     android:id="@+id/mensajes"
                     android:icon="@drawable/email"
                     android:title="@string/menu_send" />
-                <item
-                    android:checkable="true"
-                    android:id="@+id/QR"
-                    android:icon="@drawable/qrcode_scan"
-                    android:title="@string/qr" />
             </group>
         </menu>
     </item>
