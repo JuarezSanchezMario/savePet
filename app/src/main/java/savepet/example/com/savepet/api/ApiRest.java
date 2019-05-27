@@ -21,6 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.QueryMap;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.fragments.FragmentRecyclerUsuarios;
@@ -146,30 +147,28 @@ public class ApiRest {
         retrofit.modificarUsuario(subiendo_imagen,id,usuario).enqueue(callback);
     }
 
-    public void modificarAnimal() {
-
+    public void modificarAnimal(int id, Map<String,String> animal,Callback<ResponseBody> callback) {
+        retrofit.modificarAnimal(id,animal).enqueue(callback);
     }
-  /*  public void updateContract(Contract contract) throws Exception {
-        contract.setState(1);
-        Response response = retrofit.updateContract(contract.getId(), contract).execute();
-        if (!response.isSuccessful()) {
-            throw new Exception(parent.getString(R.string.serverError));
-        }
-    }*/
+    public void modificarAnimal(File f,Integer id,Map<String,String> animal,Callback<ResponseBody> callback) {
+        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), f);
+        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil",(f!=null?f.getName():""), requestBodyImagen);
 
-     public void uploadFile(final File imagen, int id) throws Exception {
+        retrofit.modificarUsuario(subiendo_imagen,id,animal).enqueue(callback);
+    }
+     public void subirImagen(final File imagen, int id,Callback<ResponseBody> callback) throws Exception {
 
          RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*/*"), imagen);
-        // RequestBody requestBodyId = RequestBody.create(MediaType.parse("*/*"), id);
          MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen", imagen.getName(), requestBodyImagen);
-         MultipartBody.Part id_imagen = MultipartBody.Part.createFormData("id_imagen",null,requestBodyImagen);
+         Map<String,Integer> idAnimal = new HashMap<String, Integer>();
+         idAnimal.put("id",id);
 
-      //   Response response = retrofit.uploadFile(id, subiendo_imagen).execute();
-        /*if (!response.isSuccessful()) {
-            if (response.code() == 422) {
-                throw new Exception(parent.getString(R.string.errorUploadFile));
-            } else throw new Exception(parent.getString(R.string.serverError));
-        }*/
+         retrofit.subirImagen(idAnimal,subiendo_imagen).enqueue(callback);
+    }
+    public void borrarImagen(int id,Callback<ResponseBody> callback)
+    {
+        retrofit.borrarImagen(id).enqueue(callback);
+
     }
 
     /****MENSAJES******/

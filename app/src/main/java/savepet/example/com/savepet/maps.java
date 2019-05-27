@@ -58,7 +58,7 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
                 Intent localizacion = new Intent();
                 localizacion.putExtra("lat", latLngFinal.latitude);
                 localizacion.putExtra("lng", latLngFinal.longitude);
-                setResult(LOCALIZACION, localizacion);
+                setResult(RESULT_OK, localizacion);
                 finish();
             }
         });
@@ -94,19 +94,15 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
         if (list.size() > 0) {
             Address address = list.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.clear();
+            MarkerOptions mark = new MarkerOptions().position(latLng);
+            mMap.addMarker(mark);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+            latLngFinal = mark.getPosition();
         }
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -115,6 +111,7 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
         MarkerOptions mark = new MarkerOptions().position(madrid).title("Marke en Madrid");
         mMap.addMarker(mark);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(madrid));
+        latLngFinal = madrid;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -122,7 +119,7 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
                 @Override
                 public void onMapClick(LatLng latLng) {
                     mMap.clear();
-                    MarkerOptions mark = new MarkerOptions().position(latLng).title("Mark en Madrid");
+                    MarkerOptions mark = new MarkerOptions().position(latLng);
                     mMap.addMarker(mark);
                     latLngFinal = mark.getPosition();
                 }
@@ -149,8 +146,6 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
                             == PackageManager.PERMISSION_GRANTED) {
                         mMap.setMyLocationEnabled(true);
                     }
-                } else {
-
                 }
                 return;
             }

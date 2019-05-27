@@ -91,7 +91,7 @@ public interface ProveedorServicios {
     @Multipart
     @POST("imagen")
     @Headers({"Accept: application/json"})
-    Call<ResponseBody> subirImagen(@Part MultipartBody.Part id, @Part MultipartBody.Part imagen);
+    Call<ResponseBody> subirImagen(@QueryMap Map<String,Integer> id, @Part MultipartBody.Part imagen);
 
     @DELETE("imagen/{id}")
     @Headers({"Accept: application/json"})

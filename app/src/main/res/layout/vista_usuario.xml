@@ -33,12 +33,10 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:layout_marginTop="15dp"
-                        android:text="etetetet"
                         android:id="@+id/nombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="etetetetetee"
                         android:id="@+id/info_usuario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

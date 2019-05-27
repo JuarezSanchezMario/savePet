@@ -42,6 +42,7 @@ public class AdapterAnimales extends RecyclerView.Adapter implements View.OnClic
                 listenerImageButton.onButtonClick(position,view);
             }
         });
+        view.setOnClickListener(listener);
         return holder;
     }
     public void setClickBtImagen(OnButtonClickListener listener) {

@@ -225,7 +225,7 @@ public class FragmentAltaAnimal extends Fragment {
                     imagenPerfil.setImageBitmap(compressImg);
                 }
             } else {
-                localizacion.setText(data.getStringExtra("lat") + "," + data.getStringExtra("lng"));
+                localizacion.setText(data.getExtras().get("lat") + "," + data.getExtras().get("lng"));
             }
         }
     }
