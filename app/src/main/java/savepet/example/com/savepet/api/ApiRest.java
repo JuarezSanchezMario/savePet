@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -21,11 +20,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.QueryMap;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
-import savepet.example.com.savepet.fragments.FragmentRecyclerUsuarios;
 import savepet.example.com.savepet.modelos.Animal;
+import savepet.example.com.savepet.modelos.Evento;
 import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Mensaje;
 import savepet.example.com.savepet.modelos.Usuario;
@@ -99,18 +97,6 @@ public class ApiRest {
         responseCall.enqueue(callback);
     }
 
-    public void getAnimales(Callback<List<Animal>> callback) {
-        retrofit.getAnimales().enqueue(callback);
-    }
-
-    public void getAnimalesFiltro(Map<String, String> map, Callback<List<Animal>> callback) {
-        retrofit.getAnimalesFiltro(map).enqueue(callback);
-    }
-
-    public void getAnimales(String id, Callback<Animal> callback) {
-        retrofit.getAnimales(id).enqueue(callback);
-    }
-
     public void getUsuarios(Callback<List<Usuario>> callback, String filtro) {
         Map<String, String> map = new HashMap<>();
         map.put("filtro", filtro);
@@ -125,19 +111,6 @@ public class ApiRest {
         retrofit.crearUsuario(subiendo_imagen, usuario).enqueue(callback);
     }
 
-    /****ANIMALES******/
-
-    public void registrarAnimal(File imagen, Map animal, Callback<Animal> callback) {
-        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);
-        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil", (imagen != null ? imagen.getName() : ""), requestBodyImagen);
-
-        retrofit.crearAnimal(subiendo_imagen, animal).enqueue(callback);
-    }
-
-    public void borrarAnimal(Integer id, Callback<ResponseBody> callback) {
-        retrofit.borrarAnimal(id).enqueue(callback);
-    }
-
     public void borrarUsuario(Integer id, Callback<ResponseBody> callback) {
         retrofit.borrarUsuario(id).enqueue(callback);
     }
@@ -147,6 +120,31 @@ public class ApiRest {
         MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil", (f != null ? f.getName() : ""), requestBodyImagen);
 
         retrofit.modificarUsuario(subiendo_imagen, id, usuario).enqueue(callback);
+    }
+
+    /****ANIMALES******/
+
+    public void registrarAnimal(File imagen, Map animal, Callback<Animal> callback) {
+        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);
+        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil", (imagen != null ? imagen.getName() : ""), requestBodyImagen);
+
+        retrofit.crearAnimal(subiendo_imagen, animal).enqueue(callback);
+    }
+
+    public void getAnimales(Callback<List<Animal>> callback) {
+        retrofit.getAnimales().enqueue(callback);
+    }
+
+    public void getAnimalesFiltro(Map<String, String> map, Callback<List<Animal>> callback) {
+        retrofit.getAnimalesFiltro(map).enqueue(callback);
+    }
+
+    public void getAnimales(String id, Callback<Animal> callback) {
+        retrofit.getAnimales(id).enqueue(callback);
+    }
+
+    public void borrarAnimal(Integer id, Callback<ResponseBody> callback) {
+        retrofit.borrarAnimal(id).enqueue(callback);
     }
 
     public void modificarAnimal(int id, Map<String, String> animal, Callback<ResponseBody> callback) {
@@ -192,6 +190,37 @@ public class ApiRest {
     }
 
     /****EVENTOS******/
+    public void registrarEvento(File imagen, Map evento, Callback<Evento> callback) {
+        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);
+        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen", (imagen != null ? imagen.getName() : ""), requestBodyImagen);
 
+        retrofit.crearEvento(subiendo_imagen, evento).enqueue(callback);
+    }
 
+    public void getEventos(Callback<List<Evento>> callback) {
+        retrofit.getEventos().enqueue(callback);
+    }
+
+    public void getEventosFiltro(Map<String, String> map, Callback<List<Evento>> callback) {
+        retrofit.getEventosFiltro(map).enqueue(callback);
+    }
+
+    public void getEvento(Integer id, Callback<Evento> callback) {
+        retrofit.getEvento(id).enqueue(callback);
+    }
+
+    public void borrarEvento(Integer id, Callback<ResponseBody> callback) {
+        retrofit.borrarEvento(id).enqueue(callback);
+    }
+
+    public void modificarEvento(int id, Map<String, String> evento, Callback<ResponseBody> callback) {
+        retrofit.modificarEvento(id, evento).enqueue(callback);
+    }
+
+    public void modificarEvento(File f, Integer id, Map<String, String> evento, Callback<ResponseBody> callback) {
+        RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), f);
+        MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil", (f != null ? f.getName() : ""), requestBodyImagen);
+
+        retrofit.modificarUsuario(subiendo_imagen, id, evento).enqueue(callback);
+    }
 }

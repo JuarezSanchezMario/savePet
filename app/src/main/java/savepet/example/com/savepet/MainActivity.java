@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import savepet.example.com.savepet.api.ApiRest;
 import savepet.example.com.savepet.fragments.FragmentAnimales;
 import savepet.example.com.savepet.fragments.FragmentEventos;
@@ -114,13 +115,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.animales) {
             ponerFragment(new FragmentAnimales(), "recycler_animales", true, null);
         } else if (id == R.id.usuarios) {
-            ponerFragment(new FragmentRecyclerUsuarios(), "recycler_usuarios", false, null);
+            ponerFragment(new FragmentRecyclerUsuarios(), "recycler_usuarios", true, null);
         } else if (usuario != null) {
             if (id == R.id.eventos) {
                 ponerFragment(new FragmentEventos(), "recycler_eventos", true, null);
             } else if (id == R.id.preferencias_cuenta) {
                 if (getUsuario() != null) args.putParcelable("usuario", getUsuario());
-                ponerFragment(new FragmentRegistro(), "recycler_preferencias", true, args); //TODO
+                ponerFragment(new FragmentRegistro(), "recycler_preferencias", true, args);
             } else {
                 ponerFragment(new FragmentMensajes(), "recycler_mensajes", true, null);
             }
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void sesion_iniciada(Usuario usuario) {
-        ImageView fotoNavigation;
+        CircleImageView fotoNavigation;
         TextView nombreNavigation, emailNavigation;
         View navigation = navigationView.getHeaderView(0);
         sesionIniciada = true;
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity
                 .load(usuario.getImagen_perfil())
                 .fit()
                 .placeholder(R.drawable.animal_default)
-                .error(R.drawable.not_found)
+                .error(R.drawable.error_imagen)
                 .centerCrop()
                 .into(fotoNavigation);
 

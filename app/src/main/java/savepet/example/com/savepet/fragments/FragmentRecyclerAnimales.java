@@ -1,10 +1,13 @@
 package savepet.example.com.savepet.fragments;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -118,8 +121,8 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
                     @Override
                     public void onClick(View v) {
                         Bundle args = new Bundle();
-                        args.putString("animal",listaAnimales.get(recyclerView.getChildAdapterPosition(v)).getId());
-                        args.putString("dueño",listaAnimales.get(recyclerView.getChildAdapterPosition(v)).getDueno_id()+"");
+                        args.putString("animal", listaAnimales.get(recyclerView.getChildAdapterPosition(v)).getId());
+                        args.putString("dueño", listaAnimales.get(recyclerView.getChildAdapterPosition(v)).getDueno_id() + "");
                         ((MainActivity) getActivity()).ponerFragment(new FragmentVistaAnimal(), "fragment_vista_animal", false, args);
                     }
                 });
@@ -127,7 +130,7 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
                     @Override
                     public void onButtonClick(final int position, final View view) {
                         PopupMenu pop = new PopupMenu(getContext(), view);
-                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista_animales, pop.getMenu());
+                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista, pop.getMenu());
                         pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
@@ -136,27 +139,43 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
                                         break;
                                     case R.id.eliminar:
                                         final Animal animal = listaAnimales.get(position);
-                                        ((MainActivity) getActivity()).apiRest.borrarAnimal(Integer.parseInt(animal.getId()), new Callback<ResponseBody>() {
-                                            @Override
-                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                if (response.isSuccessful()) {
-                                                    listaAnimales.remove(animal);
-                                                    recyclerView.getAdapter().notifyDataSetChanged();
-                                                    Toast.makeText(getContext(), getString(R.string.eliminado_exito), Toast.LENGTH_LONG).show();
-                                                } else {
-                                                    try {
-                                                        Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
-                                                    } catch (IOException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }
+                                        final ProgressDialog progressDialogo = new ProgressDialog(getContext());
 
-                                            @Override
-                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                                            }
-                                        });
+                                        progressDialogo.setMessage(getString(R.string.borrando_animal));
+
+                                        AlertDialog dialogo = new AlertDialog.Builder(getContext())
+                                                .setTitle("")
+                                                .setMessage(getString(R.string.estas_seguro_animal))
+                                                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        ((MainActivity) getActivity()).apiRest.borrarAnimal(Integer.parseInt(animal.getId()), new Callback<ResponseBody>() {
+                                                            @Override
+                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                if (response.isSuccessful()) {
+                                                                    listaAnimales.remove(animal);
+                                                                    recyclerView.getAdapter().notifyDataSetChanged();
+                                                                    Toast.makeText(getContext(), getString(R.string.eliminado_exito), Toast.LENGTH_LONG).show();
+                                                                } else {
+                                                                    try {
+                                                                        Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                                                                    } catch (IOException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
+                                                    }
+                                                })
+                                                .setNegativeButton(getString(R.string.no), null)
+                                                .show();
+
+
                                         break;
                                 }
                                 return true;

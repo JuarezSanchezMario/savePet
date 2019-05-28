@@ -1,9 +1,12 @@
 package savepet.example.com.savepet.modelos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 @SuppressWarnings("ALL")
-public class Mensaje {
+public class Mensaje implements Parcelable {
     private String id;
     private String autor_id;
     private Usuario autor;
@@ -71,4 +74,39 @@ public class Mensaje {
         this.fecha = fecha;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.autor_id);
+        dest.writeParcelable(this.autor, flags);
+        dest.writeString(this.destinatario_id);
+        dest.writeString(this.contenido);
+        dest.writeString(this.fecha);
+    }
+
+    protected Mensaje(Parcel in) {
+        this.id = in.readString();
+        this.autor_id = in.readString();
+        this.autor = in.readParcelable(Usuario.class.getClassLoader());
+        this.destinatario_id = in.readString();
+        this.contenido = in.readString();
+        this.fecha = in.readString();
+    }
+
+    public static final Parcelable.Creator<Mensaje> CREATOR = new Parcelable.Creator<Mensaje>() {
+        @Override
+        public Mensaje createFromParcel(Parcel source) {
+            return new Mensaje(source);
+        }
+
+        @Override
+        public Mensaje[] newArray(int size) {
+            return new Mensaje[size];
+        }
+    };
 }

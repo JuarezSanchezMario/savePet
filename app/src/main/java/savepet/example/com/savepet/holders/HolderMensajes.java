@@ -18,34 +18,27 @@ import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.modelos.Mensaje;
 
 @SuppressWarnings("ALL")
-public class HolderMensajes extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class HolderMensajes extends RecyclerView.ViewHolder {
     TextView mensaje_corto, nombreAutor, fecha;
     CircleImageView imagenAutor;
-    OnButtonClickListener listener;
-    int pos;
-    ImageView opciones;
-
+    View.OnClickListener listener;
     public HolderMensajes(View itemView) {
         super(itemView);
         fecha = (TextView) itemView.findViewById(R.id.fecha);
-        opciones = (ImageView) itemView.findViewById(R.id.opciones);
         nombreAutor = (TextView) itemView.findViewById(R.id.nombre_autor);
         imagenAutor = (CircleImageView) itemView.findViewById(R.id.imagen_autor);
         mensaje_corto = (TextView) itemView.findViewById(R.id.mensaje);
-        opciones.setOnClickListener(this);
     }
 
-    public void bind(Mensaje mensaje, int pos) {
+    public void bind(Mensaje mensaje) {
         SimpleDateFormat stringFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date fecha_mensaje = new Date();
-        try{
-            fecha_mensaje =  stringFecha.parse(mensaje.getFecha());
-        }catch (ParseException e)
-        {
+        try {
+            fecha_mensaje = stringFecha.parse(mensaje.getFecha());
+        } catch (ParseException e) {
 
         }
         Date fecha_hoy = Calendar.getInstance().getTime();
-        opciones.setVisibility(View.VISIBLE);
         String fechaString = "";
         mensaje_corto.setText(mensaje.getContenido().substring(0, mensaje.getContenido().length() - (mensaje.getContenido().length() / 2)) + "...");
         if (fecha_mensaje.getDay() == fecha_hoy.getDay()) {
@@ -62,18 +55,8 @@ public class HolderMensajes extends RecyclerView.ViewHolder implements View.OnCl
                 .load(mensaje.getAutor().getImagen_perfil())
                 .fit()
                 .placeholder(R.drawable.usuario_default)
-                .error(R.drawable.not_found)
+                .error(R.drawable.error_imagen)
                 .centerCrop()
                 .into(imagenAutor);
-        this.pos = pos;
-    }
-
-    public void setClickButton(OnButtonClickListener listener) {
-        if (listener != null) this.listener = listener;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (listener != null) listener.onButtonClick(pos, v);
     }
 }

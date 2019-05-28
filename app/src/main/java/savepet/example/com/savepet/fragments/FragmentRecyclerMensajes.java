@@ -55,7 +55,7 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
         mensaje = ((TextView) view.findViewById(R.id.mensaje));
 
         fab = view.findViewById(R.id.fab_crear);
-        fab.setImageResource(R.drawable.escribir_mensaje);
+        fab.setImageResource(R.drawable.lapiz);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,24 +101,12 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
             } else {
                 textVisibilidad(false);
                 adapter = new AdapterMensajes(listaMensajes);
-                adapter.setClickBtImagen(new OnButtonClickListener() {
+                adapter.setClickListener(new View.OnClickListener() {
                     @Override
-                    public void onButtonClick(int position, View view) {
-                        PopupMenu pop = new PopupMenu(getContext(), view);
-                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista_animales, pop.getMenu());
-                        pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId()) {
-                                    case R.id.editar: //TODO
-                                        break;
-                                    case R.id.eliminar: //TODO
-                                        break;
-                                }
-                                return true;
-                            }
-                        });
-                        pop.show();
+                    public void onClick(View v) {
+                        Bundle args = new Bundle();
+                        arg.putParcelable("mensaje",listaMensajes.get(recyclerView.getChildAdapterPosition(v)));
+                        ((MainActivity)getActivity()).ponerFragment(new FragmentVistaMensaje(),"fragment_vista_mensaje",false,args);
                     }
                 });
                 recyclerView.setAdapter(adapter);
@@ -128,12 +116,12 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
 
 
         } else {
-            Toast.makeText(getContext(), "ERROR", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onFailure(Call<List<Mensaje>> call, Throwable t) {
-
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

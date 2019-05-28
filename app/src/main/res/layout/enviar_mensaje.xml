@@ -49,7 +49,7 @@
             app:backgroundTint="@color/secondaryColor"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/send"
+            android:src="@drawable/enviar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>

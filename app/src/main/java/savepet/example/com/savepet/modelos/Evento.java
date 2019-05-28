@@ -1,7 +1,5 @@
 package savepet.example.com.savepet.modelos;
 
-import java.util.Date;
-
 @SuppressWarnings("ALL")
 public class Evento {
     private String id;
@@ -9,25 +7,42 @@ public class Evento {
     private String nombre;
     private String descripcion;
     private String fecha;
-    private Date objetoFecha;
-    private int aforo;
+    private String aforo;
     private String lat,lng;
     private Usuario organizador;
+    private String imagen;
+    private String asistentes_count;
 
-    public Evento() {
-    }
 
-    public Evento(String id, String organizador_id, String nombre, String descripcion, String fecha, int aforo, String lat, String lng, Usuario organizador) {
+    public Evento(String id, String organizador_id, String nombre, String descripcion, String fecha, String aforo, String lat, String lng, Usuario organizador, String imagen, String asistentes_count) {
         this.id = id;
         this.organizador_id = organizador_id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
-        this.objetoFecha = new Date(fecha);
         this.aforo = aforo;
         this.lat = lat;
         this.lng = lng;
         this.organizador = organizador;
+        this.imagen = imagen;
+        this.asistentes_count = asistentes_count;
+    }
+
+    public Evento() {
+    }
+    public String getAsistentes_count() {
+        return asistentes_count;
+    }
+
+    public void setAsistentes_count(String asistentes_count) {
+        this.asistentes_count = asistentes_count;
+    }
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getId() {
@@ -70,19 +85,11 @@ public class Evento {
         this.fecha = fecha;
     }
 
-    public Date getObjetoFecha() {
-        return objetoFecha;
-    }
-
-    public void setObjetoFecha(Date objetoFecha) {
-        this.objetoFecha = objetoFecha;
-    }
-
-    public int getAforo() {
+    public String getAforo() {
         return aforo;
     }
 
-    public void setAforo(int aforo) {
+    public void setAforo(String aforo) {
         this.aforo = aforo;
     }
 

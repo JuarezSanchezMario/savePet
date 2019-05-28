@@ -33,12 +33,6 @@ public class AdapterMensajes extends RecyclerView.Adapter implements View.OnClic
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detalle_mensaje, parent, false);
         holder = new HolderMensajes(view);
-        holder.setClickButton(new OnButtonClickListener() {
-            @Override
-            public void onButtonClick(int position, View view) {
-                listenerImageButton.onButtonClick(position,view);
-            }
-        });
         view.setOnClickListener(this);
         return holder;
     }
@@ -47,7 +41,7 @@ public class AdapterMensajes extends RecyclerView.Adapter implements View.OnClic
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        ((HolderMensajes) viewHolder).bind(mensajes.get(position),position);
+        ((HolderMensajes) viewHolder).bind(mensajes.get(position));
     }
 
     public void setClickListener(View.OnClickListener listener)

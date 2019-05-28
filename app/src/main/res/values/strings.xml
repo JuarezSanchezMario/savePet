@@ -40,12 +40,17 @@
     <string name="email_invalido">Introduce un email válido</string>
     <string name="nombre_usuario_necesario">El nombre de usuario es necesario</string>
     <string name="nombre_necesario">El nombre es necesario</string>
+    <string name="fecha_necesaria">La fecha es necesario</string>
+    <string name="aforo_necesario">El aforo es necesario</string>
+    <string name="localizacion_necesaria">La localización es necesario</string>
     <string name="imagen_necesaria">La imágen es necesaria</string>
     <string name="fecha_evento">Fecha evento</string>
     <string name="localizacion">Localización</string>
     <string name="afoto">Aforo</string>
     <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
     <string name="aún_no_animales">Todavía no has registrado ningún animal</string>
+    <string name="aún_no_evento_propio">Todavía no has registrado ningún evento</string>
+    <string name="aún_no_evento">Todavía no se han registrado eventos</string>
     <string name="decripcion">Descripción</string>
     <string name="numero_animales">Nº animales : </string>
     <string name="informacion_usuario">Información</string>
@@ -59,6 +64,7 @@
     <string name="aun_no_mensajes_recibidos">Sin mensajes</string>
     <string name="mensaje_enviado_exito">Mensaje enviado con éxito</string>
     <string name="mensaje_alta_animal">Registrando animal</string>
+    <string name="registrando_evento">Registrando evento</string>
     <string name="mensaje_registro_usuario">Registrando usuario</string>
     <string name="descripcion_corta">Descripción corta</string>
     <string name="recycler_animales">recycler_animales</string>
@@ -79,7 +85,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="no_localizacion">No tiene localización</string>
     <string name="sin_imagenes">Sin imágenes</string>
-    <string name="sin_fecha"></string>
     <string name="si">Si</string>
     <string name="no">No</string>
     <string name="estas_seguro_borrar_cuenta">¿Estás seguro de borrar la cuenta?</string>
@@ -89,11 +94,18 @@
     <string name="imagen_exito">Imagen subida con éxito</string>
     <string name="subiendo_imagen">Subiendo imagen</string>
     <string name="borrando_imagen">Borando imagen</string>
+    <string name="borrando_animal">Borrando animal</string>
     <string name="borrar_imagen_exito">Imagen borrada con éxito</string>
-
+    <string name="borrar_animal_exito">Animal borrado con éxito</string>
+    <string name="animal_creado_exito">Animal creado con éxito</string>
+    <string name="evento_creado_exito">Evento creado con éxito</string>
+    <string name="km">Km</string>
     <string-array name="tipo_animal">
         <item>Perro</item>
         <item>Gato</item>
         <item>Otros</item>
     </string-array>
+    <string-array name="tiempo_evento">
+        <item>Actuales</item>
+        <item>Pasados</item></string-array>
 </resources>

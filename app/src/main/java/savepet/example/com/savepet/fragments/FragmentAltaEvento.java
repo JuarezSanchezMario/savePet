@@ -19,18 +19,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,43 +45,36 @@ import savepet.example.com.savepet.TimerPickerFragment;
 import savepet.example.com.savepet.Utilidades;
 import savepet.example.com.savepet.maps;
 import savepet.example.com.savepet.modelos.Animal;
+import savepet.example.com.savepet.modelos.Evento;
 
 import static android.app.Activity.RESULT_OK;
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 import static savepet.example.com.savepet.MainActivity.GALERIA;
 import static savepet.example.com.savepet.MainActivity.MAPS;
 
-public class FragmentAltaAnimal extends Fragment {
+public class FragmentAltaEvento extends Fragment {
     private Button registrarme, imagenCamara, imagenGaleria;
-    private ImageView imagenPerfil;
+    private ImageView imagen;
     private ProgressDialog progressDialog;
-    private EditText nombre, fechaNacimiento, descripcionLarga, descripcionCorta, raza, localizacion;
-    private Spinner tipoAnimal;
+    private EditText nombre, fechaEvento, localizacion, aforo;
     private boolean fotoCambiada;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.registro_animal, container, false);
+        View view = inflater.inflate(R.layout.registro_eventos, container, false);
+
         registrarme = view.findViewById(R.id.registro);
         imagenCamara = view.findViewById(R.id.imagen_camara);
-        descripcionLarga = view.findViewById(R.id.descripcion_larga);
-        descripcionCorta = view.findViewById(R.id.descripcion_corta);
         imagenGaleria = view.findViewById(R.id.imagen_galeria);
-        imagenPerfil = view.findViewById(R.id.imagen_perfil);
+        imagen = view.findViewById(R.id.imagen);
         localizacion = view.findViewById(R.id.localizacion);
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage(getString(R.string.mensaje_alta_animal));
+        progressDialog.setMessage(getString(R.string.registrando_evento));
         nombre = view.findViewById(R.id.nombre);
-        fechaNacimiento = view.findViewById(R.id.fecha_nacimiento);
-        raza = view.findViewById(R.id.raza);
-
-        tipoAnimal = view.findViewById(R.id.tipo_animal);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.tipo_animal));
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        tipoAnimal.setAdapter(dataAdapter);
+        fechaEvento = view.findViewById(R.id.fecha);
+        aforo = view.findViewById(R.id.aforo);
 
         localizacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,9 +82,10 @@ public class FragmentAltaAnimal extends Fragment {
                 startActivityForResult(new Intent(getActivity(), maps.class), MAPS);
             }
         });
-        fechaNacimiento.setOnClickListener(new View.OnClickListener() {
+        fechaEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fechaEvento.setText("");
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
@@ -112,8 +103,27 @@ public class FragmentAltaAnimal extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                String date = day + "-" + month + "-" + year;
-                fechaNacimiento.setText(date);
+
+                String mes = month+"";
+                String dia = day+"";
+
+                if(mes.length()<2) mes = "0"+month;
+                if(dia.length()<2) dia = "0"+day;
+
+                fechaEvento.setText(dia+"-"+mes+"-"+year);
+
+                DialogFragment timePicker = new TimerPickerFragment(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String hora = hourOfDay+"";
+                        String minutos = minute+"";
+
+                        if(hora.length()<2) hora = "0"+hourOfDay;
+                        if(minutos.length()<2) minutos = "0"+minute;
+                        fechaEvento.append(" "+hora + ":" + minutos + ":00");
+                    }
+                });
+                timePicker.show(getFragmentManager(), "time picker");
             }
         };
         final Uri uriImagen = null;
@@ -123,53 +133,47 @@ public class FragmentAltaAnimal extends Fragment {
             public void onClick(View v) {
                 if (nombre.getText().toString().isEmpty()) {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.nombre_necesario));
+                } else if (fechaEvento.getText().toString().isEmpty()) {
+                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.fecha_necesaria));
+                } else if (localizacion.getText().toString().isEmpty()) {
+                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.localizacion_necesaria));
+                } else if (aforo.getText().toString().isEmpty()) {
+                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.aforo_necesario));
                 } else {
                     File f = null;
                     if (fotoCambiada) {
 
                         if (uriImagen == null) {
 
-                            f = Utilidades.BitmapDrawableAFile((BitmapDrawable) imagenPerfil.getDrawable(), getContext(), nombre.getText().toString().trim());
+                            f = Utilidades.BitmapDrawableAFile((BitmapDrawable) imagen.getDrawable(), getContext(), nombre.getText().toString().trim());
                         } else {
                             f = new File(uriImagen.getPath());
                         }
-                        Map<String, String> mapAnimal = new HashMap<>();
-
-                        if (!fechaNacimiento.getText().toString().isEmpty()) {
-                            SimpleDateFormat stringData = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
-                            Date fecha = new Date();
-                            try {
-                                fecha = stringData.parse(fechaNacimiento.getText().toString().trim());
-                            } catch (ParseException e) {
-
-                            }
-                            stringData = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                            mapAnimal.put("fecha_nacimiento", stringData.format(fecha).trim());
-                        }
-                        if (!descripcionCorta.getText().toString().isEmpty()) {
-                            mapAnimal.put("descripcion_corta", descripcionCorta.getText().toString().trim());
-                        }
-                        if (!descripcionLarga.getText().toString().isEmpty()) {
-                            mapAnimal.put("descripcion_larga", descripcionLarga.getText().toString().trim());
-                        }
-                        if (raza.getText().toString().isEmpty()) {
-                            mapAnimal.put("raza", raza.getText().toString().trim());
-                        }
-                        if (!localizacion.getText().toString().equals("")) {
-                            mapAnimal.put("lat", localizacion.getText().toString().trim().split(",")[0]);
-                            mapAnimal.put("lng", localizacion.getText().toString().trim().split(",")[1]);
+                        SimpleDateFormat stringData = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
+                        Date fecha = new Date();
+                        try {
+                            fecha = stringData.parse(fechaEvento.getText().toString().trim());
+                        } catch (ParseException e) {
 
                         }
-                        mapAnimal.put("nombre", nombre.getText().toString().trim());
-                        mapAnimal.put("tipo", tipoAnimal.getSelectedItem().toString().trim());
-                        mapAnimal.put("estado", "adopcion");
+                        stringData = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        Map<String, String> mapEvento = new HashMap<>();
+                        mapEvento.put("nombre", nombre.getText().toString().trim());
+                        mapEvento.put("fecha", stringData.format(fecha).trim());
+                        mapEvento.put("aforo", aforo.getText().toString().trim());
+                        if (!localizacion.getText().toString().isEmpty()) {
+                            mapEvento.put("lat", localizacion.getText().toString().trim().split(",")[0]);
+                            mapEvento.put("lng", localizacion.getText().toString().trim().split(",")[1]);
+
+                        }
+
                         progressDialog.show();
-                        ((MainActivity) getActivity()).apiRest.registrarAnimal(f, mapAnimal, new Callback<Animal>() {
+                        ((MainActivity) getActivity()).apiRest.registrarEvento(f, mapEvento, new Callback<Evento>() {
                             @Override
-                            public void onResponse(Call<Animal> call, Response<Animal> response) {
+                            public void onResponse(Call<Evento> call, Response<Evento> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(getContext(), getString(R.string.animal_creado_exito), Toast.LENGTH_LONG).show();
-                                    ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_animales",true,null);
+                                    Toast.makeText(getContext(), getString(R.string.evento_creado_exito), Toast.LENGTH_LONG).show();
+                                    ((MainActivity)getActivity()).ponerFragment(new FragmentEventos(),"fragment_eventos",true,null);
                                 } else {
                                     Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
                                 }
@@ -177,13 +181,14 @@ public class FragmentAltaAnimal extends Fragment {
                             }
 
                             @Override
-                            public void onFailure(Call<Animal> call, Throwable t) {
+                            public void onFailure(Call<Evento> call, Throwable t) {
                                 Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
                                 progressDialog.dismiss();
                             }
                         });
                     } else {
                         ((MainActivity) getActivity()).generarSnackBar(getString(R.string.imagen_necesaria));
+                        progressDialog.dismiss();
                     }
 
                 }
@@ -214,7 +219,7 @@ public class FragmentAltaAnimal extends Fragment {
             if (requestCode == CAMERA) {
                 if (data != null) {
                     Bitmap img = (Bitmap) data.getExtras().get("data");
-                    imagenPerfil.setImageBitmap(img);
+                    imagen.setImageBitmap(img);
                 }
             } else if (requestCode == GALERIA) {
                 if (data != null) {
@@ -228,12 +233,13 @@ public class FragmentAltaAnimal extends Fragment {
                     }
                     Bitmap img = BitmapFactory.decodeStream(imageStrem);
                     Bitmap compressImg = Bitmap.createScaledBitmap(img, 95, 95, true);
-                    imagenPerfil.setImageBitmap(compressImg);
+                    imagen.setImageBitmap(compressImg);
                 }
             } else {
                 localizacion.setText(data.getExtras().get("lat") + "," + data.getExtras().get("lng"));
             }
         }
     }
+
 
 }

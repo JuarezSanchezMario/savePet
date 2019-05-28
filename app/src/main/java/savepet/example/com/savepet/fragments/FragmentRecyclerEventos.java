@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,20 +30,22 @@ import retrofit2.Response;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.OnButtonClickListener;
 import savepet.example.com.savepet.R;
-import savepet.example.com.savepet.modelos.Animal;
+import savepet.example.com.savepet.modelos.Evento;
 import savepet.example.com.savepet.modelos.Usuario;
 import savepet.example.com.savepet.recycler_adapters.AdapterAnimales;
+import savepet.example.com.savepet.recycler_adapters.AdapterEventos;
 
 @SuppressWarnings("ALL")
-public class FragmentRecyclerEventos extends Fragment implements Callback<List<Animal>> {
+public class FragmentRecyclerEventos extends Fragment implements Callback<List<Evento>> {
     FloatingActionButton fab;
-    List<Animal> listaAnimales = new ArrayList<>();
-    AdapterAnimales adapter;
+    List<Evento> listaEventos = new ArrayList<>();
+    AdapterEventos adapter;
     RecyclerView recyclerView;
     TextView mensaje;
     RelativeLayout containerRecycler;
     RelativeLayout containerMensaje;
     Usuario usuario;
+    Spinner tiempo;
     boolean propios = false;
 
     @Nullable
@@ -49,69 +54,66 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<A
         View view = null;
         usuario = ((MainActivity) getActivity()).getUsuario();
         Bundle arg = getArguments();
-        view = inflater.inflate(R.layout.fragment_recycler, container, false);
+        view = inflater.inflate(R.layout.fragment_recycler_evento, container, false);
         containerMensaje = view.findViewById(R.id.container_mensaje);
         containerRecycler = view.findViewById(R.id.container_recycler);
         mensaje = ((TextView) view.findViewById(R.id.mensaje));
-        if (arg != null && usuario == null) {
-            editVisibilidad(true);
-            mensaje.setText(getString(R.string.necesitas_login));
-        } else {
-            fab = view.findViewById(R.id.fab_crear);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(), "fragment_alta_animales", false,null);
-                }
-            });
-            recyclerView = view.findViewById(R.id.recycler);
-            if (arg == null) {
-                ((MainActivity) getActivity()).apiRest.getAnimales(FragmentRecyclerEventos.this);
-            } else {
-                propios = true;
-                Map<String, String> map = new HashMap<>();
-                map.put("dueno_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
-                ((MainActivity) getActivity()).apiRest.getAnimalesFiltro(map, FragmentRecyclerEventos.this);
+        tiempo = view.findViewById(R.id.tiempo);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.tiempo_evento));
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tiempo.setAdapter(dataAdapter);
+        fab = view.findViewById(R.id.fab_crear);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).ponerFragment(new FragmentAltaEvento(), "fragment_alta_evento", false, null);
             }
+        });
+        recyclerView = view.findViewById(R.id.recycler);
+        Map<String, String> map = new HashMap<>();
+        map.put("pasado", (tiempo.getSelectedItem().toString().equals("Actuales") ? "0" : "1"));
+        if (arg == null) {
+            ((MainActivity) getActivity()).apiRest.getEventosFiltro(map,FragmentRecyclerEventos.this);
+        } else {
+            propios = true;
+            map.put("organizador_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
+            ((MainActivity) getActivity()).apiRest.getEventosFiltro(map, FragmentRecyclerEventos.this);
         }
         return view;
     }
-    public void editVisibilidad(boolean visible)
-    {
-        if(visible)
-        {
+
+    public void editVisibilidad(boolean visible) {
+        if (visible) {
             containerMensaje.setVisibility(View.VISIBLE);
             containerRecycler.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             containerMensaje.setVisibility(View.GONE);
             containerRecycler.setVisibility(View.VISIBLE);
         }
     }
+
     @Override
-    public void onResponse(Call<List<Animal>> call, Response<List<Animal>> response) {
+    public void onResponse(Call<List<Evento>> call, Response<List<Evento>> response) {
         if (response.isSuccessful()) {
-            listaAnimales = response.body();
+            listaEventos = response.body();
             editVisibilidad(true);
-            if (listaAnimales.size() == 0)
-            {
+            if (listaEventos.size() == 0) {
                 containerRecycler.setVisibility(View.GONE);
-                mensaje.setText(getString(R.string.aún_no_animales));
+                mensaje.setText(getString(R.string.aún_no_evento_propio));
                 containerMensaje.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 editVisibilidad(false);
-                adapter = new AdapterAnimales(listaAnimales,propios,false);
+                adapter = new AdapterEventos(listaEventos, propios, false);
                 adapter.setClickBtImagen(new OnButtonClickListener() {
                     @Override
                     public void onButtonClick(int position, View view) {
-                        PopupMenu pop = new PopupMenu(getContext(),view);
-                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista_animales,pop.getMenu());
+                        PopupMenu pop = new PopupMenu(getContext(), view);
+                        pop.getMenuInflater().inflate(R.menu.popup_opciones_lista, pop.getMenu());
                         pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId())
-                                {
+                                switch (item.getItemId()) {
                                     case R.id.editar: //TODO
                                         break;
                                     case R.id.eliminar: //TODO
@@ -120,6 +122,7 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<A
                                 return true;
                             }
                         });
+                        pop.show();
                     }
                 });
                 recyclerView.setAdapter(adapter);
@@ -128,14 +131,40 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<A
             }
 
 
-
         } else {
-            Toast.makeText(getContext(), "ERROR", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
         }
+        tiempo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Map<String, String> map = new HashMap<>();
+                if (tiempo.getSelectedItem().toString().equals("Actuales"))
+                {
+                    map.put("pasado","0");
+                }
+                else{
+                    map.put("pasado","1");
+                }
+                if(propios)
+                {
+                    map.put("organizador_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
+                    ((MainActivity) getActivity()).apiRest.getEventosFiltro(map, FragmentRecyclerEventos.this);
+                }
+                else {
+                    ((MainActivity) getActivity()).apiRest.getEventosFiltro(map, FragmentRecyclerEventos.this);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
     }
 
     @Override
-    public void onFailure(Call<List<Animal>> call, Throwable t) {
+    public void onFailure(Call<List<Evento>> call, Throwable t) {
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
 
     }
 }

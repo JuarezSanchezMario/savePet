@@ -103,13 +103,18 @@ public interface ProveedorServicios {
     @Headers({"Accept: application/json"})
     Call<List<Evento>> getEventos();
 
+    @GET("evento")
+    @Headers({"Accept: application/json"})
+    Call<List<Evento>> getEventosFiltro(@QueryMap Map<String,String> map);
+
     @GET("evento/{id}")
     @Headers({"Accept: application/json"})
     Call<Evento> getEvento(@Path("id") Integer id);
 
-    @POST
+    @Multipart
+    @POST("evento")
     @Headers({"Accept: application/json"})
-    Call<Evento> crearEvento(@QueryMap Map<String,String> evento);
+    Call<Evento> crearEvento(@Part MultipartBody.Part imagen,@QueryMap Map<String,String> evento);
 
     @POST("evento/{id}")
     @Headers({"Accept: application/json"})

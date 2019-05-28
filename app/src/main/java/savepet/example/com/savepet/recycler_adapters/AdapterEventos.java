@@ -13,25 +13,27 @@ import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.holders.HolderAnimales;
 import savepet.example.com.savepet.holders.HolderEventos;
 import savepet.example.com.savepet.modelos.Animal;
+import savepet.example.com.savepet.modelos.Evento;
 
 @SuppressWarnings("ALL")
 public class AdapterEventos extends RecyclerView.Adapter implements View.OnClickListener {
-    List<Animal> animales;
-    HolderAnimales holder;
-    boolean propios,vista;
+    List<Evento> eventos;
+    HolderEventos holder;
+    boolean propios;
+    View.OnClickListener listener;
     OnButtonClickListener listenerImageButton;
 
 
-    public AdapterEventos(List<Animal> animales, boolean propios,boolean vista) {
+    public AdapterEventos(List<Evento> eventos, boolean propios, boolean vista) {
         super();
-        this.animales = animales;
+        this.eventos = eventos;
         this.propios = propios;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detalle_animal, parent, false);
-        holder = new HolderAnimales(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detalle_evento, parent, false);
+        holder = new HolderEventos(view);
         holder.setClickButton(new OnButtonClickListener() {
             @Override
             public void onButtonClick(int position, View view) {
@@ -45,16 +47,20 @@ public class AdapterEventos extends RecyclerView.Adapter implements View.OnClick
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        ((HolderEventos) viewHolder).bind(animales.get(position),propios,position);
+        ((HolderEventos) viewHolder).bind(eventos.get(position),propios,position);
     }
 
     @Override
     public int getItemCount() {
-        return this.animales.size();
+        return this.eventos.size();
     }
 
+    public void setClickListener(View.OnClickListener listener)
+    {
+        if(listener!=null) this.listener = listener;
+    }
     @Override
     public void onClick(View v) {
-
+        if(listener!=null) listener.onClick(v);
     }
 }

@@ -114,8 +114,8 @@ public class FragmentRegistro extends Fragment {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.contraseñas_no_coinciden));
                 } else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
                     ((MainActivity) getActivity()).generarSnackBar(getString(R.string.email_invalido));
-                } else if (contraseña.length() != 6) {
-                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.email_invalido));
+                } else if (contraseña.length() < 6) {
+                    ((MainActivity) getActivity()).generarSnackBar(getString(R.string.contraseña));
                 } else {
                     File f = null;
                     if (fotoCambiada) {
@@ -127,7 +127,7 @@ public class FragmentRegistro extends Fragment {
                             f = new File(uri_imagen.getPath());
                         }
                         Map<String, String> mapUsuario = new HashMap<>();
-                        mapUsuario.put("nombreUsuario", nombreUsuario.getText().toString().trim());
+                        mapUsuario.put("nombre_usuario", nombreUsuario.getText().toString().trim());
                         mapUsuario.put("nombre", nombre.getText().toString().trim());
                         mapUsuario.put("password", contraseña.getText().toString().trim());
                         mapUsuario.put("email", email.getText().toString().trim());

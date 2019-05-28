@@ -20,10 +20,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <ImageView
-                    android:src="@drawable/logo"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/imagen_evento_card"/>
+                <TextView
+                    android:id="@+id/nombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
             <RelativeLayout
                 android:padding="5dp"
@@ -40,22 +43,22 @@
                     android:layout_height="wrap_content" />
               <LinearLayout
                   android:id="@+id/linear_organizador"
-                  android:layout_marginTop="20dp"
+                  android:layout_marginTop="5dp"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_below="@id/nombre_evento_card"
-                  android:orientation="horizontal">
+                  android:orientation="vertical">
                   <TextView
-                      android:text="@string/organizador"
+                      android:text="@string/fecha_evento"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content" />
                   <TextView
-                      android:id="@+id/nombre_animal_card"
+                      android:id="@+id/fecha"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content" />
               </LinearLayout>
                 <LinearLayout
-                    android:layout_marginTop="20dip"
+                    android:layout_marginTop="5dip"
                     android:id="@+id/linear_localizacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,11 +67,11 @@
                     android:layout_below="@+id/linear_organizador"
                     android:orientation="vertical">
                     <TextView
-                        android:text="@string/localizacion"
+                        android:text="@string/decripcion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/localizacion"
+                        android:id="@+id/descripcion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -93,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/aforo"
+                        android:id="@+id/aforo_evento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
