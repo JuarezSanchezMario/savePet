@@ -42,6 +42,7 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Permisos para geolocalización
         String[] permisos = {
                 Manifest.permission.ACCESS_COARSE_LOCATION};
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
-
+    //recogemos el string que utilizará para obtener la latitud del lugar indicado
     private void geoLocalizacion() {
 
         String busquedaString = busqueda.getText().toString();
@@ -86,6 +87,7 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
         Geocoder geocoder = new Geocoder(maps.this);
         List<Address> list = new ArrayList<>();
         try {
+            //
             list = geocoder.getFromLocationName(busquedaString, 1);
         } catch (IOException e) {
             Log.e("error", "geoLocate: IOException: " + e.getMessage());
@@ -107,25 +109,30 @@ public class maps extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
+        //Se pone la latitud por defecto de madrid para poner un marcador y ya el usuario marque la que quiera después
+        // si tiene parámetros es que viene de otro fragment que quiere cargar ya una posición y hacer zoom
         LatLng latLng = new LatLng(40.415363, -3.707398);
         if(getIntent().getExtras() != null)
         {
             latLng = new LatLng((Double)getIntent().getExtras().get("lat"),(Double)getIntent().getExtras().get("lng"));
             aceptar.setVisibility(View.GONE);
         }
+        //Se pone la marca en el mapa y se mueve la cámara hacia la latitud y longitud de la marca
         MarkerOptions mark = new MarkerOptions().position(latLng);
         mMap.addMarker(mark);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         latLngFinal = latLng;
+        //Se comprueban permisos para la posición del teléfono
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            // se crea un listener para registrar el click sobre el mapa y generar un marker
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
                     mMap.clear();
                     MarkerOptions mark = new MarkerOptions().position(latLng);
+                    //Se pone la marca en el mapa
                     mMap.addMarker(mark);
                     latLngFinal = mark.getPosition();
                 }

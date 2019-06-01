@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import FileUtilidades.FileUtils;
+import savepet.example.com.savepet.FileUtilidades.FileUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,11 +102,11 @@ public class FragmentVistaAnimal extends Fragment implements Callback<Animal> {
             descripcion.setText(animal.getDescripcion_larga());
 
             if (animal.getFecha_nacimiento() != null) {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 Date fechaAnimal;
                 try {
                     fechaAnimal = format.parse(animal.getFecha_nacimiento());
-                    format = new SimpleDateFormat("dd-mm-yyyy");
+                    format = new SimpleDateFormat("dd-MM-yyyy");
                     fecha.setText(getString(R.string.fecha_nacimiento) + ": " + format.format(fechaAnimal));
                 } catch (ParseException e) {
 

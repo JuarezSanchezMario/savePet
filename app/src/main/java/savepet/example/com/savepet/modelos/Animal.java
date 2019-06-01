@@ -15,39 +15,13 @@ public class Animal implements Parcelable {
     private String lat;
     private String lng;
     private Usuario dueno;
+    private String raza;
     private List<Imagen> imagenes;
     private int dueno_id;
     private String descripcion_larga;
     private String descripcion_corta;
 
-    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, Usuario dueno, int dueno_id, String descripcion_larga, String descripcion_corta) {
-        this.id = id;
-        this.imagen_perfil = imagen_perfil;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.fecha_nacimiento = fecha_nacimiento;
-        this.lat = lat;
-        this.lng = lng;
-        this.dueno = dueno;
-        this.dueno_id = dueno_id;
-        this.descripcion_larga = descripcion_larga;
-        this.descripcion_corta = descripcion_corta;
-    }
 
-    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, Usuario dueno, List<Imagen> imagenes, int dueno_id, String descripcion_larga, String descripcion_corta) {
-        this.id = id;
-        this.imagen_perfil = imagen_perfil;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.fecha_nacimiento = fecha_nacimiento;
-        this.lat = lat;
-        this.lng = lng;
-        this.dueno = dueno;
-        this.imagenes = imagenes;
-        this.dueno_id = dueno_id;
-        this.descripcion_larga = descripcion_larga;
-        this.descripcion_corta = descripcion_corta;
-    }
 
     public List<Imagen> getImagenes() {
         return imagenes;
@@ -67,6 +41,30 @@ public class Animal implements Parcelable {
         this.lng = lng;
         this.descripcion_larga = descripcion_larga;
         this.descripcion_corta = descripcion_corta;
+    }
+
+    public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, Usuario dueno, String raza, List<Imagen> imagenes, int dueno_id, String descripcion_larga, String descripcion_corta) {
+        this.id = id;
+        this.imagen_perfil = imagen_perfil;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.lat = lat;
+        this.lng = lng;
+        this.dueno = dueno;
+        this.raza = raza;
+        this.imagenes = imagenes;
+        this.dueno_id = dueno_id;
+        this.descripcion_larga = descripcion_larga;
+        this.descripcion_corta = descripcion_corta;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
     }
 
     public Animal(String id, String imagen_perfil, String nombre, String tipo, String fecha_nacimiento, String lat, String lng, int dueno_id, String descripcion_larga, String descripcion_corta) {
@@ -173,6 +171,7 @@ public class Animal implements Parcelable {
     public Animal() {
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -188,6 +187,7 @@ public class Animal implements Parcelable {
         dest.writeString(this.lat);
         dest.writeString(this.lng);
         dest.writeParcelable(this.dueno, flags);
+        dest.writeString(this.raza);
         dest.writeTypedList(this.imagenes);
         dest.writeInt(this.dueno_id);
         dest.writeString(this.descripcion_larga);
@@ -203,13 +203,14 @@ public class Animal implements Parcelable {
         this.lat = in.readString();
         this.lng = in.readString();
         this.dueno = in.readParcelable(Usuario.class.getClassLoader());
+        this.raza = in.readString();
         this.imagenes = in.createTypedArrayList(Imagen.CREATOR);
         this.dueno_id = in.readInt();
         this.descripcion_larga = in.readString();
         this.descripcion_corta = in.readString();
     }
 
-    public static final Parcelable.Creator<Animal> CREATOR = new Parcelable.Creator<Animal>() {
+    public static final Creator<Animal> CREATOR = new Creator<Animal>() {
         @Override
         public Animal createFromParcel(Parcel source) {
             return new Animal(source);

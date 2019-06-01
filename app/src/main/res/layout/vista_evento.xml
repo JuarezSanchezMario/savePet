@@ -18,14 +18,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:padding="10dp"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/imagen_usuario_card"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    app:civ_border_width="1dp"
-                    app:civ_border_color="#FF000000"/>
+                    android:id="@+id/imagen_evento" />
                 <LinearLayout
                     android:layout_marginLeft="20dp"
                     android:orientation="vertical"
@@ -37,17 +34,44 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/info_usuario"
+                        android:id="@+id/descripcion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <Button
+                            android:textColor="@android:color/white"
+                            android:backgroundTint="@color/secondaryColor"
+                            android:id="@+id/unirse"
+                            android:text="@string/unirse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <Button
+                            android:textColor="@android:color/white"
+                            android:backgroundTint="@color/secondaryColor"
+                            android:id="@+id/abandonar"
+                            android:text="@string/abandonar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
-        <FrameLayout
+        <android.support.v7.widget.RecyclerView
             android:fitsSystemWindows="true"
-            android:id="@+id/animales_usuario"
+            android:id="@+id/usuarios"
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:gravity="center"
+            android:id="@+id/sin_asistentes"
+            android:text="@string/sin_participantes"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

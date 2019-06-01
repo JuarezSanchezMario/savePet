@@ -43,6 +43,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <ImageButton
+                    android:id="@+id/correo"
                     android:layout_marginRight="5dp"
                     android:layout_gravity="right"
                     android:background="@android:color/transparent"

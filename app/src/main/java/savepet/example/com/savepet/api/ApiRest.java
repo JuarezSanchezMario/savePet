@@ -121,6 +121,9 @@ public class ApiRest {
 
         retrofit.modificarUsuario(subiendo_imagen, id, usuario).enqueue(callback);
     }
+    public void modificarUsuario(Integer id, Map<String, String> usuario, Callback<ResponseBody> callback) {
+        retrofit.modificarUsuario(id, usuario).enqueue(callback);
+    }
 
     /****ANIMALES******/
 
@@ -155,7 +158,7 @@ public class ApiRest {
         RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), f);
         MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil", (f != null ? f.getName() : ""), requestBodyImagen);
 
-        retrofit.modificarUsuario(subiendo_imagen, id, animal).enqueue(callback);
+        retrofit.modificarAnimal(subiendo_imagen, id, animal).enqueue(callback);
     }
 
     public void subirImagen(final File imagen, int id, Callback<ResponseBody> callback) throws Exception {
@@ -191,9 +194,11 @@ public class ApiRest {
 
     /****EVENTOS******/
     public void registrarEvento(File imagen, Map evento, Callback<Evento> callback) {
+        //Creamos el requestBody para mandar la imagen
         RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), imagen);
+        //Creamos el form con la imagen, el nombre del campo y el nombre del archivo
         MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen", (imagen != null ? imagen.getName() : ""), requestBodyImagen);
-
+        //hacemos la llamada con el callback que gestionamos en la actividad que lanza este método
         retrofit.crearEvento(subiendo_imagen, evento).enqueue(callback);
     }
 
@@ -221,6 +226,15 @@ public class ApiRest {
         RequestBody requestBodyImagen = RequestBody.create(MediaType.parse("*///*"), f);
         MultipartBody.Part subiendo_imagen = MultipartBody.Part.createFormData("imagen_perfil", (f != null ? f.getName() : ""), requestBodyImagen);
 
-        retrofit.modificarUsuario(subiendo_imagen, id, evento).enqueue(callback);
+        retrofit.modificarEvento(subiendo_imagen, id, evento).enqueue(callback);
     }
+
+    public void unirseEvento(int id, Callback<ResponseBody> callback) {
+        retrofit.uniserEvento(id).enqueue(callback);
+    }
+
+    public void abandonar(int id, Callback<ResponseBody> callback) {
+        retrofit.abandonarEvento(id).enqueue(callback);
+    }
+
 }

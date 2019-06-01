@@ -40,6 +40,7 @@ public class AdapterEventos extends RecyclerView.Adapter implements View.OnClick
                 listenerImageButton.onButtonClick(position,view);
             }
         });
+        view.setOnClickListener(listener);
         return holder;
     }
     public void setClickBtImagen(OnButtonClickListener listener) {

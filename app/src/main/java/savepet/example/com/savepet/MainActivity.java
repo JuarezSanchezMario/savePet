@@ -1,7 +1,9 @@
 package savepet.example.com.savepet;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +30,9 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import savepet.example.com.savepet.api.ApiRest;
 import savepet.example.com.savepet.fragments.FragmentAnimales;
 import savepet.example.com.savepet.fragments.FragmentEventos;
@@ -35,6 +40,7 @@ import savepet.example.com.savepet.fragments.FragmentInicioSesion;
 import savepet.example.com.savepet.fragments.FragmentMensajes;
 import savepet.example.com.savepet.fragments.FragmentRecyclerUsuarios;
 import savepet.example.com.savepet.fragments.FragmentRegistro;
+import savepet.example.com.savepet.modelos.Login;
 import savepet.example.com.savepet.modelos.Usuario;
 
 public class MainActivity extends AppCompatActivity
@@ -65,19 +71,46 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        ponerFragment(new FragmentAnimales(), "animales", false, null);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             compruebaPermisos();
         }
+        if (getSharedPreferences(getString(R.string.MisPreferencias), Context.MODE_PRIVATE).contains(getString(R.string.apiToken))) {
+            apiRest.login(new Login(getSharedPreferences(getString(R.string.MisPreferencias), Context.MODE_PRIVATE).getString(getString(R.string.apiToken), null)), new Callback<Usuario>() {
+                @Override
+                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                    if(response.isSuccessful())
+                    {
+                        Usuario usuario = response.body();
+                        ApiRest.apiToken = usuario.getApi_token();
+                        sesion_iniciada(response.body());
+                    }
+                    ponerFragment(new FragmentAnimales(), "recycler_animales", false, null);
+                }
+
+                @Override
+                public void onFailure(Call<Usuario> call, Throwable t) {
+                    ponerFragment(new FragmentAnimales(), "recycler_animales", false, null);
+                }
+            });
+        }else{
+            ponerFragment(new FragmentAnimales(), "recycler_animales", false, null);
+        }
+
     }
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+        if(getSupportFragmentManager().getFragments().size() == 0)
+        {
+            finish();
         }
     }
 
@@ -90,12 +123,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.login) {
             ponerFragment(new FragmentInicioSesion(), "login", false, null);
         } else if (id == R.id.cerrar_sesion) {
@@ -163,6 +193,7 @@ public class MainActivity extends AppCompatActivity
 
     public void sesion_iniciada(Usuario usuario) {
         CircleImageView fotoNavigation;
+        ApiRest.apiToken = usuario.getApi_token();
         TextView nombreNavigation, emailNavigation;
         View navigation = navigationView.getHeaderView(0);
         sesionIniciada = true;
@@ -186,6 +217,13 @@ public class MainActivity extends AppCompatActivity
 
         nombreNavigation.setText(usuario.getNombre());
         this.usuario = usuario;
+        SharedPreferences sharedPreferences = this.getSharedPreferences(this.getString(R.string.MisPreferencias), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putString(getString(R.string.apiToken), ApiRest.apiToken);
+        editor.commit();
+
+        ponerFragment(new FragmentAnimales(),"fragment_tab_layout",true,null);
     }
 
     public void sesion_cerrada() {
@@ -232,4 +270,5 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
 }

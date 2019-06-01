@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -36,15 +38,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
 import savepet.example.com.savepet.TimerPickerFragment;
-import savepet.example.com.savepet.Utilidades;
+import savepet.example.com.savepet.FileUtilidades.Utilidades;
 import savepet.example.com.savepet.maps;
-import savepet.example.com.savepet.modelos.Animal;
 import savepet.example.com.savepet.modelos.Evento;
 
 import static android.app.Activity.RESULT_OK;
@@ -56,9 +58,11 @@ public class FragmentAltaEvento extends Fragment {
     private Button registrarme, imagenCamara, imagenGaleria;
     private ImageView imagen;
     private ProgressDialog progressDialog;
-    private EditText nombre, fechaEvento, localizacion, aforo;
+    private EditText nombre, fechaEvento, localizacion, aforo,descripcion;
     private boolean fotoCambiada;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private boolean esActualizar;
+    private Evento eventoActualizar;
 
     @Nullable
     @Override
@@ -68,6 +72,7 @@ public class FragmentAltaEvento extends Fragment {
         registrarme = view.findViewById(R.id.registro);
         imagenCamara = view.findViewById(R.id.imagen_camara);
         imagenGaleria = view.findViewById(R.id.imagen_galeria);
+        descripcion = view.findViewById(R.id.descripcion);
         imagen = view.findViewById(R.id.imagen);
         localizacion = view.findViewById(R.id.localizacion);
         progressDialog = new ProgressDialog(getContext());
@@ -82,6 +87,34 @@ public class FragmentAltaEvento extends Fragment {
                 startActivityForResult(new Intent(getActivity(), maps.class), MAPS);
             }
         });
+        if (getArguments() != null) {
+            eventoActualizar = getArguments().getParcelable("actualizar");
+            esActualizar = true;
+            fotoCambiada = true;
+            registrarme.setText(getString(R.string.actualizar));
+            Picasso.get()
+                    .load(eventoActualizar.getImagen())
+                    .fit()
+                    .placeholder(R.drawable.usuario_default)
+                    .error(R.drawable.error_imagen)
+                    .centerCrop()
+                    .into(imagen);
+            aforo.setText(eventoActualizar.getAforo());
+            nombre.setText(eventoActualizar.getNombre());
+            descripcion.setText(eventoActualizar.getDescripcion());
+            localizacion.setText(eventoActualizar.getLat() + "," + eventoActualizar.getLng());
+            SimpleDateFormat stringFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date fecha_mensaje = new Date();
+            try {
+                fecha_mensaje = stringFecha.parse(eventoActualizar.getFecha());
+            } catch (ParseException e) {
+
+            }
+            stringFecha = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            fechaEvento.setText(stringFecha.format(fecha_mensaje));
+        }
+
+
         fechaEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,23 +137,23 @@ public class FragmentAltaEvento extends Fragment {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
 
-                String mes = month+"";
-                String dia = day+"";
+                String mes = month + "";
+                String dia = day + "";
 
-                if(mes.length()<2) mes = "0"+month;
-                if(dia.length()<2) dia = "0"+day;
+                if (mes.length() < 2) mes = "0" + month;
+                if (dia.length() < 2) dia = "0" + day;
 
-                fechaEvento.setText(dia+"-"+mes+"-"+year);
+                fechaEvento.setText(dia + "-" + mes + "-" + year);
 
                 DialogFragment timePicker = new TimerPickerFragment(new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String hora = hourOfDay+"";
-                        String minutos = minute+"";
+                        String hora = hourOfDay + "";
+                        String minutos = minute + "";
 
-                        if(hora.length()<2) hora = "0"+hourOfDay;
-                        if(minutos.length()<2) minutos = "0"+minute;
-                        fechaEvento.append(" "+hora + ":" + minutos + ":00");
+                        if (hora.length() < 2) hora = "0" + hourOfDay;
+                        if (minutos.length() < 2) minutos = "0" + minute;
+                        fechaEvento.append(" " + hora + ":" + minutos + ":00");
                     }
                 });
                 timePicker.show(getFragmentManager(), "time picker");
@@ -149,18 +182,19 @@ public class FragmentAltaEvento extends Fragment {
                         } else {
                             f = new File(uriImagen.getPath());
                         }
-                        SimpleDateFormat stringData = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
+                        SimpleDateFormat stringData = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
                         Date fecha = new Date();
                         try {
                             fecha = stringData.parse(fechaEvento.getText().toString().trim());
                         } catch (ParseException e) {
 
                         }
-                        stringData = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        stringData = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                         Map<String, String> mapEvento = new HashMap<>();
                         mapEvento.put("nombre", nombre.getText().toString().trim());
                         mapEvento.put("fecha", stringData.format(fecha).trim());
                         mapEvento.put("aforo", aforo.getText().toString().trim());
+                        mapEvento.put("descripcion", descripcion.getText().toString().trim());
                         if (!localizacion.getText().toString().isEmpty()) {
                             mapEvento.put("lat", localizacion.getText().toString().trim().split(",")[0]);
                             mapEvento.put("lng", localizacion.getText().toString().trim().split(",")[1]);
@@ -168,24 +202,46 @@ public class FragmentAltaEvento extends Fragment {
                         }
 
                         progressDialog.show();
-                        ((MainActivity) getActivity()).apiRest.registrarEvento(f, mapEvento, new Callback<Evento>() {
-                            @Override
-                            public void onResponse(Call<Evento> call, Response<Evento> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(getContext(), getString(R.string.evento_creado_exito), Toast.LENGTH_LONG).show();
-                                    ((MainActivity)getActivity()).ponerFragment(new FragmentEventos(),"fragment_eventos",true,null);
-                                } else {
-                                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+                        if (!esActualizar) {
+                            ((MainActivity) getActivity()).apiRest.registrarEvento(f, mapEvento, new Callback<Evento>() {
+                                @Override
+                                public void onResponse(Call<Evento> call, Response<Evento> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(getContext(), getString(R.string.evento_creado_exito), Toast.LENGTH_LONG).show();
+                                        ((MainActivity) getActivity()).ponerFragment(new FragmentEventos(), "fragment_eventos", true, null);
+                                    } else {
+                                        Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+                                    }
+                                    progressDialog.dismiss();
                                 }
-                                progressDialog.dismiss();
-                            }
 
-                            @Override
-                            public void onFailure(Call<Evento> call, Throwable t) {
-                                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
-                                progressDialog.dismiss();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<Evento> call, Throwable t) {
+                                    Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        } else {
+                            ((MainActivity) getActivity()).apiRest.modificarEvento(f, Integer.parseInt(eventoActualizar.getId()), mapEvento, new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(getContext(), getString(R.string.evento_actualizado), Toast.LENGTH_LONG).show();
+                                        ((MainActivity) getActivity()).ponerFragment(new FragmentEventos(), "fragment_eventos", true, null);
+                                    } else {
+                                        Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+                                    }
+                                    progressDialog.dismiss();
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        }
+
                     } else {
                         ((MainActivity) getActivity()).generarSnackBar(getString(R.string.imagen_necesaria));
                         progressDialog.dismiss();

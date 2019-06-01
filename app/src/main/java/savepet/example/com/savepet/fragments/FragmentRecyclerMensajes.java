@@ -104,9 +104,15 @@ public class FragmentRecyclerMensajes extends Fragment implements Callback<List<
                 adapter.setClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle args = new Bundle();
-                        arg.putParcelable("mensaje",listaMensajes.get(recyclerView.getChildAdapterPosition(v)));
-                        ((MainActivity)getActivity()).ponerFragment(new FragmentVistaMensaje(),"fragment_vista_mensaje",false,args);
+                        if((MainActivity.getUsuario().getId()+"").equals(listaMensajes.get(recyclerView.getChildAdapterPosition(v)).getAutor_id()))
+                        {
+                            Toast.makeText(getContext(), getString(R.string.creador), Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Bundle args = new Bundle();
+                            args.putParcelable("mensaje",listaMensajes.get(recyclerView.getChildAdapterPosition(v)));
+                            ((MainActivity)getActivity()).ponerFragment(new FragmentVistaMensaje(),"fragment_vista_mensaje",false,args);
+                        }
                     }
                 });
                 recyclerView.setAdapter(adapter);

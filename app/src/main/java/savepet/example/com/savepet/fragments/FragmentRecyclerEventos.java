@@ -1,10 +1,13 @@
 package savepet.example.com.savepet.fragments;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,11 +22,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +79,7 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<E
         Map<String, String> map = new HashMap<>();
         map.put("pasado", (tiempo.getSelectedItem().toString().equals("Actuales") ? "0" : "1"));
         if (arg == null) {
-            ((MainActivity) getActivity()).apiRest.getEventosFiltro(map,FragmentRecyclerEventos.this);
+            ((MainActivity) getActivity()).apiRest.getEventosFiltro(map, FragmentRecyclerEventos.this);
         } else {
             propios = true;
             map.put("organizador_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
@@ -105,32 +110,81 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<E
             } else {
                 editVisibilidad(false);
                 adapter = new AdapterEventos(listaEventos, propios, false);
+                adapter.setClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle args = new Bundle();
+                        args.putString("evento", listaEventos.get(recyclerView.getChildAdapterPosition(v)).getId());
+                        ((MainActivity) getActivity()).ponerFragment(new FragmentVistaEvento(), "fragment_vista_evento", false, args);
+                    }
+                });
                 adapter.setClickBtImagen(new OnButtonClickListener() {
                     @Override
-                    public void onButtonClick(int position, View view) {
+                    public void onButtonClick(final int position, View view) {
                         PopupMenu pop = new PopupMenu(getContext(), view);
                         pop.getMenuInflater().inflate(R.menu.popup_opciones_lista, pop.getMenu());
+                        final Evento evento = listaEventos.get(position);
                         pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
-                                    case R.id.editar: //TODO
+                                    case R.id.eliminar:
+                                        final ProgressDialog progressDialogo = new ProgressDialog(getContext());
+                                        progressDialogo.setMessage(getString(R.string.borrando_evento));
+
+                                        AlertDialog dialogo = new AlertDialog.Builder(getContext())
+                                                .setTitle("")
+                                                .setMessage(getString(R.string.estas_seguro_evento))
+                                                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        ((MainActivity) getActivity()).apiRest.borrarEvento(Integer.parseInt(evento.getId()), new Callback<ResponseBody>() {
+                                                            @Override
+                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                if (response.isSuccessful()) {
+                                                                    Toast.makeText(getContext(), getString(R.string.eliminado_exito), Toast.LENGTH_LONG).show();
+                                                                    ((MainActivity) getActivity()).ponerFragment(new FragmentEventos(), "fragment_eventos", true, null);
+                                                                } else {
+                                                                    try {
+                                                                        Toast.makeText(getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                                                                    } catch (IOException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
+                                                    }
+                                                })
+                                                .setNegativeButton(getString(R.string.no), null)
+                                                .show();
                                         break;
-                                    case R.id.eliminar: //TODO
+                                    case R.id.editar:
+                                        Bundle args = new Bundle();
+                                        args.putParcelable("actualizar",listaEventos.get(position));
+                                        ((MainActivity) getActivity()).ponerFragment(new FragmentAltaEvento(),"fragment_alta_evento",false,args);
                                         break;
+
                                 }
                                 return true;
                             }
+
+                            ;
                         });
                         pop.show();
+
                     }
+
+
                 });
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
-
-
         } else {
             Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
         }
@@ -139,19 +193,15 @@ public class FragmentRecyclerEventos extends Fragment implements Callback<List<E
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Map<String, String> map = new HashMap<>();
-                if (tiempo.getSelectedItem().toString().equals("Actuales"))
-                {
-                    map.put("pasado","0");
+                if (tiempo.getSelectedItem().toString().equals("Actuales")) {
+                    map.put("pasado", "0");
+                } else {
+                    map.put("pasado", "1");
                 }
-                else{
-                    map.put("pasado","1");
-                }
-                if(propios)
-                {
+                if (propios) {
                     map.put("organizador_id", ((MainActivity) getActivity()).getUsuario().getId() + "");
                     ((MainActivity) getActivity()).apiRest.getEventosFiltro(map, FragmentRecyclerEventos.this);
-                }
-                else {
+                } else {
                     ((MainActivity) getActivity()).apiRest.getEventosFiltro(map, FragmentRecyclerEventos.this);
                 }
             }

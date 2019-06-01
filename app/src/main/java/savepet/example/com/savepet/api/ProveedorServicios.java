@@ -151,17 +151,5 @@ public interface ProveedorServicios {
     @Headers({"Accept: application/json"})
     Call<ResponseBody> borrarMensaje(@Path("id") Integer id);
 
-    /*@POST("contract")
-    @Headers({"Accept: application/json"})
-    Call<Contract> createContract(@Body Contract contract);
-
-    @POST("contract/{id}")
-    @Headers({"Accept: application/json"})
-    Call<Contract> updateContract(@Path("id") int id, @Body Contract contract);
-
-    @Multipart
-    @POST("contract/{id}/file")
-    @Headers({"Accept: application/json"})
-    Call<ResponseBody> uploadFile(@Path("id") int id, @Part MultipartBody.Part file);*/
 
 }

@@ -1,5 +1,6 @@
 package savepet.example.com.savepet.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ public class FragmentEnviarMensaje extends Fragment implements Callback<Mensaje>
     EditText buscarUsuarios, contenido;
     FloatingActionButton fab;
     Bundle args;
+    private ProgressDialog progressDialog;
     Usuario destinatario;
 
     @Nullable
@@ -36,8 +38,10 @@ public class FragmentEnviarMensaje extends Fragment implements Callback<Mensaje>
         if (args.containsKey("destinatario")) destinatario = args.getParcelable("destinatario");
         buscarUsuarios = (EditText) view.findViewById(R.id.edit_buscar_usuarios);
         contenido = (EditText) view.findViewById(R.id.contenido);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getString(R.string.enviando_mensaje));
         if (args.containsKey("consulta")) buscarUsuarios.setClickable(false);
-        if(destinatario != null) buscarUsuarios.setText(destinatario.getNombre_usuario());
+        if (destinatario != null) buscarUsuarios.setText(destinatario.getNombre());
         buscarUsuarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,21 +54,16 @@ public class FragmentEnviarMensaje extends Fragment implements Callback<Mensaje>
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle filtro = new Bundle();
-                if (args.containsKey("enviar")) {
-                    final Mensaje nuevoMensaje = new Mensaje();
-                    nuevoMensaje.setDestinatario_id(destinatario.getId() + "");
-                    nuevoMensaje.setContenido(contenido.getText().toString().trim());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((MainActivity) getActivity()).apiRest.enviarMensaje(FragmentEnviarMensaje.this, nuevoMensaje);
-                        }
-                    });
-                } else if (args.containsKey("responder")) {
-                    filtro.putParcelable("destinatario", destinatario);
-                    ((MainActivity) getActivity()).ponerFragment(new FragmentEnviarMensaje(), "fragment_enviar_mensaje", false, filtro);
-                }
+
+                final Mensaje nuevoMensaje = new Mensaje();
+                nuevoMensaje.setDestinatario_id(destinatario.getId() + "");
+                nuevoMensaje.setContenido(contenido.getText().toString().trim());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((MainActivity) getActivity()).apiRest.enviarMensaje(FragmentEnviarMensaje.this, nuevoMensaje);
+                    }
+                });
 
             }
         });
@@ -75,18 +74,21 @@ public class FragmentEnviarMensaje extends Fragment implements Callback<Mensaje>
     public void onResponse(Call<Mensaje> call, Response<Mensaje> response) {
         if (response.isSuccessful()) {
             Toast.makeText(getContext(), getString(R.string.mensaje_enviado_exito), Toast.LENGTH_LONG).show();
-        }
-        {
+            ((MainActivity) getActivity()).ponerFragment(new FragmentMensajes(), "fragment_mensajes", true, null);
+        } else {
             try {
                 Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        Toast.makeText(getContext(), getString(R.string.mensaje_enviado_exito), Toast.LENGTH_LONG).show();
+        progressDialog.dismiss();
     }
 
     @Override
     public void onFailure(Call<Mensaje> call, Throwable t) {
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+        progressDialog.dismiss();
     }
 }

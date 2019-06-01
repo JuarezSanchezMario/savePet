@@ -48,6 +48,8 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:width="150dp"
+                        android:padding="5dp"
                         android:id="@+id/mensaje"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

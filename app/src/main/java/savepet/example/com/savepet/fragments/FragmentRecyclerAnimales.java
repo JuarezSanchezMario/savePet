@@ -135,8 +135,6 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
-                                    case R.id.editar: //TODO
-                                        break;
                                     case R.id.eliminar:
                                         final Animal animal = listaAnimales.get(position);
                                         final ProgressDialog progressDialogo = new ProgressDialog(getContext());
@@ -176,6 +174,11 @@ public class FragmentRecyclerAnimales extends Fragment implements Callback<List<
                                                 .show();
 
 
+                                        break;
+                                    case R.id.editar:
+                                        Bundle args = new Bundle();
+                                        args.putParcelable("actualizar",listaAnimales.get(position));
+                                        ((MainActivity) getActivity()).ponerFragment(new FragmentAltaAnimal(),"fragment_alta_animal",false,args);
                                         break;
                                 }
                                 return true;

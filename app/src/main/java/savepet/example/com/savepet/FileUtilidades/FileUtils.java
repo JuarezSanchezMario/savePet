@@ -1,5 +1,5 @@
 
-package FileUtilidades;
+package savepet.example.com.savepet.FileUtilidades;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

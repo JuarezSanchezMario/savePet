@@ -2,7 +2,6 @@ package savepet.example.com.savepet.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +23,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,13 +37,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import savepet.example.com.savepet.MainActivity;
 import savepet.example.com.savepet.R;
-import savepet.example.com.savepet.TimerPickerFragment;
-import savepet.example.com.savepet.Utilidades;
+import savepet.example.com.savepet.FileUtilidades.Utilidades;
 import savepet.example.com.savepet.maps;
 import savepet.example.com.savepet.modelos.Animal;
 
@@ -61,6 +59,8 @@ public class FragmentAltaAnimal extends Fragment {
     private EditText nombre, fechaNacimiento, descripcionLarga, descripcionCorta, raza, localizacion;
     private Spinner tipoAnimal;
     private boolean fotoCambiada;
+    private boolean esAcualizar;
+    private Animal animal;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Nullable
@@ -75,7 +75,6 @@ public class FragmentAltaAnimal extends Fragment {
         imagenPerfil = view.findViewById(R.id.imagen_perfil);
         localizacion = view.findViewById(R.id.localizacion);
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage(getString(R.string.mensaje_alta_animal));
         nombre = view.findViewById(R.id.nombre);
         fechaNacimiento = view.findViewById(R.id.fecha_nacimiento);
         raza = view.findViewById(R.id.raza);
@@ -85,7 +84,48 @@ public class FragmentAltaAnimal extends Fragment {
                 android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.tipo_animal));
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tipoAnimal.setAdapter(dataAdapter);
+        if (getArguments() != null) {
+            if (getArguments().containsKey("actualizar")) {
+                registrarme.setText(getString(R.string.actualizar));
+                animal = getArguments().getParcelable("actualizar");
+                localizacion.setText((animal.getLat() != null && animal.getLng() != null) ? animal.getLat() + "," + animal.getLng() : "");
+                nombre.setText(animal.getNombre());
+                raza.setText((animal.getRaza() != null) ? animal.getRaza() : "");
+                descripcionCorta.setText((animal.getDescripcion_corta() != null) ? animal.getDescripcion_corta() : "");
+                descripcionLarga.setText((animal.getDescripcion_larga() != null) ? animal.getDescripcion_larga() : "");
+                if (animal.getTipo().equals("Perro")) {
+                    tipoAnimal.setSelection(0);
+                } else if (animal.getTipo().equals("Gato")) {
+                    tipoAnimal.setSelection(1);
 
+                } else {
+                    tipoAnimal.setSelection(2);
+
+                }
+                Picasso.get()
+                        .load(animal.getImagen_perfil())
+                        .fit()
+                        .placeholder(R.drawable.usuario_default)
+                        .error(R.drawable.error_imagen)
+                        .centerCrop()
+                        .into(imagenPerfil);
+                if (animal.getFecha_nacimiento() != null) {
+                    SimpleDateFormat stringFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date fecha_mensaje = new Date();
+                    try {
+                        fecha_mensaje = stringFecha.parse(animal.getFecha_nacimiento());
+                    } catch (ParseException e) {
+
+                    }
+                    stringFecha = new SimpleDateFormat("dd-MM-yyyy");
+                    fechaNacimiento.setText(stringFecha.format(fecha_mensaje));
+                }
+                esAcualizar = true;
+                fotoCambiada = true;
+
+            }
+        }
+        progressDialog.setMessage((esAcualizar) ? getString(R.string.mensaje_actualizar_animal) : getString(R.string.mensaje_alta_animal));
         localizacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,14 +176,14 @@ public class FragmentAltaAnimal extends Fragment {
                         Map<String, String> mapAnimal = new HashMap<>();
 
                         if (!fechaNacimiento.getText().toString().isEmpty()) {
-                            SimpleDateFormat stringData = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
+                            SimpleDateFormat stringData = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
                             Date fecha = new Date();
                             try {
-                                fecha = stringData.parse(fechaNacimiento.getText().toString().trim());
+                                fecha = stringData.parse(fechaNacimiento.getText().toString().trim() + "00:00:00");
                             } catch (ParseException e) {
 
                             }
-                            stringData = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                            stringData = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                             mapAnimal.put("fecha_nacimiento", stringData.format(fecha).trim());
                         }
                         if (!descripcionCorta.getText().toString().isEmpty()) {
@@ -152,7 +192,7 @@ public class FragmentAltaAnimal extends Fragment {
                         if (!descripcionLarga.getText().toString().isEmpty()) {
                             mapAnimal.put("descripcion_larga", descripcionLarga.getText().toString().trim());
                         }
-                        if (raza.getText().toString().isEmpty()) {
+                        if (!raza.getText().toString().isEmpty()) {
                             mapAnimal.put("raza", raza.getText().toString().trim());
                         }
                         if (!localizacion.getText().toString().equals("")) {
@@ -164,24 +204,46 @@ public class FragmentAltaAnimal extends Fragment {
                         mapAnimal.put("tipo", tipoAnimal.getSelectedItem().toString().trim());
                         mapAnimal.put("estado", "adopcion");
                         progressDialog.show();
-                        ((MainActivity) getActivity()).apiRest.registrarAnimal(f, mapAnimal, new Callback<Animal>() {
-                            @Override
-                            public void onResponse(Call<Animal> call, Response<Animal> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(getContext(), getString(R.string.animal_creado_exito), Toast.LENGTH_LONG).show();
-                                    ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_animales",true,null);
-                                } else {
-                                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+                        if (!esAcualizar) {
+                            ((MainActivity) getActivity()).apiRest.registrarAnimal(f, mapAnimal, new Callback<Animal>() {
+                                @Override
+                                public void onResponse(Call<Animal> call, Response<Animal> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(getContext(), getString(R.string.animal_creado_exito), Toast.LENGTH_LONG).show();
+                                        ((MainActivity) getActivity()).ponerFragment(new FragmentAnimales(), "fragment_animales", true, null);
+                                    } else {
+                                        Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+                                    }
+                                    progressDialog.dismiss();
                                 }
-                                progressDialog.dismiss();
-                            }
 
-                            @Override
-                            public void onFailure(Call<Animal> call, Throwable t) {
-                                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
-                                progressDialog.dismiss();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<Animal> call, Throwable t) {
+                                    Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        } else {
+                            ((MainActivity) getActivity()).apiRest.modificarAnimal(f, Integer.parseInt(animal.getId()), mapAnimal, new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(getContext(), getString(R.string.animal_modificado_exito), Toast.LENGTH_LONG).show();
+                                        ((MainActivity) getActivity()).ponerFragment(new FragmentAnimales(), "fragment_animales", true, null);
+                                    } else {
+                                        Toast.makeText(getContext(), response.message(), Toast.LENGTH_LONG).show();
+                                    }
+                                    progressDialog.dismiss();
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        }
+
                     } else {
                         ((MainActivity) getActivity()).generarSnackBar(getString(R.string.imagen_necesaria));
                     }

@@ -58,17 +58,7 @@ public class FragmentInicioSesion extends Fragment implements Callback<Usuario> 
     @Override
     public void onResponse(Call<Usuario> call, Response<Usuario> response) {
         if (response.isSuccessful()) {
-            Usuario usuario = response.body();
-            ApiRest.apiToken = usuario.getApi_token();
-
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences(getContext().getString(R.string.MisPreferencias), Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.putString(getString(R.string.apiToken), ApiRest.apiToken);
-            editor.commit();
-
-            ((MainActivity)getActivity()).ponerFragment(new FragmentAnimales(),"fragment_tab_layout",true,null);
-            ((MainActivity)getActivity()).sesion_iniciada(usuario);
+            ((MainActivity)getActivity()).sesion_iniciada(response.body());
 
         } else {
             LoginError error = ErrorUtils.parseError(response);

@@ -9,6 +9,22 @@
     <string name="repetir_contraseña">Repetir contraseña</string>
     <string name="registrarme">Registrame</string>
     <string name="registrar">Registrar</string>
+    <string name="unirse">Unirse</string>
+    <string name="abandonar">Abandonar</string>
+    <string name="autor">Autor:</string>
+    <string name="mensaje">Mensaje</string>
+    <string name="eres_dueño">Eres el creador del evento</string>
+    <string name="tu_mismo">El participante eres tu</string>
+    <string name="creador">Tu eres el creador del mensaje</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="sin_participantes">Sin participantes</string>
+    <string name="ya_unido">Ya estás unido a este evento</string>
+    <string name="no_asistente">No eres un asistente a este evento</string>
+    <string name="abandonado_exito">Abandonado con éxito</string>
+    <string name="unido_exito">Unido con éxito</string>
+    <string name="no_sitio">El aforo está lleno</string>
+    <string name="uniendose">Uniendose</string>
+    <string name="abandonando">Uniendose</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -45,6 +61,7 @@
     <string name="localizacion_necesaria">La localización es necesario</string>
     <string name="imagen_necesaria">La imágen es necesaria</string>
     <string name="fecha_evento">Fecha evento</string>
+    <string name="fecha">Fecha:</string>
     <string name="localizacion">Localización</string>
     <string name="afoto">Aforo</string>
     <string name="contraseñas_no_coinciden">Las contraseñas no coinciden</string>
@@ -60,10 +77,13 @@
     <string name="organizador">Organizador : </string>
     <string name="localizacion_card">Localización : </string>
     <string name="eliminado_exito">Eliminado con éxito</string>
+    <string name="enviando_mensaje">Enviando mensaje</string>
+    <string name="mensaje_exito">Mensaje enviado con éxito</string>
     <string name="aun_no_mensajes_enviados">Aún no has mandado mensajes</string>
     <string name="aun_no_mensajes_recibidos">Sin mensajes</string>
     <string name="mensaje_enviado_exito">Mensaje enviado con éxito</string>
     <string name="mensaje_alta_animal">Registrando animal</string>
+    <string name="mensaje_actualizar_animal">Actualizando animal</string>
     <string name="registrando_evento">Registrando evento</string>
     <string name="mensaje_registro_usuario">Registrando usuario</string>
     <string name="descripcion_corta">Descripción corta</string>
@@ -72,6 +92,7 @@
     <string name="borrar">Borra cuenta</string>
     <string name="usuario_exito">Usuario creado con éxito</string>
     <string name="usuario_borrado">Usuario borrado con éxito</string>
+    <string name="usuario_actualizado">Usuario actualizado con éxito</string>
     <string name="usuario_actualizar">Actualizar</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="editar">Editar</string>
@@ -89,16 +110,22 @@
     <string name="no">No</string>
     <string name="estas_seguro_borrar_cuenta">¿Estás seguro de borrar la cuenta?</string>
     <string name="estas_seguro_animal">¿Estás seguro de borrar el animal?</string>
+    <string name="estas_seguro_evento">¿Estás seguro de borrar el evento?</string>
+    <string name="estas_seguro_cuenta">¿Estás seguro de borrar la cuenta?</string>
     <string name="estas_seguro_borrar_imagen">¿Estás seguro de borrar la foto?</string>
     <string name="internal_storage">Internal storage</string>
     <string name="imagen_exito">Imagen subida con éxito</string>
     <string name="subiendo_imagen">Subiendo imagen</string>
     <string name="borrando_imagen">Borando imagen</string>
     <string name="borrando_animal">Borrando animal</string>
+    <string name="borrando_evento">Borrando evento</string>
     <string name="borrar_imagen_exito">Imagen borrada con éxito</string>
     <string name="borrar_animal_exito">Animal borrado con éxito</string>
     <string name="animal_creado_exito">Animal creado con éxito</string>
+    <string name="animal_modificado_exito">Animal modificado con éxito</string>
     <string name="evento_creado_exito">Evento creado con éxito</string>
+    <string name="evento_actualizado">Evento modificado</string>
+    <string name="actualizando_Evento">Actualizando evento</string>
     <string name="km">Km</string>
     <string-array name="tipo_animal">
         <item>Perro</item>
@@ -107,5 +134,6 @@
     </string-array>
     <string-array name="tiempo_evento">
         <item>Actuales</item>
-        <item>Pasados</item></string-array>
+        <item>Pasados</item>
+    </string-array>
 </resources>
